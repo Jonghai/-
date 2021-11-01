@@ -1,0 +1,102 @@
+.un-style {list-style: none; margin:0; padding:0;}
+.clearfix:after {content:" "; display: table; clear:both;}
+.align-sub {vertical-align: sub;}
+
+a:focus {text-align: none;}
+
+.fnb {font-family: NotoSansKRBold !important;}
+.fnr {font-family: NotoSansKRRegular !important;}
+.fnm {font-family: NotoSansKRMedium !important;}
+.flb {font-family: Lato-Bold;}
+.flr {font-family: Lato-Regular;}
+
+.coes {color: #3789e6 !important;}
+.cosz {color: #273870 !important;}
+
+.m-b-4 {margin-bottom: 4rem !important;}
+.m-b-2 {margin-bottom: 2rem !important;}
+.m-r-2 {margin-right: 2rem !important;}
+.m-b-1 {margin-bottom: 1rem !important;}
+
+h3.title {font-size: 2.6rem;}
+h4.title {font-size: 2.4rem;}
+
+p.content {font-size: 1.6rem; margin: 0;}
+
+.btn.bbk {background: #292929; color: #ffffff;}
+.btn.sbn {font-size: 14px; padding: 8.5px 19px;}
+
+.align-initial {vertical-align: initial;}
+
+.skip_nav {position: absolute; top:0; left:0; width:100%; z-index: 999; margin: 0;}
+.skip_nav dt {height:0; overflow: hidden;}
+.skip_nav dd a {position: absolute; left: 0; top: -50px; display: block; width:100%; height:50px; text-align:center; font-size:14px; line-height:50px; letter-spacing:-1px; background-color: #1D91F6; color:#fff;}
+.skip_nav dd a:focus {top:0;}
+
+#header {border-bottom: 1px solid #dddddd; margin-bottom: 4rem;}
+#header .header-top {background: #f1f4fb; padding: 13px 0; font-size: 14px;}
+#header .hm-icon li {float: left; margin: 0 10px;}
+#header .hm-icon li img {vertical-align: middle}
+#header .hm-set li {padding: 0 17px; float: left;}
+#header .hm-set li:last-child {padding-right: 0;}
+#header .hd-menu {padding: 19px 0;}
+#header .hd-menu ul li {float: left;}
+#header .hd-menu ul li a {font-size: 1.8rem; color: #292929; font-family: NotoSansKRBold; padding: 0 36px;}
+
+#footer {background: #464646; padding: 40px 0 28px; margin-top: 6rem;}
+#footer p, #footer ul li, #footer ul li a {color: #a7a7a7; font-size: 13px;}
+#footer ul li {margin-bottom: 1rem;}
+#footer ul li span {vertical-align: top;}
+#footer h3 {color: #ffffff; font-size: 18px;}
+
+.left-menu h3 {font-size: 2.4rem; color: #292929; font-family: NotoSansKRBold;}
+.left-menu ul li a {font-family: NotoSansKRMedium; font-size: 1.6rem; color: #525252; display: block; padding: 14px 0 14px 20px; border-bottom: 1px solid #dddddd; position:relative}
+.left-menu ul li a:after {
+    position: absolute; content: ''; display: block;
+    width: 30px; height: 2px; background: #3789e6;
+    right: 0; top: 50%; transform: translateY(-50%);
+}
+.left-menu ul li.on {background: #3789e6;}
+.left-menu ul li.on a {color: #ffffff;}
+.left-menu ul li.on a:after {background: #ffffff;}
+
+.tophm {padding-bottom: 2rem; border-bottom: 1px solid #dddddd;}
+.tophm h4 {color: #525252;}
+.tophm ul {padding-top: 4px;}
+.tophm ul li {float: left; font-family: NotoSansKRMedium; font-size: 1.6rem; color: #414141; padding: 0 10px; position: relative;}
+.tophm ul li:after {position: absolute; display: block; content: '>'; right: -5px; top: 50%; transform: translateY(-50%);}
+.tophm ul li:last-child:after {display: none;}
+.tophm ul li:last-child {padding-right: 0;}
+
+.introduce .ttle {padding-bottom: 25px; border-bottom: 1px solid #dddddd;}
+
+.curpg li {float: left; font-size: 16px; margin-right: 20px; position: relative; line-height: 1;}
+.curpg li:first-child:after {
+    position: absolute; display: block; content: ''; width: 1px; height: 100%; background: #dddddd;
+    top: 2px; right: -10px;
+}
+.curpg li:last-child {margin-right: 0;}
+.ipkw input, .ipkw select {border: 1px solid #dddddd; height: 40px; font-family: NotoSansKRMedium; font-size: 14px; color: #949494;}
+.ipkw .input {width: 52%; padding-right: 65px;}
+.ipkw .select {width: 24%; margin-right: 7px;}
+.searchbox .btn.sbn {position: absolute; top: 0; right: 0;}
+
+.viewTable {border-top: 2px solid #292929;}
+.viewTable th, .viewTable td {padding: 15px 0; border-bottom: 1px solid #dddddd; text-align: center; font-size: 1.6rem;}
+
+.pagination li:first-child a {border-left: 1px solid #dddddd;}
+.pagination li a {
+    width: 4.5rem;
+    height: 4.5rem;
+    text-align: center;
+    font-family: NotoSansKRMedium;
+    font-size: 16px;
+    border-top: 1px solid #dddddd;
+    border-right: 1px solid #dddddd;
+    border-bottom: 1px solid #dddddd;
+    display: table-cell;
+    vertical-align: middle;
+    line-height: 4.3rem;
+}
+
+.pagination li.active a {background: #292929; color: #ffffff; border: 1px solid #292929;}

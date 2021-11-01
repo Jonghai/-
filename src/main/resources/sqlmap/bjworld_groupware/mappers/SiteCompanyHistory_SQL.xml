@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper
+	namespace="com.bjworld.groupware.sitecompanyhistory.service.impl.SiteCompanyHistoryMapper">
+	<select id="selectSiteCompanyHistoryList"
+		parameterType="com.bjworld.groupware.sitecompanyhistory.service.impl.SiteCompanyHistoryVO"
+		resultType="com.bjworld.groupware.sitecompanyhistory.service.impl.SiteCompanyHistoryVO">
+		/* selectSiteCompanyHistoryList */
+		SELECT
+		s.seq as seq
+		,s.standard_year as standardYear
+		,s.history_date as historyDate
+		,s.history_contents as historyContents
+		FROM site_company_history s
+		WHERE 1=1
+
+		<if test="seq != null and seq != ''">
+			AND s.seq = #{seq}
+		</if>
+		<if test="standardYear != null and standardYear != ''">
+			AND s.standard_year like CONCAT('%', #{standardYear}, '%')
+		</if>
+		<if test="historyDate != null and historyDate != ''">
+			AND s.history_date like CONCAT('%', #{historyDate}, '%')
+		</if>
+		<if test="historyContents != null and historyContents != ''">
+			AND s.history_contents like CONCAT('%', #{historyContents}, '%')
+		</if>
+
+		ORDER BY s.standard_year desc, s.history_date desc
+		LIMIT #{startIndex} , #{endIndex}
+	</select>
+
+	<select id="selectSiteCompanyHistoryListTotCnt"
+		parameterType="com.bjworld.groupware.sitecompanyhistory.service.impl.SiteCompanyHistoryVO"
+		resultType="Integer">
+		/* selectSiteCompanyHistoryListTotCnt */
+		SELECT COUNT(*)
+		FROM site_company_history s
+		WHERE 1 = 1
+
+		<if test="seq != null and seq != ''">
+			AND s.seq = #{seq}
+		</if>
+		<if test="standardYear != null and standardYear != ''">
+			AND s.standard_year like CONCAT('%', #{standardYear}, '%')
+		</if>
+		<if test="historyDate != null and historyDate != ''">
+			AND s.history_date like CONCAT('%', #{historyDate}, '%')
+		</if>
+		<if test="historyContents != null and historyContents != ''">
+			AND s.history_contents like CONCAT('%', #{historyContents}, '%')
+		</if>
+	</select>
+
+	<select id="selectSiteCompanyHistory"
+		parameterType="com.bjworld.groupware.sitecompanyhistory.service.impl.SiteCompanyHistoryVO"
+		resultType="com.bjworld.groupware.sitecompanyhistory.service.impl.SiteCompanyHistoryVO">
+		/* selectSiteCompanyHistory */
+		SELECT
+		s.seq as seq
+		,s.standard_year as standardYear
+		,s.history_date as historyDate
+		,s.history_contents as historyContents
+		FROM site_company_history s
+		WHERE s.seq = #{seq}
+	</select>
+
+	<insert id="mergeSiteCompanyHistory"
+		parameterType="com.bjworld.groupware.sitecompanyhistory.service.impl.SiteCompanyHistoryVO">
+		/* mergeSiteCompanyHistory */
+		INSERT INTO site_company_history
+		(
+		seq
+		,standard_year
+		,history_date
+		,history_contents
+		)
+		VALUES
+		(
+		#{seq}
+		,#{standardYear}
+		,#{historyDate}
+		,#{historyContents}
+		)
+		ON DUPLICATE KEY UPDATE
+		standard_year = #{standardYear}
+		,history_date = #{historyDate}
+		,history_contents = #{historyContents}
+	</insert>
+
+	<insert id="insertSiteCompanyHistory"
+		parameterType="com.bjworld.groupware.sitecompanyhistory.service.impl.SiteCompanyHistoryVO">
+		/* insertSiteCompanyHistory */
+		INSERT INTO site_company_history
+		(
+		seq
+		,standard_year
+		,history_date
+		,history_contents
+		)
+		VALUES
+		(
+		#{seq}
+		,#{standardYear}
+		,#{historyDate}
+		,#{historyContents}
+		)
+	</insert>
+
+	<update id="updateSiteCompanyHistory"
+		parameterType="com.bjworld.groupware.sitecompanyhistory.service.impl.SiteCompanyHistoryVO">
+		/* updateSiteCompanyHistory */
+		UPDATE site_company_history
+		set
+		standard_year = #{standardYear}
+		,history_date = #{historyDate}
+		,history_contents = #{historyContents}
+		WHERE seq = #{seq}
+	</update>
+	<update id="deleteSiteCompanyHistory"
+		parameterType="com.bjworld.groupware.sitecompanyhistory.service.impl.SiteCompanyHistoryVO">
+		/* deleteSiteCompanyHistory */
+		DELETE FROM site_company_history
+		WHERE seq = #{seq}
+	</update>
+	
+	<select id="selectSiteCompanyHistoryYear" parameterType="com.bjworld.groupware.sitecompanyhistory.service.impl.SiteCompanyHistoryVO" resultType="com.bjworld.groupware.sitecompanyhistory.service.impl.SiteCompanyHistoryVO">
+		SELECT
+		s.standard_year as standardYear
+		FROM site_company_history s
+		where 1 = 1
+		group by standard_year
+		${orderBy}
+		LIMIT #{startIndex} , #{endIndex}
+	</select>
+</mapper>

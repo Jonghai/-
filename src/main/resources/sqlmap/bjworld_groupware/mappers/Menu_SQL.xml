@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper
+	namespace="com.bjworld.groupware.menu.service.impl.MenuMapper">
+	<select
+		id="selectMenuList"
+		parameterType="com.bjworld.groupware.menu.service.impl.MenuVO"
+		resultType="com.bjworld.groupware.menu.service.impl.MenuVO">
+		/* selectMenuList */
+		SELECT
+		m.seq as seq
+		,m.menu_title as menuTitle
+		,m.parent_seq as parentSeq
+		,m.sort as sort
+		,m.menu_link as menuLink
+		,m.iconname as iconName
+		,m.menu_type as menuType
+		,CASE m.menu_type 
+			WHEN '0' THEN '폴더' 
+			WHEN '1' THEN '기본' 
+			WHEN '2' THEN '게시판-기본' 
+			WHEN '3' THEN '게시판-갤러리' 
+			WHEN '4' THEN '게시판-PDF' 
+			WHEN '5' THEN '게시판-동영상(유튜브)' 
+			END as menuTypeDesc
+		,m.menu_code as menuCode
+		,m.iswrite as isWrite
+		,m.isreplay as isReplay
+		,m.isattach as isAttach
+		,m.max_attachsize as maxAttachSize
+		,m.unit_attachsize as unitAttachSize
+		,m.isused as isUsed
+		,CASE m.isused WHEN '1' THEN '사용함' WHEN '0' THEN '사용안함'  END as isUsedDesc
+		,m.menu_content menuContent
+		FROM menu m
+		WHERE 1=1
+
+		<if test="seq != null and seq != ''">
+			AND m.seq = #{seq}
+		</if>
+		<if test="menuTitle != null and menuTitle != ''">
+			AND m.menu_title like CONCAT('%', #{menuTitle}, '%')
+		</if>
+		<if test="parentSeq != null and parentSeq != ''">
+			AND m.parent_seq = #{parentSeq}
+		</if>
+		<if test="sort != null and sort != ''">
+			AND m.sort like CONCAT('%', #{sort}, '%')
+		</if>
+		<if test="menuLink != null and menuLink != ''">
+			AND m.menu_link like CONCAT('%', #{menuLink}, '%')
+		</if>
+		<if test="iconName != null and iconName != ''">
+			AND m.iconname like CONCAT('%', #{iconName}, '%')
+		</if>
+		<if test="menuType != null and menuType != ''">
+			AND m.menu_type like CONCAT('%', #{menuType}, '%')
+		</if>
+		<if test="isWrite != null and isWrite != ''">
+			AND m.iswrite like CONCAT('%', #{isWrite}, '%')
+		</if>
+		<if test="isReplay != null and isReplay != ''">
+			AND m.isreplay like CONCAT('%', #{isReplay}, '%')
+		</if>
+		<if test="isAttach != null and isAttach != ''">
+			AND m.isattach like CONCAT('%', #{isAttach}, '%')
+		</if>
+		<if test="maxAttachSize != null and maxAttachSize != ''">
+			AND m.max_attachsize like CONCAT('%', #{maxAttachSize}, '%')
+		</if>
+		<if test="unitAttachSize != null and unitAttachSize != ''">
+			AND m.unit_attachsize like CONCAT('%', #{unitAttachSize}, '%')
+		</if>
+		<if test="isUsed != null and isUsed != ''">
+			AND m.isused like CONCAT('%', #{isUsed}, '%')
+		</if>
+
+		order by sort
+		LIMIT #{startIndex} , #{endIndex}
+	</select>
+
+	<select
+		id="selectMenuListTotCnt"
+		parameterType="com.bjworld.groupware.menu.service.impl.MenuVO"
+		resultType="Integer">
+		/* selectMenuListTotCnt */
+		SELECT COUNT(*)
+		FROM menu m
+		WHERE 1 = 1
+
+		<if test="seq != null and seq != ''">
+			AND m.seq = #{seq}
+		</if>
+		<if test="menuTitle != null and menuTitle != ''">
+			AND m.menu_title like CONCAT('%', #{menuTitle}, '%')
+		</if>
+		<if test="parentSeq != null and parentSeq != ''">
+			AND m.parent_seq = #{parentSeq}
+		</if>
+		<if test="sort != null and sort != ''">
+			AND m.sort like CONCAT('%', #{sort}, '%')
+		</if>
+		<if test="menuLink != null and menuLink != ''">
+			AND m.menu_link like CONCAT('%', #{menuLink}, '%')
+		</if>
+		<if test="iconName != null and iconName != ''">
+			AND m.iconname like CONCAT('%', #{iconName}, '%')
+		</if>
+		<if test="menuType != null and menuType != ''">
+			AND m.menu_type like CONCAT('%', #{menuType}, '%')
+		</if>
+		<if test="isWrite != null and isWrite != ''">
+			AND m.iswrite like CONCAT('%', #{isWrite}, '%')
+		</if>
+		<if test="isReplay != null and isReplay != ''">
+			AND m.isreplay like CONCAT('%', #{isReplay}, '%')
+		</if>
+		<if test="isAttach != null and isAttach != ''">
+			AND m.isattach like CONCAT('%', #{isAttach}, '%')
+		</if>
+		<if test="maxAttachSize != null and maxAttachSize != ''">
+			AND m.max_attachsize like CONCAT('%', #{maxAttachSize}, '%')
+		</if>
+		<if test="unitAttachSize != null and unitAttachSize != ''">
+			AND m.unit_attachsize like CONCAT('%', #{unitAttachSize}, '%')
+		</if>
+		<if test="isUsed != null and isUsed != ''">
+			AND m.isused like CONCAT('%', #{isUsed}, '%')
+		</if>
+	</select>
+
+	<select
+		id="selectMenu"
+		parameterType="com.bjworld.groupware.menu.service.impl.MenuVO"
+		resultType="com.bjworld.groupware.menu.service.impl.MenuVO">
+		/* selectMenu */
+		SELECT
+		m.seq as seq
+		,m.menu_title as menuTitle
+		,m.parent_seq as parentSeq
+		,m.sort as sort
+		,m.menu_link as menuLink
+		,m.iconname as iconName
+		,m.menu_type as menuType
+		,CASE m.menu_type 
+			WHEN '0' THEN '폴더' 
+			WHEN '1' THEN '기본' 
+			WHEN '2' THEN '게시판-기본' 
+			WHEN '3' THEN '게시판-갤러리' 
+			WHEN '4' THEN '게시판-PDF' 
+			WHEN '5' THEN '게시판-동영상(유튜브)' 
+			END as menuTypeDesc
+		,m.iswrite as isWrite
+		,m.isreplay as isReplay
+		,m.isattach as isAttach
+		,m.max_attachsize as maxAttachSize
+		,m.unit_attachsize as unitAttachSize
+		,m.isused as isUsed
+		,CASE m.isused WHEN '1' THEN '사용함' WHEN '0' THEN '사용안함'  END as isUsedDesc
+		,m.menu_content menuContent
+		FROM menu m
+		WHERE m.seq = #{seq}
+	</select>
+
+	<insert
+		id="mergeMenu"
+		parameterType="com.bjworld.groupware.menu.service.impl.MenuVO">
+		/* mergeMenu */
+		INSERT INTO menu
+		(
+		seq
+		,menu_title
+		,parent_seq
+		,sort
+		,menu_link
+		,iconname
+		,menu_type
+		,isused
+		,menu_content
+		)
+		VALUES
+		(
+		#{seq}
+		,#{menuTitle}
+		,#{parentSeq}
+		<if test="sort != null and sort != ''">
+		,#{sort}
+		</if>
+		<if test="sort == null || sort == ''">
+		, (select ifnull(max(m.sort) + 1, 1) from menu m where m.parent_seq = #{parentSeq})
+		</if>
+		,#{menuLink}
+		,#{iconName}
+		,#{menuType}
+		,#{isUsed}
+		,#{menuContent}
+		)
+		ON DUPLICATE KEY UPDATE
+		menu_title = #{menuTitle}
+		,parent_seq = #{parentSeq}
+		,isused = #{isUsed}
+		<if test="sort != null and sort != ''">
+		,sort = #{sort}
+		</if>
+		<if test="sort == null || sort == ''">
+		,sort = (select ifnull(max(m.sort) + 1, 1) from menu m where m.parent_seq = #{parentSeq})
+		</if>
+		,menu_content = #{menuContent}
+	</insert>
+
+	<insert
+		id="insertMenu"
+		parameterType="com.bjworld.groupware.menu.service.impl.MenuVO"
+		useGeneratedKeys="true" keyProperty="seq">
+		/* insertMenu */
+		INSERT INTO menu
+		(
+		menu_title
+		,parent_seq
+		,sort
+		,menu_link
+		,iconname
+		,menu_type
+		,isused
+		,menu_content
+		)
+		VALUES
+		(
+		#{menuTitle}
+		,#{parentSeq}
+		<if test="sort != null and sort != ''">
+		,#{sort}
+		</if>
+		<if test="sort == null || sort == ''">
+		, (select ifnull(max(m.sort) + 1, 1) from menu m where m.parent_seq = #{parentSeq})
+		</if>
+		,#{menuLink}
+		,#{iconName}
+		,#{menuType}
+		,#{isUsed}
+		,#{menuContent}
+		)
+	</insert>
+
+	<update
+		id="updateMenu"
+		parameterType="com.bjworld.groupware.menu.service.impl.MenuVO">
+		/* updateMenu */
+		UPDATE menu
+		set
+		menu_title = #{menuTitle}
+		,sort = #{sort}
+		,menu_link = #{menuLink}
+		,iconname = #{iconName}
+		,isused = #{isUsed}
+		,menu_content = #{menuContent}
+		WHERE seq = #{seq}
+	</update>
+	<update
+		id="deleteMenu"
+		parameterType="com.bjworld.groupware.menu.service.impl.MenuVO">
+		/* deleteMenu */
+		DELETE FROM menu
+		WHERE seq = #{seq}
+	</update>
+	
+	<select id="selectMenuTreeList"
+		parameterType="com.bjworld.groupware.menu.service.impl.MenuVO"
+		resultType="com.bjworld.groupware.menu.service.impl.MenuVO">
+		/* selectMenuTreeList */
+		with recursive menu_cte as 
+		( 
+			select seq, menu_title, parent_seq, 1 AS level
+			, cast(seq as varchar(30)) as paths
+            , cast(sort as varchar(30)) as sorts
+            , iconname
+			, menu_link
+			, menu_code
+			from menu 
+			where parent_seq  = #{parentSeq}
+			union all 
+			select p.seq, p.menu_title, p.parent_seq, 1+level as level
+			, concat(mc.paths, ',' , cast(p.seq as varchar(30))) as paths
+            , concat(mc.sorts, ',' , cast(p.sort as varchar(30))) as sorts
+			, p.iconname
+			, p.menu_link
+			, p.menu_code
+			from menu p 
+			inner join menu_cte mc on p.parent_seq = mc.seq 
+			where p.isused = '1'
+		) 
+		select seq
+		,ifnull( parent_seq, 0) as parentMenuSeq
+		, menu_title menuTitle
+		, level 
+		, 'true' as 'open'
+	    , paths
+        , sorts
+	    , iconname iconName
+	    , menu_link menuLink
+	    , menu_code menuCode
+		from menu_cte 
+	    order by sorts
+	</select>
+	
+	<insert id="createBoardTable"
+		parameterType="com.bjworld.groupware.menu.service.impl.MenuVO">
+	CREATE TABLE board_${seq} (
+  	  `seq` int(11) NOT NULL AUTO_INCREMENT COMMENT 'seq',
+	  `board_title` varchar(100) COLLATE utf8_unicode_ci NOT NULL COMMENT '제목',
+	  `board_title_link` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '제목 링크',
+	  `board_content` text COLLATE utf8_unicode_ci NOT NULL COMMENT '내용',
+	  `reg_userid` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '등록자 아이디',
+	  `reg_username` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '등록자명',
+	  `reg_type` char(1) COLLATE utf8_unicode_ci NOT NULL COMMENT '등록 타입(1: 어드민, 2:사용자)',
+	  `reg_remoteip` int(10) unsigned NOT NULL,
+	  `reg_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	  `readcount` int(10) unsigned DEFAULT 0 NOT NULL,
+	  `thumbnail_image_filename` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '썸네일 이미지 파일명',
+  	  `thumbnail_image_savefilename` varchar(40) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '썸네일 이미지 저장 파일명',
+  	  `thumbnail_address` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '썸네일 주소',
+	  PRIMARY KEY (`seq`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT=#{menuTitle};
+		
+	</insert>
+	
+	<insert id="createBoardAttachTable" parameterType="com.bjworld.groupware.menu.service.impl.MenuVO">
+CREATE TABLE `boardattach_${seq}` (
+  `seq` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `board_seq` INT NOT NULL,
+  `ori_filename` VARCHAR(100) NOT NULL,
+  `save_filename` VARCHAR(40) NOT NULL,
+  `filesize` float DEFAULT NULL,
+  PRIMARY KEY (`seq`),
+  INDEX `ba_board_${seq}_seq_idx` (`board_seq` ASC) ,
+  CONSTRAINT `ba_board_${seq}_seq`
+    FOREIGN KEY (`board_seq`)
+    REFERENCES `board_${seq}` (`seq`)
+    ON DELETE CASCADE
+    ON UPDATE NO ACTION)
+COMMENT = '첨부파일';
+	</insert>
+	
+	<update id="dropBoardTable"
+		parameterType="com.bjworld.groupware.menu.service.impl.MenuVO">
+		DROP TABLE board_${seq}
+	</update>
+	
+	<update id="dropBoardAttachTable"
+		parameterType="com.bjworld.groupware.menu.service.impl.MenuVO">
+		DROP TABLE boardattach_${seq}
+	</update>
+	
+	<select id="selectMenuByCode" parameterType="com.bjworld.groupware.menu.service.impl.MenuVO"
+	resultType="com.bjworld.groupware.menu.service.impl.MenuVO">
+	SELECT
+		m.seq as seq
+		,m.menu_title as menuTitle
+		,m.parent_seq as parentSeq
+		,m.sort as sort
+		,m.menu_link as menuLink
+		,m.iconname as iconName
+		,m.menu_type as menuType
+		,m.iswrite as isWrite
+		,m.isreplay as isReplay
+		,m.isattach as isAttach
+		,m.max_attachsize as maxAttachSize
+		,m.unit_attachsize as unitAttachSize
+		,m.isused as isUsed		
+		FROM menu m
+		WHERE m.menu_code = #{menuCode}
+	</select>
+	
+	<update id='updateMenuInCode'
+		parameterType="com.bjworld.groupware.menu.service.impl.MenuVO">
+	UPDATE menu SET menu_code = #{menuCode} WHERE seq = #{seq}
+	</update>
+</mapper>

@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper
+	namespace="com.bjworld.groupware.goods.service.impl.GoodsMapper">
+	<select id="selectGoodsList"
+		parameterType="com.bjworld.groupware.goods.service.impl.GoodsVO"
+		resultType="com.bjworld.groupware.goods.service.impl.GoodsVO">
+		/* selectGoodsList */
+		SELECT
+		g.seq as seq
+		,g.company_seq as companySeq
+		,g.goods_code as goodsCode
+		,g.goods_name as goodsName
+		,g.gc_seq1 as gcSeq1
+		,g.gc_seq2 as gcSeq2
+		,g.goods_guide as goodsGuide
+		,g.goods_contents as goodsContents
+		,DATE_FORMAT(g.reg_date, '%Y-%m-%d') as regDate
+		,g.isused as isUsed
+		,g.thumnail_image as thumnailImage
+		FROM goods g
+		WHERE 1=1
+
+		<if test="seq != null and seq != ''">
+			AND g.seq = #{seq}
+		</if>
+		<if test="companySeq != null and companySeq != ''">
+			AND g.company_seq like CONCAT('%', #{companySeq}, '%')
+		</if>
+		<if test="goodsCode != null and goodsCode != ''">
+			AND g.goods_code like CONCAT('%', #{goodsCode}, '%')
+		</if>
+		<if test="goodsName != null and goodsName != ''">
+			AND g.goods_name like CONCAT('%', #{goodsName}, '%')
+		</if>
+		<if test="gcSeq1 != null and gcSeq1 != ''">
+			AND g.gc_seq1 like CONCAT('%', #{gcSeq1}, '%')
+		</if>
+		<if test="gcSeq2 != null and gcSeq2 != ''">
+			AND g.gc_seq2 like CONCAT('%', #{gcSeq2}, '%')
+		</if>
+		<if test="goodsGuide != null and goodsGuide != ''">
+			AND g.goods_guide like CONCAT('%', #{goodsGuide}, '%')
+		</if>
+		<if test="goodsContents != null and goodsContents != ''">
+			AND g.goods_contents like CONCAT('%', #{goodsContents}, '%')
+		</if>
+		<if test="regDate != null and regDate != ''">
+			AND g.reg_date like CONCAT('%', #{regDate}, '%')
+		</if>
+		<if test="isUsed != null and isUsed != ''">
+			AND g.isused like CONCAT('%', #{isUsed}, '%')
+		</if>
+		<if test="thumnailImage != null and thumnailImage != ''">
+			AND g.thumnail_image like CONCAT('%', #{thumnailImage}, '%')
+		</if>
+
+		${orderBy}
+		LIMIT #{startIndex} , #{endIndex}
+	</select>
+
+	<select id="selectGoodsListTotCnt"
+		parameterType="com.bjworld.groupware.goods.service.impl.GoodsVO"
+		resultType="Integer">
+		/* selectGoodsListTotCnt */
+		SELECT COUNT(*)
+		FROM goods g
+		WHERE 1 = 1
+
+		<if test="seq != null and seq != ''">
+			AND g.seq = #{seq}
+		</if>
+		<if test="companySeq != null and companySeq != ''">
+			AND g.company_seq like CONCAT('%', #{companySeq}, '%')
+		</if>
+		<if test="goodsCode != null and goodsCode != ''">
+			AND g.goods_code like CONCAT('%', #{goodsCode}, '%')
+		</if>
+		<if test="goodsName != null and goodsName != ''">
+			AND g.goods_name like CONCAT('%', #{goodsName}, '%')
+		</if>
+		<if test="gcSeq1 != null and gcSeq1 != ''">
+			AND g.gc_seq1 like CONCAT('%', #{gcSeq1}, '%')
+		</if>
+		<if test="gcSeq2 != null and gcSeq2 != ''">
+			AND g.gc_seq2 like CONCAT('%', #{gcSeq2}, '%')
+		</if>
+		<if test="goodsGuide != null and goodsGuide != ''">
+			AND g.goods_guide like CONCAT('%', #{goodsGuide}, '%')
+		</if>
+		<if test="goodsContents != null and goodsContents != ''">
+			AND g.goods_contents like CONCAT('%', #{goodsContents}, '%')
+		</if>
+		<if test="regDate != null and regDate != ''">
+			AND g.reg_date like CONCAT('%', #{regDate}, '%')
+		</if>
+		<if test="isUsed != null and isUsed != ''">
+			AND g.isused like CONCAT('%', #{isUsed}, '%')
+		</if>
+		<if test="thumnailImage != null and thumnailImage != ''">
+			AND g.thumnail_image like CONCAT('%', #{thumnailImage}, '%')
+		</if>
+	</select>
+
+	<select id="selectGoods"
+		parameterType="com.bjworld.groupware.goods.service.impl.GoodsVO"
+		resultType="com.bjworld.groupware.goods.service.impl.GoodsVO">
+		/* selectGoods */
+		SELECT
+		g.seq as seq
+		,g.company_seq as companySeq
+		,g.goods_code as goodsCode
+		,g.goods_name as goodsName
+		,g.gc_seq1 as gcSeq1
+		,g.gc_seq2 as gcSeq2
+		,g.goods_guide as goodsGuide
+		,g.goods_contents as goodsContents
+		,DATE_FORMAT(g.reg_date, '%Y-%m-%d') as regDate
+		,g.isused as isUsed
+		,g.thumnail_image as thumnailImage
+		FROM goods g
+		WHERE g.seq = #{seq}
+	</select>
+
+	<insert id="mergeGoods"
+		parameterType="com.bjworld.groupware.goods.service.impl.GoodsVO"
+		useGeneratedKeys="true" keyProperty="seq" >
+		/* mergeGoods */
+		INSERT INTO goods
+		(
+		seq
+		,company_seq
+		,goods_code
+		,goods_name
+		,gc_seq1
+		,gc_seq2
+		,goods_guide
+		,goods_contents
+		,isUsed
+		,thumnail_image
+		)
+		VALUES
+		(
+		#{seq}
+		,#{companySeq}
+		,#{goodsCode}
+		,#{goodsName}
+		,#{gcSeq1}
+		,#{gcSeq2}
+		,#{goodsGuide}
+		,#{goodsContents}
+		,#{isUsed}
+		,#{thumnailImage}
+		)
+		ON DUPLICATE KEY UPDATE
+		company_seq = #{companySeq}
+		,goods_code = #{goodsCode}
+		,goods_name = #{goodsName}
+		,gc_seq1 = #{gcSeq1}
+		,gc_seq2 = #{gcSeq2}
+		,goods_guide = #{goodsGuide}
+		,goods_contents = #{goodsContents}
+		,reg_date = #{regDate}
+		,isused = #{isUsed}
+		,thumnail_image = #{thumnailImage}
+	</insert>
+
+	<insert id="insertGoods"
+		parameterType="com.bjworld.groupware.goods.service.impl.GoodsVO">
+		/* insertGoods */
+		INSERT INTO goods
+		(
+		seq
+		,company_seq
+		,goods_code
+		,goods_name
+		,gc_seq1
+		,gc_seq2
+		,goods_guide
+		,goods_contents
+		,isused
+		,thumnail_image
+		)
+		VALUES
+		(
+		#{seq}
+		,#{companySeq}
+		,#{goodsCode}
+		,#{goodsName}
+		,#{gcSeq1}
+		,#{gcSeq2}
+		,#{goodsGuide}
+		,#{goodsContents}
+		,#{isUsed}
+		,#{thumnailImage}
+		)
+	</insert>
+
+	<update id="updateGoods"
+		parameterType="com.bjworld.groupware.goods.service.impl.GoodsVO">
+		/* updateGoods */
+		UPDATE goods
+		set
+		company_seq = #{companySeq}
+		,goods_code = #{goodsCode}
+		,goods_name = #{goodsName}
+		,gc_seq1 = #{gcSeq1}
+		,gc_seq2 = #{gcSeq2}
+		,goods_guide = #{goodsGuide}
+		,goods_contents = #{goodsContents}
+		,reg_date = #{regDate}
+		,isused = #{isUsed}
+		,thumnail_image = #{thumnailImage}
+		WHERE seq = #{seq}
+	</update>
+	<update id="deleteGoods"
+		parameterType="com.bjworld.groupware.goods.service.impl.GoodsVO">
+		/* deleteGoods */
+		DELETE FROM goods
+		WHERE seq = #{seq}
+	</update>
+</mapper>

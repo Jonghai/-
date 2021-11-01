@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper
+	namespace="com.bjworld.groupware.goodsimage.service.impl.GoodsImageMapper">
+	<select id="selectGoodsImageList"
+		parameterType="com.bjworld.groupware.goodsimage.service.impl.GoodsImageVO"
+		resultType="com.bjworld.groupware.goodsimage.service.impl.GoodsImageVO">
+		/* selectGoodsImageList */
+		SELECT
+		g.seq as seq
+		,g.goods_seq as goodsSeq
+		,g.ori_filename as oriFilename
+		,g.save_filename as saveFilename
+		,g.filesize as filesize
+		FROM goods_image g
+		WHERE 1=1
+
+		<if test="seq != null and seq != ''">
+			AND g.seq = #{seq}
+		</if>
+		<if test="goodsSeq != null and goodsSeq != ''">
+			AND g.goods_seq = #{goodsSeq}
+		</if>
+		<if test="oriFilename != null and oriFilename != ''">
+			AND g.ori_filename like CONCAT('%', #{oriFilename}, '%')
+		</if>
+		<if test="saveFilename != null and saveFilename != ''">
+			AND g.save_filename like CONCAT('%', #{saveFilename}, '%')
+		</if>
+		<if test="filesize != null and filesize != ''">
+			AND g.filesize like CONCAT('%', #{filesize}, '%')
+		</if>
+
+		${orderBy}
+		LIMIT #{startIndex} , #{endIndex}
+	</select>
+
+	<select id="selectGoodsImageListTotCnt"
+		parameterType="com.bjworld.groupware.goodsimage.service.impl.GoodsImageVO"
+		resultType="Integer">
+		/* selectGoodsImageListTotCnt */
+		SELECT COUNT(*)
+		FROM goods_image g
+		WHERE 1 = 1
+
+		<if test="seq != null and seq != ''">
+			AND g.seq = #{seq}
+		</if>
+		<if test="goodsSeq != null and goodsSeq != ''">
+			AND g.goods_seq = #{goodsSeq}
+		</if>
+		<if test="oriFilename != null and oriFilename != ''">
+			AND g.ori_filename like CONCAT('%', #{oriFilename}, '%')
+		</if>
+		<if test="saveFilename != null and saveFilename != ''">
+			AND g.save_filename like CONCAT('%', #{saveFilename}, '%')
+		</if>
+		<if test="filesize != null and filesize != ''">
+			AND g.filesize like CONCAT('%', #{filesize}, '%')
+		</if>
+	</select>
+
+	<select id="selectGoodsImage"
+		parameterType="com.bjworld.groupware.goodsimage.service.impl.GoodsImageVO"
+		resultType="com.bjworld.groupware.goodsimage.service.impl.GoodsImageVO">
+		/* selectGoodsImage */
+		SELECT
+		g.seq as seq
+		,g.goods_seq as goodsSeq
+		,g.ori_filename as oriFilename
+		,g.save_filename as saveFilename
+		,g.filesize as filesize
+		FROM goods_image g
+		WHERE g.seq = #{seq}
+	</select>
+
+	<insert id="mergeGoodsImage"
+		parameterType="com.bjworld.groupware.goodsimage.service.impl.GoodsImageVO">
+		/* mergeGoodsImage */
+		INSERT INTO goods_image
+		(
+		seq
+		,goods_seq
+		,ori_filename
+		,save_filename
+		,filesize
+		)
+		VALUES
+		(
+		#{seq}
+		,#{goodsSeq}
+		,#{oriFilename}
+		,#{saveFilename}
+		,#{filesize}
+		)
+		ON DUPLICATE KEY UPDATE
+		goods_seq = #{goodsSeq}
+		,ori_filename = #{oriFilename}
+		,save_filename = #{saveFilename}
+		,filesize = #{filesize}
+	</insert>
+
+	<insert id="insertGoodsImage"
+		parameterType="com.bjworld.groupware.goodsimage.service.impl.GoodsImageVO">
+		/* insertGoodsImage */
+		INSERT INTO goods_image
+		(
+		seq
+		,goods_seq
+		,ori_filename
+		,save_filename
+		,filesize
+		)
+		VALUES
+		(
+		#{seq}
+		,#{goodsSeq}
+		,#{oriFilename}
+		,#{saveFilename}
+		,#{filesize}
+		)
+	</insert>
+
+	<update id="updateGoodsImage"
+		parameterType="com.bjworld.groupware.goodsimage.service.impl.GoodsImageVO">
+		/* updateGoodsImage */
+		UPDATE goods_image
+		set
+		goods_seq = #{goodsSeq}
+		,ori_filename = #{oriFilename}
+		,save_filename = #{saveFilename}
+		,filesize = #{filesize}
+		WHERE seq = #{seq}
+	</update>
+	<update id="deleteGoodsImage"
+		parameterType="com.bjworld.groupware.goodsimage.service.impl.GoodsImageVO">
+		/* deleteGoodsImage */
+		DELETE FROM goods_image
+		WHERE seq = #{seq}
+	</update>
+</mapper>

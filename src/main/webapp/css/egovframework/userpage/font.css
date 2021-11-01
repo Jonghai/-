@@ -1,0 +1,88 @@
+@charset "UTF-8";
+
+@font-face {
+	font-family: 'NotoSansKRThin';
+	font-style: normal;
+	font-weight: 100;
+	src: url(http://fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.woff2) format('woff2'),
+        url(http://fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.woff) format('woff'),
+        url(http://fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.otf) format('opentype');
+}
+
+@font-face {
+	font-family: 'NotoSansKRLight';
+	font-style: normal;
+	font-weight: 300;
+	src: url(http://fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.woff2) format('woff2'),
+        url(http://fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.woff) format('woff'),
+        url(http://fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.otf) format('opentype');
+}
+
+@font-face {
+	font-family: 'NotoSansKRRegular';
+	font-style: normal;
+	font-weight: 400;
+	src: url(http://fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.woff2) format('woff2'),
+        url(http://fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.woff) format('woff'),
+        url(http://fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.otf) format('opentype');
+}
+
+
+@font-face {
+	font-family: 'NotoSansKRMedium';
+	font-style: normal;
+	font-weight: 500;
+	src: url(http://fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.woff2) format('woff2'),
+        url(http://fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.woff) format('woff'),
+        url(http://fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.otf) format('opentype');
+}
+
+
+@font-face {
+	font-family: 'NotoSansKRBold';
+	font-style: normal;
+	font-weight: 700;
+	src: url(http://fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.woff2) format('woff2'),
+        url(http://fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.woff) format('woff'),
+        url(http://fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.otf) format('opentype');
+}
+
+
+@font-face {
+	font-family: 'NotoSansKRBlack';
+	font-style: normal;
+	font-weight: 900;
+	src: url(http://fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff2) format('woff2'),
+        url(http://fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff) format('woff'),
+        url(http://fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.otf) format('opentype');
+}
+
+@font-face {
+    font-family: 'Lato-Regular';
+    font-style: normal;
+    src: url('/css/egovframework/fonts/Lato-Regular.otf');
+    src: 
+	    url('/css/egovframework/fonts/Lato-Regular.woff') format('woff'),
+	    url('/css/egovframework/fonts/Lato-Regular.eot') format('embedded-opentype'),
+	    url('/css/egovframework/fonts/Lato-Regular.otf') format('opentype');
+}
+
+@font-face {
+    font-family: 'Lato-Bold';
+    font-style: normal;
+    src: url('/css/egovframework/fonts/Lato-Bold.otf');
+    src: 
+	    url('/css/egovframework/fonts/Lato-Bold.woff') format('woff'),
+	    url('/css/egovframework/fonts/Lato-Bold.eot') format('embedded-opentype'),
+	    url('/css/egovframework/fonts/Lato-Bold.otf') format('opentype');
+}
+
+@font-face {
+    font-family: 'Lato-Black';
+    font-style: normal;
+    src: url('/css/egovframework/fonts/Lato-Black.otf');
+    src: 
+	    url('/css/egovframework/fonts/Lato-Black.woff') format('woff'),
+	    url('/css/egovframework/fonts/Lato-Black.eot') format('embedded-opentype'),
+	    url('/css/egovframework/fonts/Lato-Black.otf') format('opentype');
+}

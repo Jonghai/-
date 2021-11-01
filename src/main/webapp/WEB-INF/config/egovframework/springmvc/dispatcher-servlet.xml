@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+                http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+                http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
+
+	<mvc:annotation-driven />
+	
+
+	<context:component-scan base-package="com.bjworld.groupware">
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service" />
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Repository" />
+	</context:component-scan>
+
+	
+	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver" />
+
+	<bean
+		class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		<property
+			name="defaultErrorView"
+			value="cmmn/egovError" />
+		<property name="exceptionMappings">
+			<props>
+				<prop key="org.springframework.dao.DataAccessException">cmmn/dataAccessFailure</prop>
+				<prop
+					key="org.springframework.transaction.TransactionException">cmmn/transactionFailure</prop>
+				<prop
+					key="egovframework.rte.fdl.cmmn.exception.EgovBizException">cmmn/egovError</prop>
+				<prop key="org.springframework.security.AccessDeniedException">cmmn/egovError</prop>
+			</props>
+		</property>
+	</bean>
+
+	
+	<bean
+		class="org.springframework.web.servlet.view.UrlBasedViewResolver"
+		p:order="2"
+		p:viewClass="org.springframework.web.servlet.view.JstlView"
+		p:prefix="/WEB-INF/jsp/egovframework/"
+		p:suffix=".jsp"
+		/>
+ <!-- Tiles -->
+    <beans:bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
+        <beans:property name="definitions">
+            <beans:list>
+                <beans:value>/WEB-INF/tiles/tiles.xml</beans:value>
+            </beans:list>
+        </beans:property>
+    </beans:bean>        
+    <beans:bean id="tilesViewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+        <beans:property name="viewClass" value="org.springframework.web.servlet.view.tiles3.TilesView" />
+        <beans:property name="order" value="1" />
+    </beans:bean>    
+    
+  
+    <mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/admin/*.do" />
+			<mvc:exclude-mapping path="/admin/aldomgiinn.do" />
+			<mvc:exclude-mapping path="/admin/logout.do" />
+			<mvc:exclude-mapping path="/admin/download*.do" />
+			<bean class="com.bjworld.groupware.common.AdminInterceptor"></bean>
+		</mvc:interceptor>
+	</mvc:interceptors> 
+	
+	
+	<mvc:view-controller
+		path="/cmmn/validator.do"
+		view-name="cmmn/validator" />
+</beans>

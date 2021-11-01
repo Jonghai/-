@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.bjworld.groupware.companyhanin.service.impl.CompanyHaninMapper">
+    <select id="selectCompanyHaninList"
+           parameterType="com.bjworld.groupware.companyhanin.service.impl.CompanyHaninVO"
+           resultType="com.bjworld.groupware.companyhanin.service.impl.CompanyHaninVO" >
+        /* selectCompanyHaninList */
+        SELECT 
+            c.seq as seq
+,c.company_name as companyName
+,c.company_website as companyWebsite
+,c.company_address as companyAddress
+,c.company_phone as companyPhone
+,c.company_category as companyCategory
+,c.company_product as companyProduct
+,DATE_FORMAT(c.reg_date, '%Y-%m-%d') as regDate
+        FROM company_hanin c
+        WHERE 1=1
+            
+<if test="seq != null and seq != ''">
+    AND c.seq = #{seq}
+</if>
+<if test="companyName != null and companyName != ''">
+    AND c.company_name like  CONCAT('%', #{companyName}, '%')
+</if>
+<if test="companyWebsite != null and companyWebsite != ''">
+    AND c.company_website like  CONCAT('%', #{companyWebsite}, '%')
+</if>
+<if test="companyAddress != null and companyAddress != ''">
+    AND c.company_address like  CONCAT('%', #{companyAddress}, '%')
+</if>
+<if test="companyPhone != null and companyPhone != ''">
+    AND c.company_phone like  CONCAT('%', #{companyPhone}, '%')
+</if>
+<if test="companyCategory != null and companyCategory != ''">
+    AND c.company_category like  CONCAT('%', #{companyCategory}, '%')
+</if>
+<if test="companyProduct != null and companyProduct != ''">
+    AND c.company_product like  CONCAT('%', #{companyProduct}, '%')
+</if>
+<if test="regDate != null and regDate != ''">
+    AND c.reg_date like  CONCAT('%', #{regDate}, '%')
+</if>        
+        
+        ${orderBy}
+        LIMIT #{startIndex} , #{endIndex}
+    </select>
+
+    <select id="selectCompanyHaninListTotCnt"
+            parameterType="com.bjworld.groupware.companyhanin.service.impl.CompanyHaninVO"
+            resultType="Integer">
+        /* selectCompanyHaninListTotCnt */
+        SELECT COUNT(*)
+        FROM company_hanin c
+        WHERE 1 = 1
+            
+<if test="seq != null and seq != ''">
+    AND c.seq = #{seq}
+</if>
+<if test="companyName != null and companyName != ''">
+    AND c.company_name like  CONCAT('%', #{companyName}, '%')
+</if>
+<if test="companyWebsite != null and companyWebsite != ''">
+    AND c.company_website like  CONCAT('%', #{companyWebsite}, '%')
+</if>
+<if test="companyAddress != null and companyAddress != ''">
+    AND c.company_address like  CONCAT('%', #{companyAddress}, '%')
+</if>
+<if test="companyPhone != null and companyPhone != ''">
+    AND c.company_phone like  CONCAT('%', #{companyPhone}, '%')
+</if>
+<if test="companyCategory != null and companyCategory != ''">
+    AND c.company_category like  CONCAT('%', #{companyCategory}, '%')
+</if>
+<if test="companyProduct != null and companyProduct != ''">
+    AND c.company_product like  CONCAT('%', #{companyProduct}, '%')
+</if>
+<if test="regDate != null and regDate != ''">
+    AND c.reg_date like  CONCAT('%', #{regDate}, '%')
+</if>
+    </select>
+
+    <select id="selectCompanyHanin" parameterType="com.bjworld.groupware.companyhanin.service.impl.CompanyHaninVO" resultType="com.bjworld.groupware.companyhanin.service.impl.CompanyHaninVO">
+        /* selectCompanyHanin */
+        SELECT 
+            c.seq as seq
+,c.company_name as companyName
+,c.company_website as companyWebsite
+,c.company_address as companyAddress
+,c.company_phone as companyPhone
+,c.company_category as companyCategory
+,c.company_product as companyProduct
+,DATE_FORMAT(c.reg_date, '%Y-%m-%d') as regDate
+        FROM company_hanin c
+        WHERE c.seq = #{seq}
+    </select>
+
+    <insert id="mergeCompanyHanin" parameterType = "com.bjworld.groupware.companyhanin.service.impl.CompanyHaninVO">
+        /* mergeCompanyHanin */
+        INSERT INTO company_hanin
+        (
+            seq
+,company_name
+,company_website
+,company_address
+,company_phone
+,company_category
+,company_product
+        )
+        VALUES 
+        (
+            #{seq}
+,#{companyName}
+,#{companyWebsite}
+,#{companyAddress}
+,#{companyPhone}
+,#{companyCategory}
+,#{companyProduct}
+        )
+        ON DUPLICATE KEY UPDATE
+        company_name = #{companyName}
+,company_website = #{companyWebsite}
+,company_address = #{companyAddress}
+,company_phone = #{companyPhone}
+,company_category = #{companyCategory}
+,company_product = #{companyProduct}
+    </insert>
+
+    <insert id="insertCompanyHanin" parameterType = "com.bjworld.groupware.companyhanin.service.impl.CompanyHaninVO">
+        /* insertCompanyHanin */
+        INSERT INTO company_hanin
+        (
+            seq
+,company_name
+,company_website
+,company_address
+,company_phone
+,company_category
+,company_product
+        )
+        VALUES 
+        (
+            #{seq}
+,#{companyName}
+,#{companyWebsite}
+,#{companyAddress}
+,#{companyPhone}
+,#{companyCategory}
+,#{companyProduct}
+        )
+    </insert>
+
+    <update id="updateCompanyHanin" parameterType="com.bjworld.groupware.companyhanin.service.impl.CompanyHaninVO">
+        /* updateCompanyHanin */
+        UPDATE company_hanin
+        set 
+            company_name = #{companyName}
+,company_website = #{companyWebsite}
+,company_address = #{companyAddress}
+,company_phone = #{companyPhone}
+,company_category = #{companyCategory}
+,company_product = #{companyProduct}
+      WHERE seq = #{seq}       
+    </update>
+    <update id="deleteCompanyHanin" parameterType = "com.bjworld.groupware.companyhanin.service.impl.CompanyHaninVO">
+      /* deleteCompanyHanin */
+      DELETE FROM company_hanin
+      WHERE seq = #{seq}
+    </update>
+</mapper>

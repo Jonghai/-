@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper
+	namespace="com.bjworld.groupware.commoncode.service.impl.CommonCodeMapper">
+	<select
+		id="selectCommonCodeList"
+		parameterType="com.bjworld.groupware.commoncode.service.impl.CommonCodeVO"
+		resultType="com.bjworld.groupware.commoncode.service.impl.CommonCodeVO">
+		/* selectCommonCodeList */
+		SELECT
+		c.seq as seq
+		,c.parent_seq as parentSeq
+		,c.code_desc as codeDesc
+		,c.sort as sort
+		,c.isused as isUsed
+		,CASE c.isused WHEN '1' THEN '사용함' WHEN '0' THEN '사용안함' end as isUsedDesc 
+		,c.code_etc1 as codeEtc1
+		,c.code_etc2 as codeEtc2
+		,c.code_etc3 as codeEtc3
+		,c.isedit as isEdit
+		,CASE c.isedit WHEN '1' THEN '수정가능' WHEN '0' THEN '수정불가' end as isEditDesc
+		FROM commoncode c
+		WHERE 1=1
+
+		<if test="seq != null and seq != ''">
+			AND c.seq = #{seq}
+		</if>
+		<if test="parentSeq != null and parentSeq != ''">
+			AND c.parent_seq = #{parentSeq}
+		</if>
+		<if test="codeDesc != null and codeDesc != ''">
+			AND c.code_desc like CONCAT('%', #{codeDesc}, '%')
+		</if>
+		<if test="sort != null and sort != ''">
+			AND c.sort like CONCAT('%', #{sort}, '%')
+		</if>
+		<if test="isUsed != null and isUsed != ''">
+			AND c.isused like CONCAT('%', #{isUsed}, '%')
+		</if>
+		<if test="codeEtc1 != null and codeEtc1 != ''">
+			AND c.code_etc1 like CONCAT('%', #{codeEtc1}, '%')
+		</if>
+		<if test="codeEtc2 != null and codeEtc2 != ''">
+			AND c.code_etc2 like CONCAT('%', #{codeEtc2}, '%')
+		</if>
+		<if test="codeEtc3 != null and codeEtc3 != ''">
+			AND c.code_etc3 like CONCAT('%', #{codeEtc3}, '%')
+		</if>
+		<if test="isEdit != null and isEdit != ''">
+			AND c.isedit like CONCAT('%', #{isEdit}, '%')
+		</if>
+
+		${orderBy}
+		LIMIT #{startIndex} , #{endIndex}
+	</select>
+
+	<select
+		id="selectCommonCodeListTotCnt"
+		parameterType="com.bjworld.groupware.commoncode.service.impl.CommonCodeVO"
+		resultType="Integer">
+		/* selectCommonCodeListTotCnt */
+		SELECT COUNT(*)
+		FROM commoncode c
+		WHERE 1 = 1
+
+		<if test="seq != null and seq != ''">
+			AND c.seq = #{seq}
+		</if>
+		<if test="parentSeq != null and parentSeq != ''">
+			AND c.parent_seq = #{parentSeq}
+		</if>
+		<if test="codeDesc != null and codeDesc != ''">
+			AND c.code_desc like CONCAT('%', #{codeDesc}, '%')
+		</if>
+		<if test="sort != null and sort != ''">
+			AND c.sort like CONCAT('%', #{sort}, '%')
+		</if>
+		<if test="isUsed != null and isUsed != ''">
+			AND c.isused like CONCAT('%', #{isUsed}, '%')
+		</if>
+		<if test="codeEtc1 != null and codeEtc1 != ''">
+			AND c.code_etc1 like CONCAT('%', #{codeEtc1}, '%')
+		</if>
+		<if test="codeEtc2 != null and codeEtc2 != ''">
+			AND c.code_etc2 like CONCAT('%', #{codeEtc2}, '%')
+		</if>
+		<if test="codeEtc3 != null and codeEtc3 != ''">
+			AND c.code_etc3 like CONCAT('%', #{codeEtc3}, '%')
+		</if>
+		<if test="isEdit != null and isEdit != ''">
+			AND c.isedit like CONCAT('%', #{isEdit}, '%')
+		</if>
+	</select>
+	
+	<select
+		id="selectCommonCodeListUser"
+		parameterType="com.bjworld.groupware.commoncode.service.impl.CommonCodeVO"
+		resultType="com.bjworld.groupware.commoncode.service.impl.CommonCodeVO">
+		/* selectCommonCodeList */
+		SELECT
+		c.seq as seq
+		,c.parent_seq as parentSeq
+		,c.code_desc as codeDesc
+		,c.sort as sort
+		,c.isused as isUsed
+		,CASE c.isused WHEN '1' THEN '사용함' WHEN '0' THEN '사용안함' end as isUsedDesc 
+		,c.code_etc1 as codeEtc1
+		,c.code_etc2 as codeEtc2
+		,c.code_etc3 as codeEtc3
+		,c.isedit as isEdit
+		,CASE c.isedit WHEN '1' THEN '수정가능' WHEN '0' THEN '수정불가' end as isEditDesc 
+		FROM commoncode c
+		WHERE c.parent_seq = #{parentSeq} AND c.seq != 28
+		ORDER BY sort
+		LIMIT 0, 100
+	</select>
+	
+
+	<select
+		id="selectCommonCode"
+		parameterType="com.bjworld.groupware.commoncode.service.impl.CommonCodeVO"
+		resultType="com.bjworld.groupware.commoncode.service.impl.CommonCodeVO">
+		/* selectCommonCode */
+		SELECT
+		c.seq as seq
+		,c.parent_seq as parentSeq
+		,c.code_desc as codeDesc
+		,c.sort as sort
+		,c.isused as isUsed
+		,CASE c.isused WHEN '1' THEN '사용함' WHEN '0' THEN '사용안함' end as isUsedDesc 
+		,c.code_etc1 as codeEtc1
+		,c.code_etc2 as codeEtc2
+		,c.code_etc3 as codeEtc3
+		,c.isedit as isEdit
+		FROM commoncode c
+		WHERE c.seq = #{seq}
+	</select>
+
+	<insert
+		id="mergeCommonCode"
+		parameterType="com.bjworld.groupware.commoncode.service.impl.CommonCodeVO"
+		useGeneratedKeys="true" keyProperty="seq">
+		/* mergeCommonCode */
+		INSERT INTO commoncode
+		(
+		seq
+		,parent_seq
+		,code_desc
+		,sort
+		,isused
+		,code_etc1
+		,code_etc2
+		,code_etc3
+		,isedit
+		)
+		VALUES
+		(
+		#{seq}
+		,#{parentSeq}
+		,#{codeDesc}
+		<if test="sort != null and sort != ''">
+		,#{sort}
+		</if>
+		<if test="sort == null || sort == ''">
+		, (select ifnull(max(cc.sort) + 1, 1) from commoncode cc where cc.parent_seq = #{parentSeq})
+		</if>
+		,#{isUsed}
+		,#{codeEtc1}
+		,#{codeEtc2}
+		,#{codeEtc3}
+		,'1'
+		)
+		ON DUPLICATE KEY UPDATE
+		code_desc = #{codeDesc}
+		,isused = #{isUsed}
+		<if test="sort != null and sort != ''">
+		,sort = #{sort}
+		</if>
+		<if test="sort == null || sort == ''">
+		,sort = (select ifnull(max(cc.sort) + 1, 1) from commoncode cc where cc.parent_seq = #{parentSeq})
+		</if>
+	</insert>
+
+	<insert
+		id="insertCommonCode"
+		parameterType="com.bjworld.groupware.commoncode.service.impl.CommonCodeVO">
+		/* insertCommonCode */
+		INSERT INTO commoncode
+		(
+		seq
+		,parent_seq
+		,code_desc
+		,sort
+		,isused
+		,code_etc1
+		,code_etc2
+		,code_etc3
+		,isedit
+		)
+		VALUES
+		(
+		#{seq}
+		,#{parentSeq}
+		,#{codeDesc}
+		,#{sort}
+		,#{isUsed}
+		,#{codeEtc1}
+		,#{codeEtc2}
+		,#{codeEtc3}
+		,#{isEdit}
+		)
+	</insert>
+
+	<update
+		id="updateCommonCode"
+		parameterType="com.bjworld.groupware.commoncode.service.impl.CommonCodeVO">
+		/* updateCommonCode */
+		UPDATE commoncode
+		set
+		code_desc = #{codeDesc}
+		,isused = #{isUsed}
+		WHERE seq = #{seq}
+	</update>
+	<update
+		id="deleteCommonCode"
+		parameterType="com.bjworld.groupware.commoncode.service.impl.CommonCodeVO">
+		/* deleteCommonCode */
+		DELETE FROM commoncode
+		WHERE seq = #{seq}
+	</update>	
+	
+	<update id="updateCommonCodeSort"
+		parameterType="com.bjworld.groupware.commoncode.service.impl.CommonCodeVO">
+		/* updateCommonCodeSort */
+		UPDATE commoncode
+		set sort = #{sort}
+		WHERE seq = #{seq}
+	</update>
+</mapper>

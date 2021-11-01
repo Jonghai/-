@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper
+	namespace="com.bjworld.groupware.eventnotice.service.impl.EventNoticeMapper">
+	<select
+		id="selectEventNoticeList"
+		parameterType="com.bjworld.groupware.eventnotice.service.impl.EventNoticeVO"
+		resultType="com.bjworld.groupware.eventnotice.service.impl.EventNoticeVO">
+		/* selectEventNoticeList */
+		SELECT
+		e.seq as seq
+		,e.event_title as eventTitle
+		,e.event_content as eventContent
+		,DATE_FORMAT(e.event_startdate, '%Y-%m-%d') as eventStartdate
+		,DATE_FORMAT(e.event_enddate, '%Y-%m-%d') as eventEnddate
+		,e.event_location as eventLocation
+		,e.event_scale as eventScale
+		,e.event_category as eventCategory
+		,e.event_item as eventItem
+		,e.event_hosting as eventHosting
+		,e.event_charge as eventCharge
+		,e.event_phone as eventPhone
+		,e.event_email as eventEmail
+		,e.event_homepage as eventHomepage
+		,DATE_FORMAT(e.reg_date, '%Y-%m-%d') as regDate
+		FROM event_notice e
+		WHERE 1=1
+
+		<if test="seq != null and seq != ''">
+			AND e.seq = #{seq}
+		</if>
+		<if test="eventTitle != null and eventTitle != ''">
+			AND e.event_title like CONCAT('%', #{eventTitle}, '%')
+		</if>
+		<if test="eventContent != null and eventContent != ''">
+			AND e.event_content like CONCAT('%', #{eventContent}, '%')
+		</if>
+		<if test="eventStartdate != null and eventStartdate != ''">
+			AND e.event_startdate like CONCAT('%', #{eventStartdate}, '%')
+		</if>
+		<if test="eventEnddate != null and eventEnddate != ''">
+			AND e.event_enddate like CONCAT('%', #{eventEnddate}, '%')
+		</if>
+		<if test="eventLocation != null and eventLocation != ''">
+			AND e.event_location like CONCAT('%', #{eventLocation}, '%')
+		</if>
+		<if test="eventScale != null and eventScale != ''">
+			AND e.event_scale like CONCAT('%', #{eventScale}, '%')
+		</if>
+		<if test="eventCategory != null and eventCategory != ''">
+			AND e.event_category like CONCAT('%', #{eventCategory}, '%')
+		</if>
+		<if test="eventItem != null and eventItem != ''">
+			AND e.event_item like CONCAT('%', #{eventItem}, '%')
+		</if>
+		<if test="eventHosting != null and eventHosting != ''">
+			AND e.event_hosting like CONCAT('%', #{eventHosting}, '%')
+		</if>
+		<if test="eventCharge != null and eventCharge != ''">
+			AND e.event_charge like CONCAT('%', #{eventCharge}, '%')
+		</if>
+		<if test="eventPhone != null and eventPhone != ''">
+			AND e.event_phone like CONCAT('%', #{eventPhone}, '%')
+		</if>
+		<if test="eventEmail != null and eventEmail != ''">
+			AND e.event_email like CONCAT('%', #{eventEmail}, '%')
+		</if>
+		<if test="eventHomepage != null and eventHomepage != ''">
+			AND e.event_homepage like CONCAT('%', #{eventHomepage}, '%')
+		</if>
+		<if test="regDate != null and regDate != ''">
+			AND e.reg_date like CONCAT('%', #{regDate}, '%')
+		</if>
+
+		${orderBy}
+		LIMIT #{startIndex} , #{endIndex}
+	</select>
+
+	<select
+		id="selectEventNoticeListTotCnt"
+		parameterType="com.bjworld.groupware.eventnotice.service.impl.EventNoticeVO"
+		resultType="Integer">
+		/* selectEventNoticeListTotCnt */
+		SELECT COUNT(*)
+		FROM event_notice e
+		WHERE 1 = 1
+
+		<if test="seq != null and seq != ''">
+			AND e.seq = #{seq}
+		</if>
+		<if test="eventTitle != null and eventTitle != ''">
+			AND e.event_title like CONCAT('%', #{eventTitle}, '%')
+		</if>
+		<if test="eventContent != null and eventContent != ''">
+			AND e.event_content like CONCAT('%', #{eventContent}, '%')
+		</if>
+		<if test="eventStartdate != null and eventStartdate != ''">
+			AND e.event_startdate like CONCAT('%', #{eventStartdate}, '%')
+		</if>
+		<if test="eventEnddate != null and eventEnddate != ''">
+			AND e.event_enddate like CONCAT('%', #{eventEnddate}, '%')
+		</if>
+		<if test="eventLocation != null and eventLocation != ''">
+			AND e.event_location like CONCAT('%', #{eventLocation}, '%')
+		</if>
+		<if test="eventScale != null and eventScale != ''">
+			AND e.event_scale like CONCAT('%', #{eventScale}, '%')
+		</if>
+		<if test="eventCategory != null and eventCategory != ''">
+			AND e.event_category like CONCAT('%', #{eventCategory}, '%')
+		</if>
+		<if test="eventItem != null and eventItem != ''">
+			AND e.event_item like CONCAT('%', #{eventItem}, '%')
+		</if>
+		<if test="eventHosting != null and eventHosting != ''">
+			AND e.event_hosting like CONCAT('%', #{eventHosting}, '%')
+		</if>
+		<if test="eventCharge != null and eventCharge != ''">
+			AND e.event_charge like CONCAT('%', #{eventCharge}, '%')
+		</if>
+		<if test="eventPhone != null and eventPhone != ''">
+			AND e.event_phone like CONCAT('%', #{eventPhone}, '%')
+		</if>
+		<if test="eventEmail != null and eventEmail != ''">
+			AND e.event_email like CONCAT('%', #{eventEmail}, '%')
+		</if>
+		<if test="eventHomepage != null and eventHomepage != ''">
+			AND e.event_homepage like CONCAT('%', #{eventHomepage}, '%')
+		</if>
+		<if test="regDate != null and regDate != ''">
+			AND e.reg_date like CONCAT('%', #{regDate}, '%')
+		</if>
+	</select>
+
+	<select
+		id="selectEventNotice"
+		parameterType="com.bjworld.groupware.eventnotice.service.impl.EventNoticeVO"
+		resultType="com.bjworld.groupware.eventnotice.service.impl.EventNoticeVO">
+		/* selectEventNotice */
+		SELECT
+		e.seq as seq
+		,e.event_title as eventTitle
+		,e.event_content as eventContent
+		,DATE_FORMAT(e.event_startdate, '%Y-%m-%d') as eventStartdate
+		,DATE_FORMAT(e.event_enddate, '%Y-%m-%d') as eventEnddate
+		,e.event_location as eventLocation
+		,e.event_scale as eventScale
+		,e.event_category as eventCategory
+		,e.event_item as eventItem
+		,e.event_hosting as eventHosting
+		,e.event_charge as eventCharge
+		,e.event_phone as eventPhone
+		,e.event_email as eventEmail
+		,e.event_homepage as eventHomepage
+		,DATE_FORMAT(e.reg_date, '%Y-%m-%d') as regDate
+		FROM event_notice e
+		WHERE e.seq = #{seq}
+	</select>
+
+	<insert
+		id="mergeEventNotice"
+		parameterType="com.bjworld.groupware.eventnotice.service.impl.EventNoticeVO"
+		useGeneratedKeys="true" keyProperty="seq">
+		/* mergeEventNotice */
+		INSERT INTO event_notice
+		(
+		seq
+		,event_title
+		,event_content
+		,event_startdate
+		,event_enddate
+		,event_location
+		,event_scale
+		,event_category
+		,event_item
+		,event_hosting
+		,event_charge
+		,event_phone
+		,event_email
+		,event_homepage
+		)
+		VALUES
+		(
+		#{seq}
+		,#{eventTitle}
+		,#{eventContent}
+		,REPLACE(#{eventStartdate}, '-', '')
+		,REPLACE(#{eventEnddate}, '-', '')
+		,#{eventLocation}
+		,#{eventScale}
+		,#{eventCategory}
+		,#{eventItem}
+		,#{eventHosting}
+		,#{eventCharge}
+		,#{eventPhone}
+		,#{eventEmail}
+		,#{eventHomepage}
+		)
+		ON DUPLICATE KEY UPDATE
+		event_title = #{eventTitle}
+		,event_content = #{eventContent}
+		,event_startdate = REPLACE(#{eventStartdate}, '-', '')
+		,event_enddate = REPLACE(#{eventEnddate}, '-', '')
+		,event_location = #{eventLocation}
+		,event_scale = #{eventScale}
+		,event_category = #{eventCategory}
+		,event_item = #{eventItem}
+		,event_hosting = #{eventHosting}
+		,event_charge = #{eventCharge}
+		,event_phone = #{eventPhone}
+		,event_email = #{eventEmail}
+		,event_homepage = #{eventHomepage}
+		,reg_date = #{regDate}
+	</insert>
+
+	<insert
+		id="insertEventNotice"
+		parameterType="com.bjworld.groupware.eventnotice.service.impl.EventNoticeVO">
+		/* insertEventNotice */
+		INSERT INTO event_notice
+		(
+		seq
+		,event_title
+		,event_content
+		,event_startdate
+		,event_enddate
+		,event_location
+		,event_scale
+		,event_category
+		,event_item
+		,event_hosting
+		,event_charge
+		,event_phone
+		,event_email
+		,event_homepage
+		)
+		VALUES
+		(
+		#{seq}
+		,#{eventTitle}
+		,#{eventContent}
+		,REPLACE(#{eventStartdate}, '-', '')
+		,REPLACE(#{eventEnddate}, '-', '')
+		,#{eventLocation}
+		,#{eventScale}
+		,#{eventCategory}
+		,#{eventItem}
+		,#{eventHosting}
+		,#{eventCharge}
+		,#{eventPhone}
+		,#{eventEmail}
+		,#{eventHomepage}
+		)
+	</insert>
+
+	<update
+		id="updateEventNotice"
+		parameterType="com.bjworld.groupware.eventnotice.service.impl.EventNoticeVO">
+		/* updateEventNotice */
+		UPDATE event_notice
+		set
+		event_title = #{eventTitle}
+		,event_content = #{eventContent}
+		,event_startdate = REPLACE(#{eventStartdate}, '-', '')
+		,event_enddate = REPLACE(#{eventEnddate}, '-', '')
+		,event_location = #{eventLocation}
+		,event_scale = #{eventScale}
+		,event_category = #{eventCategory}
+		,event_item = #{eventItem}
+		,event_hosting = #{eventHosting}
+		,event_charge = #{eventCharge}
+		,event_phone = #{eventPhone}
+		,event_email = #{eventEmail}
+		,event_homepage = #{eventHomepage}
+		,reg_date = #{regDate}
+		WHERE seq = #{seq}
+	</update>
+	<update
+		id="deleteEventNotice"
+		parameterType="com.bjworld.groupware.eventnotice.service.impl.EventNoticeVO">
+		/* deleteEventNotice */
+		DELETE FROM event_notice
+		WHERE seq = #{seq}
+	</update>
+</mapper>

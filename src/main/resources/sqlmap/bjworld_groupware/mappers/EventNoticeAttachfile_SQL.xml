@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper
+	namespace="com.bjworld.groupware.eventnoticeattachfile.service.impl.EventNoticeAttachFileMapper">
+	<select id="selectEventNoticeAttachFileList"
+		parameterType="com.bjworld.groupware.eventnoticeattachfile.service.impl.EventNoticeAttachFileVO"
+		resultType="com.bjworld.groupware.eventnoticeattachfile.service.impl.EventNoticeAttachFileVO">
+		/* selectEventNoticeAttachFileList */
+		SELECT
+		e.seq as seq
+		,e.event_seq as eventSeq
+		,e.event_save_filename as eventSaveFilename
+		,e.event_ori_filename as eventOriFilename
+		,e.event_filesize as eventFilesize
+		FROM event_notice_attachfile e
+		WHERE 1=1
+
+		<if test="seq != null and seq != ''">
+			AND e.seq = #{seq}
+		</if>
+		<if test="eventSeq != null and eventSeq != ''">
+			AND e.event_seq = #{eventSeq}
+		</if>
+		<if test="eventSaveFilename != null and eventSaveFilename != ''">
+			AND e.event_save_filename like CONCAT('%', #{eventSaveFilename}, '%')
+		</if>
+		<if test="eventOriFilename != null and eventOriFilename != ''">
+			AND e.event_ori_filename like CONCAT('%', #{eventOriFilename}, '%')
+		</if>
+		<if test="eventFilesize != null and eventFilesize != ''">
+			AND e.event_filesize like CONCAT('%', #{eventFilesize}, '%')
+		</if>
+
+		${orderBy}
+		LIMIT #{startIndex} , #{endIndex}
+	</select>
+
+	<select id="selectEventNoticeAttachFileListTotCnt"
+		parameterType="com.bjworld.groupware.eventnoticeattachfile.service.impl.EventNoticeAttachFileVO"
+		resultType="Integer">
+		/* selectEventNoticeAttachFileListTotCnt */
+		SELECT COUNT(*)
+		FROM event_notice_attachfile e
+		WHERE 1 = 1
+
+		<if test="seq != null and seq != ''">
+			AND e.seq = #{seq}
+		</if>
+		<if test="eventSeq != null and eventSeq != ''">
+			AND e.event_seq = #{eventSeq}
+		</if>
+		<if test="eventSaveFilename != null and eventSaveFilename != ''">
+			AND e.event_save_filename like CONCAT('%', #{eventSaveFilename}, '%')
+		</if>
+		<if test="eventOriFilename != null and eventOriFilename != ''">
+			AND e.event_ori_filename like CONCAT('%', #{eventOriFilename}, '%')
+		</if>
+		<if test="eventFilesize != null and eventFilesize != ''">
+			AND e.event_filesize like CONCAT('%', #{eventFilesize}, '%')
+		</if>
+	</select>
+
+	<select id="selectEventNoticeAttachFile"
+		parameterType="com.bjworld.groupware.eventnoticeattachfile.service.impl.EventNoticeAttachFileVO"
+		resultType="com.bjworld.groupware.eventnoticeattachfile.service.impl.EventNoticeAttachFileVO">
+		/* selectEventNoticeAttachFile */
+		SELECT
+		e.seq as seq
+		,e.event_seq as eventSeq
+		,e.event_save_filename as eventSaveFilename
+		,e.event_ori_filename as eventOriFilename
+		,e.event_filesize as eventFilesize
+		FROM event_notice_attachfile e
+		WHERE e.seq = #{seq}
+	</select>
+
+	<insert id="mergeEventNoticeAttachFile"
+		parameterType="com.bjworld.groupware.eventnoticeattachfile.service.impl.EventNoticeAttachFileVO">
+		/* mergeEventNoticeAttachFile */
+		INSERT INTO event_notice_attachfile
+		(
+		seq
+		,event_seq
+		,event_save_filename
+		,event_ori_filename
+		,event_filesize
+		)
+		VALUES
+		(
+		#{seq}
+		,#{eventSeq}
+		,#{eventSaveFilename}
+		,#{eventOriFilename}
+		,#{eventFilesize}
+		)
+		ON DUPLICATE KEY UPDATE
+		event_seq = #{eventSeq}
+		,event_save_filename = #{eventSaveFilename}
+		,event_ori_filename = #{eventOriFilename}
+		,event_filesize = #{eventFilesize}
+	</insert>
+
+	<insert id="insertEventNoticeAttachFile"
+		parameterType="com.bjworld.groupware.eventnoticeattachfile.service.impl.EventNoticeAttachFileVO">
+		/* insertEventNoticeAttachFile */
+		INSERT INTO event_notice_attachfile
+		(
+		seq
+		,event_seq
+		,event_save_filename
+		,event_ori_filename
+		,event_filesize
+		)
+		VALUES
+		(
+		#{seq}
+		,#{eventSeq}
+		,#{eventSaveFilename}
+		,#{eventOriFilename}
+		,#{eventFilesize}
+		)
+	</insert>
+
+	<update id="updateEventNoticeAttachFile"
+		parameterType="com.bjworld.groupware.eventnoticeattachfile.service.impl.EventNoticeAttachFileVO">
+		/* updateEventNoticeAttachFile */
+		UPDATE event_notice_attachfile
+		set
+		event_seq = #{eventSeq}
+		,event_save_filename = #{eventSaveFilename}
+		,event_ori_filename = #{eventOriFilename}
+		,event_filesize = #{eventFilesize}
+		WHERE seq = #{seq}
+	</update>
+	<update id="deleteEventNoticeAttachFile"
+		parameterType="com.bjworld.groupware.eventnoticeattachfile.service.impl.EventNoticeAttachFileVO">
+		/* deleteEventNoticeAttachFile */
+		DELETE FROM event_notice_attachfile
+		WHERE seq = #{seq}
+	</update>
+</mapper>

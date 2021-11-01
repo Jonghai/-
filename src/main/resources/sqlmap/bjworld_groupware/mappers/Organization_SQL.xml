@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper
+	namespace="com.bjworld.groupware.organization.service.impl.OrganizationMapper">
+	<select id="selectOrganizationList"
+		parameterType="com.bjworld.groupware.organization.service.impl.OrganizationVO"
+		resultType="com.bjworld.groupware.organization.service.impl.OrganizationVO">
+		/* selectOrganizationList */
+		SELECT
+		o.seq as seq
+		,o.org_name as orgName
+		,o.parent_seq as parentSeq
+		,o.org_field as orgField
+		,o.org_direction as orgDirection
+		,o.org_sort as orgSort
+		FROM organization o
+		WHERE 1=1
+
+		<if test="seq != null and seq != ''">
+			AND o.seq = #{seq}
+		</if>
+		<if test="orgName != null and orgName != ''">
+			AND o.org_name like CONCAT('%', #{orgName}, '%')
+		</if>
+		<if test="parentSeq != null and parentSeq != ''">
+			AND o.parent_seq like CONCAT('%', #{parentSeq}, '%')
+		</if>
+		<if test="orgField != null and orgField != ''">
+			AND o.org_field like CONCAT('%', #{orgField}, '%')
+		</if>
+		<if test="orgDirection != null and orgDirection != ''">
+			AND o.org_direction like CONCAT('%', #{orgDirection}, '%')
+		</if>
+		<if test="orgSort != null and orgSort != ''">
+			AND o.org_sort like CONCAT('%', #{orgSort}, '%')
+		</if>
+
+		ORDER BY o.org_sort
+		LIMIT 0, 1000
+	</select>
+
+	<select id="selectOrganizationListTotCnt"
+		parameterType="com.bjworld.groupware.organization.service.impl.OrganizationVO"
+		resultType="Integer">
+		/* selectOrganizationListTotCnt */
+		SELECT COUNT(*)
+		FROM organization o
+		WHERE 1 = 1
+
+		<if test="seq != null and seq != ''">
+			AND o.seq = #{seq}
+		</if>
+		<if test="orgName != null and orgName != ''">
+			AND o.org_name like CONCAT('%', #{orgName}, '%')
+		</if>
+		<if test="parentSeq != null and parentSeq != ''">
+			AND o.parent_seq like CONCAT('%', #{parentSeq}, '%')
+		</if>
+		<if test="orgField != null and orgField != ''">
+			AND o.org_field like CONCAT('%', #{orgField}, '%')
+		</if>
+		<if test="orgDirection != null and orgDirection != ''">
+			AND o.org_direction like CONCAT('%', #{orgDirection}, '%')
+		</if>
+		<if test="orgSort != null and orgSort != ''">
+			AND o.org_sort like CONCAT('%', #{orgSort}, '%')
+		</if>
+	</select>
+
+	<select id="selectOrganization"
+		parameterType="com.bjworld.groupware.organization.service.impl.OrganizationVO"
+		resultType="com.bjworld.groupware.organization.service.impl.OrganizationVO">
+		/* selectOrganization */
+		SELECT
+		o.seq as seq
+		,o.org_name as orgName
+		,o.parent_seq as parentSeq
+		,o.org_field as orgField
+		,o.org_direction as orgDirection
+		,o.org_sort as orgSort
+		FROM organization o
+		WHERE o.seq = #{seq}
+	</select>
+
+	<insert id="mergeOrganization"
+		parameterType="com.bjworld.groupware.organization.service.impl.OrganizationVO">
+		/* mergeOrganization */
+		INSERT INTO organization
+		(
+		seq
+		,org_name
+		,parent_seq
+		,org_field
+		,org_direction
+		,org_sort
+		)
+		VALUES
+		(
+		#{seq}
+		,#{orgName}
+		,#{parentSeq}
+		,#{orgField}
+		,#{orgDirection}
+		,#{orgSort}
+		)
+		ON DUPLICATE KEY UPDATE
+		org_name = #{orgName}
+		<if test="parentSeq != null and parentSeq != ''">
+		,parent_seq = #{parentSeq}
+		</if>
+		,org_field = #{orgField}
+		,org_direction = #{orgDirection}
+		<if test="orgSort != null and orgSort != ''">
+		,org_sort = #{orgSort}
+		</if>
+	</insert>
+	
+	<select id="selectOrganizationTreeList" resultType="com.bjworld.groupware.organization.service.impl.OrganizationVO">
+		with recursive organization_cte as 
+		( 
+			select seq
+            , org_name
+            , parent_seq, 1 AS level
+			, cast(seq as varchar(30)) as paths
+            , cast(org_name as varchar(30)) as fullPaths
+            , cast(org_sort as varchar(30)) as sorts            
+			from organization 
+			where parent_seq  = -1
+			union all 
+			select p.seq
+            , p.org_name
+            , p.parent_seq, 1+level as level
+			, concat(mc.paths, ',' , cast(p.seq as varchar(30))) as paths
+            , concat(mc.fullPaths, '>' , cast(p.org_name as varchar(30))) as fullPaths
+            , concat(mc.sorts, ',' , cast(p.org_sort as varchar(30))) as sorts
+			from organization p 
+			inner join organization_cte mc on p.parent_seq = mc.seq 
+		) 
+		select seq
+		,ifnull( parent_seq, 0) as parentSeq
+		, org_name orgName
+		, level 
+		, 'true' as 'open'
+	    , paths
+        , fullPaths
+        , sorts
+		from organization_cte 
+	    order by sorts
+	</select>
+
+	<insert id="insertOrganization"
+		parameterType="com.bjworld.groupware.organization.service.impl.OrganizationVO">
+		/* insertOrganization */
+		INSERT INTO organization
+		(
+		seq
+		,org_name
+		,parent_seq
+		,org_field
+		,org_direction
+		,org_sort
+		)
+		VALUES
+		(
+		#{seq}
+		,#{orgName}
+		,#{parentSeq}
+		,#{orgField}
+		,#{orgDirection}
+		,#{orgSort}
+		)
+	</insert>
+
+	<update id="updateOrganization"
+		parameterType="com.bjworld.groupware.organization.service.impl.OrganizationVO">
+		/* updateOrganization */
+		UPDATE organization
+		set
+		org_name = #{orgName}
+		,parent_seq = #{parentSeq}
+		,org_field = #{orgField}
+		,org_direction = #{orgDirection}
+		,org_sort = #{orgSort}
+		WHERE seq = #{seq}
+	</update>
+	<update id="deleteOrganization"
+		parameterType="com.bjworld.groupware.organization.service.impl.OrganizationVO">
+		/* deleteOrganization */
+		DELETE FROM organization
+		WHERE seq = #{seq}
+	</update>
+</mapper>

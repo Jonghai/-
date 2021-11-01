@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.bjworld.groupware.boardattach.service.impl.BoardAttachMapper">
+	<select id="selectBoardAttachList"
+		parameterType="com.bjworld.groupware.boardattach.service.impl.BoardAttachVO"
+		resultType="com.bjworld.groupware.boardattach.service.impl.BoardAttachVO">
+		/* selectBoardAttachList */
+		SELECT
+		b.seq as seq
+		,b.board_seq as boardSeq
+		,b.ori_filename as oriFileName
+		,b.save_filename as saveFileName
+		,b.filesize as fileSize
+		FROM boardattach_${boardCode} b
+		WHERE 1=1
+
+		<if test="seq != null and seq != ''">
+			AND b.seq = #{seq}
+		</if>
+		<if test="boardSeq != null and boardSeq != ''">
+			AND b.board_seq = #{boardSeq}
+		</if>
+		<if test="oriFileName != null and oriFileName != ''">
+			AND b.ori_filename like CONCAT('%', #{oriFileName}, '%')
+		</if>
+		<if test="saveFileName != null and saveFileName != ''">
+			AND b.save_filename like CONCAT('%', #{saveFileName}, '%')
+		</if>
+
+		${orderBy}
+		LIMIT #{startIndex} , #{endIndex}
+	</select>
+
+	<select id="selectBoardAttachListTotCnt"
+		parameterType="com.bjworld.groupware.boardattach.service.impl.BoardAttachVO"
+		resultType="Integer">
+		/* selectBoardAttachListTotCnt */
+		SELECT COUNT(*)
+		FROM
+		boardattach_${boardCode} b
+		WHERE 1 = 1
+
+		<if test="seq != null and seq != ''">
+			AND b.seq = #{seq}
+		</if>
+		<if test="boardSeq != null and boardSeq != ''">
+			AND b.board_seq = #{boardSeq}
+		</if>
+		<if test="oriFileName != null and oriFileName != ''">
+			AND b.ori_filename like CONCAT('%', #{oriFileName}, '%')
+		</if>
+		<if test="saveFileName != null and saveFileName != ''">
+			AND b.save_filename like CONCAT('%', #{saveFileName}, '%')
+		</if>
+	</select>
+
+	<select id="selectBoardAttach"
+		parameterType="com.bjworld.groupware.boardattach.service.impl.BoardAttachVO"
+		resultType="com.bjworld.groupware.boardattach.service.impl.BoardAttachVO">
+		/* selectBoardAttach */
+		SELECT
+		b.seq as seq
+		,b.board_seq as
+		boardSeq
+		,b.ori_filename as oriFileName
+		,b.save_filename as saveFileName
+		,b.filesize as fileSize
+		FROM boardattach_${boardCode} b
+		WHERE b.seq =
+		#{seq}
+	</select>
+
+	<insert id="mergeBoardAttach"
+		parameterType="com.bjworld.groupware.boardattach.service.impl.BoardAttachVO">
+		/* mergeBoardAttach */
+		INSERT INTO boardattach_${boardCode}
+		(
+		seq
+		,board_seq
+		,ori_filename
+		,save_filename
+		,filesize
+		)
+		VALUES
+		(
+		#{seq}
+		,#{boardSeq}
+		,#{oriFileName}
+		,#{saveFileName}
+		,#{fileSize}
+		)
+		ON DUPLICATE
+		KEY UPDATE
+		board_seq = #{boardSeq}
+		,ori_filename = #{oriFileName}
+		,save_filename = #{saveFileName}
+	</insert>
+
+	<insert id="insertBoardAttach"
+		parameterType="com.bjworld.groupware.boardattach.service.impl.BoardAttachVO">
+		/* insertBoardAttach */
+		INSERT INTO
+		boardattach_${boardCode}
+		(
+		seq
+		,board_seq
+		,ori_filename
+		,save_filename
+		,filesize
+		)
+		VALUES
+		(
+		#{seq}
+		,#{boardSeq}
+		,#{oriFileName}
+		,#{saveFileName}
+		,#{fileSize}
+		)
+	</insert>
+
+	<update id="updateBoardAttach"
+		parameterType="com.bjworld.groupware.boardattach.service.impl.BoardAttachVO">
+		/* updateBoardAttach */
+		UPDATE boardattach_${boardCode}
+		set
+		board_seq = #{boardSeq}
+		,ori_filename = #{oriFileName}
+		,save_filename =
+		#{saveFileName}
+		WHERE seq = #{seq}
+	</update>
+
+	<delete id="deleteBoardAttach"
+		parameterType="com.bjworld.groupware.boardattach.service.impl.BoardAttachVO">
+		/* deleteBoardAttach */
+		DELETE FROM
+		boardattach_${boardCode}
+		WHERE seq = #{seq}
+	</delete>
+	
+	<delete id="deleteBoardAttachByBoardSeq"
+		parameterType="com.bjworld.groupware.boardattach.service.impl.BoardAttachVO">
+		/* deleteBoardAttach */
+		DELETE FROM
+		boardattach_${boardCode}
+		WHERE board_seq = #{boardSeq}
+	</delete>
+	
+</mapper>

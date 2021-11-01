@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper
+	namespace="com.bjworld.groupware.goodscategory.service.impl.GoodsCategoryMapper">
+	<select id="selectGoodsCategoryList"
+		parameterType="com.bjworld.groupware.goodscategory.service.impl.GoodsCategoryVO"
+		resultType="com.bjworld.groupware.goodscategory.service.impl.GoodsCategoryVO">
+		/* selectGoodsCategoryList */
+		SELECT
+		g.seq as seq
+		,g.category_name as categoryName
+		,g.parent_seq as parentSeq
+		,g.category_sort as categorySort
+		,g.isused as isUsed
+		FROM goods_category g
+		WHERE 1=1
+
+		<if test="seq != null and seq != ''">
+			AND g.seq = #{seq}
+		</if>
+		<if test="categoryName != null and categoryName != ''">
+			AND g.category_name like CONCAT('%', #{categoryName}, '%')
+		</if>
+		<if test="parentSeq != null and parentSeq != ''">
+			AND g.parent_seq like CONCAT('%', #{parentSeq}, '%')
+		</if>
+		<if test="categorySort != null and categorySort != ''">
+			AND g.category_sort like CONCAT('%', #{categorySort}, '%')
+		</if>
+		<if test="isUsed != null and isUsed != ''">
+			AND g.isused like CONCAT('%', #{isUsed}, '%')
+		</if>
+
+		${orderBy}
+		LIMIT #{startIndex} , #{endIndex}
+	</select>
+
+	<select id="selectGoodsCategoryListTotCnt"
+		parameterType="com.bjworld.groupware.goodscategory.service.impl.GoodsCategoryVO"
+		resultType="Integer">
+		/* selectGoodsCategoryListTotCnt */
+		SELECT COUNT(*)
+		FROM goods_category g
+		WHERE 1 = 1
+
+		<if test="seq != null and seq != ''">
+			AND g.seq = #{seq}
+		</if>
+		<if test="categoryName != null and categoryName != ''">
+			AND g.category_name like CONCAT('%', #{categoryName}, '%')
+		</if>
+		<if test="parentSeq != null and parentSeq != ''">
+			AND g.parent_seq like CONCAT('%', #{parentSeq}, '%')
+		</if>
+		<if test="categorySort != null and categorySort != ''">
+			AND g.category_sort like CONCAT('%', #{categorySort}, '%')
+		</if>
+		<if test="isUsed != null and isUsed != ''">
+			AND g.isused like CONCAT('%', #{isUsed}, '%')
+		</if>
+	</select>
+
+	<select id="selectGoodsCategory"
+		parameterType="com.bjworld.groupware.goodscategory.service.impl.GoodsCategoryVO"
+		resultType="com.bjworld.groupware.goodscategory.service.impl.GoodsCategoryVO">
+		/* selectGoodsCategory */
+		SELECT
+		g.seq as seq
+		,g.category_name as categoryName
+		,g.parent_seq as parentSeq
+		,g.category_sort as categorySort
+		,g.isused as isUsed
+		FROM goods_category g
+		WHERE g.seq = #{seq}
+	</select>
+
+	<insert id="mergeGoodsCategory"
+		parameterType="com.bjworld.groupware.goodscategory.service.impl.GoodsCategoryVO">
+		/* mergeGoodsCategory */
+		INSERT INTO goods_category
+		(
+		seq
+		,category_name
+		,parent_seq
+		,category_sort
+		,isused
+		)
+		VALUES
+		(
+		#{seq}
+		,#{categoryName}
+		,#{parentSeq}
+		,#{categorySort}
+		,#{isUsed}
+		)
+		ON DUPLICATE KEY UPDATE
+		category_name = #{categoryName}
+		,parent_seq = #{parentSeq}
+		,category_sort = #{categorySort}
+		,isused = #{isUsed}
+	</insert>
+
+	<insert id="insertGoodsCategory"
+		parameterType="com.bjworld.groupware.goodscategory.service.impl.GoodsCategoryVO">
+		/* insertGoodsCategory */
+		INSERT INTO goods_category
+		(
+		seq
+		,category_name
+		,parent_seq
+		,category_sort
+		,isused
+		)
+		VALUES
+		(
+		#{seq}
+		,#{categoryName}
+		,#{parentSeq}
+		,#{categorySort}
+		,#{isUsed}
+		)
+	</insert>
+
+	<update id="updateGoodsCategory"
+		parameterType="com.bjworld.groupware.goodscategory.service.impl.GoodsCategoryVO">
+		/* updateGoodsCategory */
+		UPDATE goods_category
+		set
+		category_name = #{categoryName}
+		,parent_seq = #{parentSeq}
+		,category_sort = #{categorySort}
+		,isused = #{isUsed}
+		WHERE seq = #{seq}
+	</update>
+	<update id="deleteGoodsCategory"
+		parameterType="com.bjworld.groupware.goodscategory.service.impl.GoodsCategoryVO">
+		/* deleteGoodsCategory */
+		DELETE FROM goods_category
+		WHERE seq = #{seq}
+	</update>
+</mapper>

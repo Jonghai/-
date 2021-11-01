@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper
+	namespace="com.bjworld.groupware.adminuser.service.impl.AdminUserMapper">
+	<select id="selectAdminUserList"
+		parameterType="com.bjworld.groupware.adminuser.service.impl.AdminUserVO"
+		resultType="com.bjworld.groupware.adminuser.service.impl.AdminUserVO">
+		/* selectAdminUserList */
+		SELECT
+		a.seq as seq
+		,a.user_id as userId
+		,a.user_pwd as userPwd
+		,CAST(AES_DECRYPT(UNHEX(a.user_name), SHA2(#{dbEncString}, 512)) AS CHAR) as userName
+		,a.user_dept_seq as userDeptSeq
+		,a.user_dept_name as userDeptName
+		,a.user_phone as userPhone
+		,CAST(AES_DECRYPT(UNHEX(a.user_phone2), SHA2(#{dbEncString}, 512)) AS CHAR) as userPhone2
+		,CAST(AES_DECRYPT(UNHEX(a.user_email), SHA2(#{dbEncString}, 512)) AS CHAR) as userEmail
+		,DATE_FORMAT(a.reg_date, '%Y-%m-%d') as regDate
+		,a.pwd_updatedate as pwdUpdateDate
+		,a.user_position as userPosition
+		,a.ischangepwd as isChangePwd
+		FROM adminuser a
+		WHERE 1=1
+
+		<if test="seq != null and seq != ''">
+			AND a.seq = #{seq}
+		</if>
+		<if test="userId != null and userId != ''">
+			AND a.user_id like CONCAT('%', #{userId}, '%')
+		</if>
+		<if test="userPwd != null and userPwd != ''">
+			AND a.user_pwd like CONCAT('%', #{userPwd}, '%')
+		</if>
+		<if test="userName != null and userName != ''">
+			AND a.user_name like CONCAT('%', #{userName}, '%')
+		</if>
+		<if test="userDeptSeq != null and userDeptSeq != ''">
+			AND a.user_dept_seq like CONCAT('%', #{userDeptSeq}, '%')
+		</if>
+		<if test="userDeptName != null and userDeptName != ''">
+			AND a.user_dept_name like CONCAT('%', #{userDeptName}, '%')
+		</if>
+		<if test="userPhone != null and userPhone != ''">
+			AND a.user_phone like CONCAT('%', #{userPhone}, '%')
+		</if>
+		<if test="userPhone2 != null and userPhone2 != ''">
+			AND a.user_phone2 like CONCAT('%', #{userPhone2}, '%')
+		</if>
+		<if test="userEmail != null and userEmail != ''">
+			AND a.user_email like CONCAT('%', #{userEmail}, '%')
+		</if>
+		<if test="regDate != null and regDate != ''">
+			AND a.reg_date like CONCAT('%', #{regDate}, '%')
+		</if>
+		<if test="pwdUpdateDate != null and pwdUpdateDate != ''">
+			AND a.pwd_updatedate like CONCAT('%', #{pwdUpdateDate}, '%')
+		</if>
+		<if test="userPosition != null and userPosition != ''">
+			AND a.user_position like CONCAT('%', #{userPosition}, '%')
+		</if>
+		<if test="isChangePwd != null and isChangePwd != ''">
+			AND a.ischangepwd like CONCAT('%', #{isChangePwd}, '%')
+		</if>
+		${orderBy}
+		LIMIT #{startIndex} , #{endIndex}
+	</select>
+
+	<select id="selectAdminUserListTotCnt"
+		parameterType="com.bjworld.groupware.adminuser.service.impl.AdminUserVO"
+		resultType="Integer">
+		/* selectAdminUserListTotCnt */
+		SELECT COUNT(*)
+		FROM adminuser a
+		WHERE 1 = 1
+
+		<if test="seq != null and seq != ''">
+			AND a.seq = #{seq}
+		</if>
+		<if test="userId != null and userId != ''">
+			AND a.user_id like CONCAT('%', #{userId}, '%')
+		</if>
+		<if test="userPwd != null and userPwd != ''">
+			AND a.user_pwd like CONCAT('%', #{userPwd}, '%')
+		</if>
+		<if test="userName != null and userName != ''">
+			AND a.user_name like CONCAT('%', #{userName}, '%')
+		</if>
+		<if test="userDeptSeq != null and userDeptSeq != ''">
+			AND a.user_dept_seq like CONCAT('%', #{userDeptSeq}, '%')
+		</if>
+		<if test="userDeptName != null and userDeptName != ''">
+			AND a.user_dept_name like CONCAT('%', #{userDeptName}, '%')
+		</if>
+		<if test="userPhone != null and userPhone != ''">
+			AND a.user_phone like CONCAT('%', #{userPhone}, '%')
+		</if>
+		<if test="userPhone2 != null and userPhone2 != ''">
+			AND a.user_phone2 like CONCAT('%', #{userPhone2}, '%')
+		</if>
+		<if test="userEmail != null and userEmail != ''">
+			AND a.user_email like CONCAT('%', #{userEmail}, '%')
+		</if>
+		<if test="regDate != null and regDate != ''">
+			AND a.reg_date like CONCAT('%', #{regDate}, '%')
+		</if>
+		<if test="pwdUpdateDate != null and pwdUpdateDate != ''">
+			AND a.pwd_updatedate like CONCAT('%', #{pwdUpdateDate}, '%')
+		</if>
+		<if test="userPosition != null and userPosition != ''">
+			AND a.user_position like CONCAT('%', #{userPosition}, '%')
+		</if>
+		<if test="isChangePwd != null and isChangePwd != ''">
+			AND a.ischangepwd like CONCAT('%', #{isChangePwd}, '%')
+		</if>
+	</select>
+
+	<select id="selectAdminUser"
+		parameterType="com.bjworld.groupware.adminuser.service.impl.AdminUserVO"
+		resultType="com.bjworld.groupware.adminuser.service.impl.AdminUserVO">
+		/* selectAdminUser */
+		SELECT
+		a.seq as seq
+		,a.user_id as userId
+		,a.user_pwd as userPwd
+		,CAST(AES_DECRYPT(UNHEX(a.user_name), SHA2(#{dbEncString}, 512)) AS CHAR) as userName
+		,a.user_dept_seq as userDeptSeq
+		,a.user_dept_name as userDeptName
+		,a.user_phone as userPhone
+		,CAST(AES_DECRYPT(UNHEX(a.user_phone2), SHA2(#{dbEncString}, 512)) AS CHAR) as userPhone2
+		,CAST(AES_DECRYPT(UNHEX(a.user_email), SHA2(#{dbEncString}, 512)) AS CHAR) as userEmail
+		,DATE_FORMAT(a.reg_date, '%Y-%m-%d') as regDate
+		,a.pwd_updatedate as pwdUpdateDate
+		,a.user_position as userPosition
+		,a.ischangepwd as isChangePwd
+		FROM adminuser a
+		WHERE a.seq = #{seq}
+	</select>
+
+	<insert id="mergeAdminUser"
+		parameterType="com.bjworld.groupware.adminuser.service.impl.AdminUserVO">
+		/* mergeAdminUser */
+		INSERT INTO adminuser
+		(
+		seq
+		,user_id
+		<if test="userPwd != null and userPwd != ''">
+		,user_pwd
+		</if>
+		,user_name
+		,user_dept_seq
+		,user_dept_name
+		,user_phone
+		,user_phone2
+		,user_email
+		,pwd_updatedate
+		,user_position
+		,ischangepwd
+		)
+		VALUES
+		(
+		#{seq}
+		,#{userId}
+		<if test="userPwd != null and userPwd != ''">
+		,#{userPwd}
+		</if>
+		,HEX(AES_ENCRYPT(#{userName}, SHA2(#{dbEncString}, 512)))
+		,#{userDeptSeq}
+		,#{userDeptName}
+		,#{userPhone}
+		,HEX(AES_ENCRYPT(#{userPhone2}, SHA2(#{dbEncString}, 512)))
+		,HEX(AES_ENCRYPT(#{userEmail}, SHA2(#{dbEncString}, 512)))
+		,#{pwdUpdateDate}
+		,#{userPosition}
+		,#{isChangePwd}
+		)
+		ON DUPLICATE KEY UPDATE
+		user_id = #{userId}
+		<if test="userPwd != null and userPwd != ''">
+		,user_pwd = #{userPwd}
+		</if>
+		,user_name = HEX(AES_ENCRYPT(#{userName}, SHA2(#{dbEncString}, 512)))
+		,user_dept_seq = #{userDeptSeq}
+		,user_dept_name = #{userDeptName}
+		,user_phone = #{userPhone}
+		,user_phone2 = HEX(AES_ENCRYPT(#{userPhone2}, SHA2(#{dbEncString}, 512)))
+		,user_email = HEX(AES_ENCRYPT(#{userEmail}, SHA2(#{dbEncString}, 512)))
+		,pwd_updatedate = #{pwdUpdateDate}
+		,user_position = #{userPosition}
+		,ischangepwd = #{isChangePwd}
+	</insert>
+
+	<insert id="insertAdminUser"
+		parameterType="com.bjworld.groupware.adminuser.service.impl.AdminUserVO">
+		/* insertAdminUser */
+		INSERT INTO adminuser
+		(
+		user_id
+		,user_pwd
+		,user_name
+		,user_dept_seq
+		,user_dept_name
+		,user_phone
+		,user_phone2
+		,user_email
+		,pwd_updatedate
+		,user_position
+		,ischangepwd
+		)
+		VALUES
+		(
+		#{userId}
+		,#{userPwd}
+		,HEX(AES_ENCRYPT(#{userName}, SHA2(#{dbEncString}, 512)))
+		,#{userDeptSeq}
+		,#{userDeptName}
+		,#{userPhone}
+		,HEX(AES_ENCRYPT(#{userPhone2}, SHA2(#{dbEncString}, 512)))
+		,HEX(AES_ENCRYPT(#{userEmail}, SHA2(#{dbEncString}, 512)))
+		,#{pwdUpdateDate}
+		,#{userPosition}
+		,#{isChangePwd}
+		)
+	</insert>
+
+	<update id="updateAdminUser"
+		parameterType="com.bjworld.groupware.adminuser.service.impl.AdminUserVO">
+		/* updateAdminUser */
+		UPDATE adminuser
+		set
+		user_id = #{userId}
+		,user_pwd = #{userPwd}
+		,user_name = HEX(AES_ENCRYPT(#{userName}, SHA2(#{dbEncString}, 512)))
+		,user_dept_seq = #{userDeptSeq}
+		,user_dept_name = #{userDeptName}
+		,user_phone = #{userPhone}
+		,user_phone2 = HEX(AES_ENCRYPT(#{userPhone2}, SHA2(#{dbEncString}, 512)))
+		,user_email = HEX(AES_ENCRYPT(#{userEmail}, SHA2(#{dbEncString}, 512)))
+		,pwd_updatedate = #{pwdUpdateDate}
+		,user_position = #{userPosition}
+		,ischangepwd = #{isChangePwd}
+		WHERE seq = #{seq}
+	</update>
+	<update id="deleteAdminUser"
+		parameterType="com.bjworld.groupware.adminuser.service.impl.AdminUserVO">
+		/* deleteAdminUser */
+		DELETE FROM adminuser
+		WHERE seq = #{seq}
+	</update>
+	
+	<select id="selectAdminUserLogin" parameterType="com.bjworld.groupware.adminuser.service.impl.AdminUserVO" resultType="com.bjworld.groupware.adminuser.service.impl.AdminUserVO">
+		/* selectAdminUserLogin */
+		SELECT
+		c.seq as seq
+		,c.user_id as userId
+		,c.user_pwd as userPwd
+		,c.user_name as userName
+		,c.user_position as userPosition
+		,c.user_dept_seq as userDeptSeq
+		,c.user_dept_name as userDeptName
+		,c.user_phone as userPhone
+		,c.user_email as userEmail
+		,DATE_FORMAT(c.reg_date, '%Y-%m-%d') as regDate
+		,DATE_FORMAT(c.pwd_updatedate, '%Y-%m-%d') as pwdUpdateDate
+		FROM adminuser c
+		WHERE c.user_id = #{userId} and c.user_pwd = #{userPwd}
+	</select>
+	
+</mapper>

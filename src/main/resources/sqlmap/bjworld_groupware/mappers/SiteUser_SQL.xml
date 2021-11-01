@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper
+	namespace="com.bjworld.groupware.siteuser.service.impl.SiteUserMapper">
+	<select
+		id="selectSiteUserList"
+		parameterType="com.bjworld.groupware.siteuser.service.impl.SiteUserVO"
+		resultType="com.bjworld.groupware.siteuser.service.impl.SiteUserVO">
+		/* selectSiteUserList */
+		SELECT
+		s.seq as seq
+		,CAST(AES_DECRYPT(UNHEX(s.user_name), SHA2(#{dbEncString}, 512)) AS CHAR) as userName
+		,s.user_id as userId
+		,s.user_pwd as userPwd
+		,CAST(AES_DECRYPT(UNHEX(s.user_email), SHA2(#{dbEncString}, 512)) AS CHAR) as userEmail
+		,CAST(AES_DECRYPT(UNHEX(s.user_phone), SHA2(#{dbEncString}, 512)) AS CHAR) as userPhone
+		,s.user_sex as userSex
+		,s.update_pwd_date as updatePwdDate
+		,s.user_address_zonecode as userAddressZonecode
+		,s.user_address as userAddress
+		,s.user_address_detail as userAddressDetail
+		,DATE_FORMAT(s.reg_date, '%Y-%m-%d') as regDate
+		FROM siteuser s
+		WHERE 1=1
+
+		<if test="seq != null and seq != ''">
+			AND s.seq = #{seq}
+		</if>
+		<if test="userName != null and userName != ''">
+			AND s.user_name like CONCAT('%', #{userName}, '%')
+		</if>
+		<if test="userId != null and userId != ''">
+			AND s.user_id like CONCAT('%', #{userId}, '%')
+		</if>
+		<if test="userPwd != null and userPwd != ''">
+			AND s.user_pwd like CONCAT('%', #{userPwd}, '%')
+		</if>
+		<if test="userEmail != null and userEmail != ''">
+			AND s.user_email like CONCAT('%', #{userEmail}, '%')
+		</if>
+		<if test="userPhone != null and userPhone != ''">
+			AND s.user_phone like CONCAT('%', #{userPhone}, '%')
+		</if>
+		<if test="userSex != null and userSex != ''">
+			AND s.user_sex like CONCAT('%', #{userSex}, '%')
+		</if>
+		<if test="updatePwdDate != null and updatePwdDate != ''">
+			AND s.update_pwd_date like CONCAT('%', #{updatePwdDate}, '%')
+		</if>
+		<if
+			test="userAddressZonecode != null and userAddressZonecode != ''">
+			AND s.user_address_zonecode like CONCAT('%', #{userAddressZonecode},
+			'%')
+		</if>
+		<if test="userAddress != null and userAddress != ''">
+			AND s.user_address like CONCAT('%', #{userAddress}, '%')
+		</if>
+		<if test="userAddressDetail != null and userAddressDetail != ''">
+			AND s.user_address_detail like CONCAT('%', #{userAddressDetail}, '%')
+		</if>
+		<if test="regDate != null and regDate != ''">
+			AND s.reg_date like CONCAT('%', #{regDate}, '%')
+		</if>
+
+		${orderBy}
+		LIMIT #{startIndex} , #{endIndex}
+	</select>
+
+	<select
+		id="selectSiteUserListTotCnt"
+		parameterType="com.bjworld.groupware.siteuser.service.impl.SiteUserVO"
+		resultType="Integer">
+		/* selectSiteUserListTotCnt */
+		SELECT COUNT(*)
+		FROM siteuser s
+		WHERE 1 = 1
+
+		<if test="seq != null and seq != ''">
+			AND s.seq = #{seq}
+		</if>
+		<if test="userName != null and userName != ''">
+			AND s.user_name like CONCAT('%', #{userName}, '%')
+		</if>
+		<if test="userId != null and userId != ''">
+			AND s.user_id like CONCAT('%', #{userId}, '%')
+		</if>
+		<if test="userPwd != null and userPwd != ''">
+			AND s.user_pwd like CONCAT('%', #{userPwd}, '%')
+		</if>
+		<if test="userEmail != null and userEmail != ''">
+			AND s.user_email like CONCAT('%', #{userEmail}, '%')
+		</if>
+		<if test="userPhone != null and userPhone != ''">
+			AND s.user_phone like CONCAT('%', #{userPhone}, '%')
+		</if>
+		<if test="userSex != null and userSex != ''">
+			AND s.user_sex like CONCAT('%', #{userSex}, '%')
+		</if>
+		<if test="updatePwdDate != null and updatePwdDate != ''">
+			AND s.update_pwd_date like CONCAT('%', #{updatePwdDate}, '%')
+		</if>
+		<if
+			test="userAddressZonecode != null and userAddressZonecode != ''">
+			AND s.user_address_zonecode like CONCAT('%', #{userAddressZonecode},
+			'%')
+		</if>
+		<if test="userAddress != null and userAddress != ''">
+			AND s.user_address like CONCAT('%', #{userAddress}, '%')
+		</if>
+		<if test="userAddressDetail != null and userAddressDetail != ''">
+			AND s.user_address_detail like CONCAT('%', #{userAddressDetail}, '%')
+		</if>
+		<if test="regDate != null and regDate != ''">
+			AND s.reg_date like CONCAT('%', #{regDate}, '%')
+		</if>
+	</select>
+
+	<select
+		id="selectSiteUser"
+		parameterType="com.bjworld.groupware.siteuser.service.impl.SiteUserVO"
+		resultType="com.bjworld.groupware.siteuser.service.impl.SiteUserVO">
+		/* selectSiteUser */
+		SELECT
+		s.seq as seq
+		,CAST(AES_DECRYPT(UNHEX(s.user_name), SHA2(#{dbEncString}, 512)) AS CHAR) as userName
+		,s.user_id as userId
+		,s.user_pwd as userPwd
+		,CAST(AES_DECRYPT(UNHEX(s.user_email), SHA2(#{dbEncString}, 512)) AS CHAR) as userEmail
+		,CAST(AES_DECRYPT(UNHEX(s.user_phone), SHA2(#{dbEncString}, 512)) AS CHAR) as userPhone
+		,s.user_sex as userSex
+		,s.update_pwd_date as updatePwdDate
+		,s.user_address_zonecode as userAddressZonecode
+		,s.user_address as userAddress
+		,s.user_address_detail as userAddressDetail
+		,DATE_FORMAT(s.reg_date, '%Y-%m-%d') as regDate
+		FROM siteuser s
+		WHERE s.seq = #{seq}
+	</select>
+
+	<insert
+		id="mergeSiteUser"
+		parameterType="com.bjworld.groupware.siteuser.service.impl.SiteUserVO">
+		/* mergeSiteUser */
+		INSERT INTO siteuser
+		(
+		seq
+		,user_name
+		,user_id
+		<if test="userPwd != null and userPwd != ''">
+		,user_pwd
+		</if>
+		,user_email
+		,user_phone
+		,user_sex
+		,update_pwd_date
+		,user_address_zonecode
+		,user_address
+		,user_address_detail
+		)
+		VALUES
+		(
+		#{seq}
+		,HEX(AES_ENCRYPT(#{userName}, SHA2(#{dbEncString}, 512)))
+		,#{userId}
+		<if test="userPwd != null and userPwd != ''">
+		,#{userPwd}
+		</if>
+		,HEX(AES_ENCRYPT(#{userEmail}, SHA2(#{dbEncString}, 512)))
+		,HEX(AES_ENCRYPT(#{userPhone}, SHA2(#{dbEncString}, 512)))
+		,#{userSex}
+		,#{updatePwdDate}
+		,#{userAddressZonecode}
+		,#{userAddress}
+		,#{userAddressDetail}
+		)
+		ON DUPLICATE KEY UPDATE
+		user_name = HEX(AES_ENCRYPT(#{userName}, SHA2(#{dbEncString}, 512)))
+		,user_id = #{userId}
+		<if test="userPwd != null and userPwd != ''">
+		,user_pwd = #{userPwd}
+		</if>
+		,user_email = HEX(AES_ENCRYPT(#{userEmail}, SHA2(#{dbEncString}, 512)))
+		,user_phone = HEX(AES_ENCRYPT(#{userPhone}, SHA2(#{dbEncString}, 512)))
+		,user_sex = #{userSex}
+		,update_pwd_date = #{updatePwdDate}
+		,user_address_zonecode = #{userAddressZonecode}
+		,user_address = #{userAddress}
+		,user_address_detail = #{userAddressDetail}
+	</insert>
+
+	<insert
+		id="insertSiteUser"
+		parameterType="com.bjworld.groupware.siteuser.service.impl.SiteUserVO">
+		/* insertSiteUser */
+		INSERT INTO siteuser
+		(
+		seq
+		,user_name
+		,user_id
+		,user_pwd
+		,user_email
+		,user_phone
+		,user_sex
+		,update_pwd_date
+		,user_address_zonecode
+		,user_address
+		,user_address_detail
+		)
+		VALUES
+		(
+		#{seq}
+		,HEX(AES_ENCRYPT(#{userName}, SHA2(#{dbEncString}, 512)))
+		,#{userId}
+		,#{userPwd}
+		,HEX(AES_ENCRYPT(#{userEmail}, SHA2(#{dbEncString}, 512)))
+		,HEX(AES_ENCRYPT(#{userPhone}, SHA2(#{dbEncString}, 512)))
+		,#{userSex}
+		,#{updatePwdDate}
+		,#{userAddressZonecode}
+		,#{userAddress}
+		,#{userAddressDetail}
+		)
+	</insert>
+
+	<update
+		id="updateSiteUser"
+		parameterType="com.bjworld.groupware.siteuser.service.impl.SiteUserVO">
+		/* updateSiteUser */
+		UPDATE siteuser
+		set
+		user_name = HEX(AES_ENCRYPT(#{userName}, SHA2(#{dbEncString}, 512)))
+		,user_id = #{userId}
+		,user_pwd = #{userPwd}
+		,user_email = HEX(AES_ENCRYPT(#{userEmail}, SHA2(#{dbEncString}, 512)))
+		,user_phone = HEX(AES_ENCRYPT(#{userPhone}, SHA2(#{dbEncString}, 512)))
+		,user_sex = #{userSex}
+		,update_pwd_date = #{updatePwdDate}
+		,user_address_zonecode = #{userAddressZonecode}
+		,user_address = #{userAddress}
+		,user_address_detail = #{userAddressDetail}
+		,reg_date = #{regDate}
+		WHERE seq = #{seq}
+	</update>
+	<update
+		id="deleteSiteUser"
+		parameterType="com.bjworld.groupware.siteuser.service.impl.SiteUserVO">
+		/* deleteSiteUser */
+		DELETE FROM siteuser
+		WHERE seq = #{seq}
+	</update>
+	
+	<select
+		id="selectSiteUserByUserId"
+		parameterType="com.bjworld.groupware.siteuser.service.impl.SiteUserVO"
+		resultType="com.bjworld.groupware.siteuser.service.impl.SiteUserVO">
+		/* selectSiteUserByUserId */
+		SELECT
+		s.seq as seq
+		,CAST(AES_DECRYPT(UNHEX(s.user_name), SHA2(#{dbEncString}, 512)) AS CHAR) as userName
+		,s.user_id as userId
+		,s.user_pwd as userPwd
+		,CAST(AES_DECRYPT(UNHEX(s.user_email), SHA2(#{dbEncString}, 512)) AS CHAR) as userEmail
+		,CAST(AES_DECRYPT(UNHEX(s.user_phone), SHA2(#{dbEncString}, 512)) AS CHAR) as userPhone
+		,s.user_sex as userSex
+		,s.update_pwd_date as updatePwdDate
+		,s.user_address_zonecode as userAddressZonecode
+		,s.user_address as userAddress
+		,s.user_address_detail as userAddressDetail
+		,DATE_FORMAT(s.reg_date, '%Y-%m-%d') as regDate
+		FROM siteuser s
+		WHERE s.user_id = #{userId}
+	</select>
+	
+</mapper>

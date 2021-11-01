@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bjworld.groupware.board.service.impl.BoardMapper">
+	<select
+		id="selectBoardList"
+		parameterType="com.bjworld.groupware.board.service.impl.BoardVO"
+		resultType="com.bjworld.groupware.board.service.impl.BoardVO">
+		/* selectBoardList */
+		SELECT
+		b.seq as seq
+		,b.board_title as boardTitle
+		,b.board_title_link as boardTitleLink
+		,b.board_content as boardContent
+		,b.reg_userid as regUserId
+		,au.user_name as regUserName
+		,b.reg_type as regType
+		,INET_NTOA(b.reg_remoteip) as regRemoteIP
+		,DATE_FORMAT(b.reg_date, '%Y-%m-%d') as regDate
+		,b.readcount as readCount
+		,b.thumbnail_image_filename as thumbnailImageFilename
+		,b.thumbnail_image_savefilename as thumbnailImageSavefilename
+		,b.thumbnail_address as thumbnailAddress
+		, '' boardNavigator
+		, (select count(*) from boardattach_${boardCode} ba where b.seq = ba.board_seq) as filecount
+		FROM board_${boardCode} b
+			left join adminuser au on b.reg_userid = au.user_id			
+		WHERE 1=1
+
+		<if test="seq != null and seq != ''">
+			AND b.seq = #{seq}
+		</if>
+		<if test="boardTitle != null and boardTitle != ''">
+			AND b.board_title like CONCAT('%', #{boardTitle}, '%')
+		</if>
+		<if test="boardTitleLink != null and boardTitleLink != ''">
+			AND b.board_title_link like CONCAT('%', #{boardTitleLink}, '%')
+		</if>
+		<if test="boardContent != null and boardContent != ''">
+			AND b.board_content like CONCAT('%', #{boardContent}, '%')
+		</if>
+		<if test="regUserId != null and regUserId != ''">
+			AND b.reg_userid like CONCAT('%', #{regUserId}, '%')
+		</if>
+		<if test="regUserName != null and regUserName != ''">
+			AND b.reg_username like CONCAT('%', #{regUserName}, '%')
+		</if>
+		<if test="regType != null and regType != ''">
+			AND b.reg_type like CONCAT('%', #{regType}, '%')
+		</if>
+		<if test="regRemoteIP != null and regRemoteIP != ''">
+			AND b.reg_remoteip like CONCAT('%', #{regRemoteIP}, '%')
+		</if>
+		<if test="regDate != null and regDate != ''">
+			AND b.reg_date like CONCAT('%', #{regDate}, '%')
+		</if>
+		<if test="readCount != null and readCount != ''">
+			AND b.readcount like CONCAT('%', #{readCount}, '%')
+		</if>
+		<if
+			test="thumbnailImageFilename != null and thumbnailImageFilename != ''">
+			AND b.thumbnail_image_filename like CONCAT('%',
+			#{thumbnailImageFilename}, '%')
+		</if>
+		<if
+			test="thumbnailImageSavefilename != null and thumbnailImageSavefilename != ''">
+			AND b.thumbnail_image_savefilename like CONCAT('%',
+			#{thumbnailImageSavefilename}, '%')
+		</if>
+
+		${orderBy}
+		LIMIT #{startIndex} , #{endIndex}
+	</select>
+
+	<select
+		id="selectBoardListTotCnt"
+		parameterType="com.bjworld.groupware.board.service.impl.BoardVO"
+		resultType="Integer">
+		/* selectBoardListTotCnt */
+		SELECT COUNT(*)
+		FROM board_${boardCode} b
+			left join adminuser au on b.reg_userid = au.user_id
+		WHERE 1 = 1
+
+		<if test="seq != null and seq != ''">
+			AND b.seq = #{seq}
+		</if>
+		<if test="boardTitle != null and boardTitle != ''">
+			AND b.board_title like CONCAT('%', #{boardTitle}, '%')
+		</if>
+		<if test="boardTitleLink != null and boardTitleLink != ''">
+			AND b.board_title_link like CONCAT('%', #{boardTitleLink}, '%')
+		</if>
+		<if test="boardContent != null and boardContent != ''">
+			AND b.board_content like CONCAT('%', #{boardContent}, '%')
+		</if>
+		<if test="regUserId != null and regUserId != ''">
+			AND b.reg_userid like CONCAT('%', #{regUserId}, '%')
+		</if>
+		<if test="regUserName != null and regUserName != ''">
+			AND b.reg_username like CONCAT('%', #{regUserName}, '%')
+		</if>
+		<if test="regType != null and regType != ''">
+			AND b.reg_type like CONCAT('%', #{regType}, '%')
+		</if>
+		<if test="regRemoteIP != null and regRemoteIP != ''">
+			AND b.reg_remoteip like CONCAT('%', #{regRemoteIP}, '%')
+		</if>
+		<if test="regDate != null and regDate != ''">
+			AND b.reg_date like CONCAT('%', #{regDate}, '%')
+		</if>
+		<if test="readCount != null and readCount != ''">
+			AND b.readcount like CONCAT('%', #{readCount}, '%')
+		</if>
+		<if
+			test="thumbnailImageFilename != null and thumbnailImageFilename != ''">
+			AND b.thumbnail_image_filename like CONCAT('%',
+			#{thumbnailImageFilename}, '%')
+		</if>
+		<if
+			test="thumbnailImageSavefilename != null and thumbnailImageSavefilename != ''">
+			AND b.thumbnail_image_savefilename like CONCAT('%',
+			#{thumbnailImageSavefilename}, '%')
+		</if>
+	</select>
+	
+	<select id="selectBoard" parameterType="com.bjworld.groupware.board.service.impl.BoardVO" resultType="com.bjworld.groupware.board.service.impl.BoardVO">
+		/* selectBoard */
+		SELECT
+		b.seq as seq
+		,b.board_title as boardTitle
+		,b.board_title_link as boardTitleLink
+		,b.board_content as boardContent
+		,b.reg_userid as regUserId
+		,au.user_name as regUserName
+		,b.reg_type as regType
+		,INET_NTOA(b.reg_remoteip) as regRemoteIP
+		,DATE_FORMAT(b.reg_date, '%Y-%m-%d') as regDate
+		,b.readcount as readCount
+		,b.thumbnail_image_filename as thumbnailImageFilename
+		,b.thumbnail_image_savefilename as thumbnailImageSavefilename
+		,b.thumbnail_address as thumbnailAddress
+		FROM board_${boardCode} b
+			left join adminuser au on b.reg_userid = au.user_id
+		WHERE b.seq = #{seq}
+	</select>
+	
+	<insert id="mergeBoard" parameterType="com.bjworld.groupware.board.service.impl.BoardVO" useGeneratedKeys="true" keyProperty="seq">
+		/* mergeBoard */
+		INSERT INTO board_${boardCode}
+		(
+		seq
+		,board_title
+		,board_title_link
+		,board_content
+		,reg_userid
+		,reg_username
+		,reg_type
+		,reg_remoteip
+		,readcount
+		,thumbnail_image_filename
+		,thumbnail_image_savefilename
+		,thumbnail_address
+		)
+		VALUES
+		(
+		#{seq}
+		,#{boardTitle}
+		,#{boardTitleLink}
+		,#{boardContent}
+		,#{regUserId}
+		,#{regUserName}
+		,#{regType}
+		,INET_ATON(#{regRemoteIP})
+		,'0'
+		,#{thumbnailImageFilename}
+		,#{thumbnailImageSavefilename}
+		,#{thumbnailAddress}
+		)
+		ON DUPLICATE KEY UPDATE
+		board_title = #{boardTitle}
+		,board_title_link = #{boardTitleLink}
+		,board_content = #{boardContent}
+		,reg_userid = #{regUserId}
+		,reg_username = #{regUserName}
+		,reg_type = #{regType}
+		,reg_remoteip = INET_ATON(#{regRemoteIP})
+		,thumbnail_image_filename = #{thumbnailImageFilename}
+		,thumbnail_image_savefilename = #{thumbnailImageSavefilename}
+		,thumbnail_address = #{thumbnailAddress}
+	</insert>
+	
+	<insert id="insertBoard" parameterType="com.bjworld.groupware.board.service.impl.BoardVO" useGeneratedKeys="true" keyProperty="seq">
+		/* insertBoard */
+		INSERT INTO board_${boardCode}
+		(
+		board_title
+		,board_title_link
+		,board_content
+		,reg_userid
+		,reg_username
+		,reg_type
+		,reg_remoteip
+		,readcount
+		,thumbnail_image_filename
+		,thumbnail_image_savefilename
+		,thumbnail_address
+		)
+		VALUES
+		(
+		#{boardTitle}
+		,#{boardTitleLink}
+		,#{boardContent}
+		,#{regUserId}
+		,#{regUserName}
+		,#{regType}
+		,#{regRemoteIP}
+		,'0'
+		,#{thumbnailImageFilename}
+		,#{thumbnailImageSavefilename}
+		,#{thumbnailAddress}
+		)
+	</insert>
+	
+	<update id="updateBoard" parameterType="com.bjworld.groupware.board.service.impl.BoardVO">
+		/* updateBoard */
+		UPDATE board_${boardCode}
+		set
+		board_title = #{boardTitle}
+		,board_title_link = #{boardTitleLink}
+		,board_content = #{boardContent}
+		,reg_userid = #{regUserId}
+		,reg_username = #{regUserName}
+		,reg_type = #{regType}
+		,reg_remoteip = #{regRemoteIP}
+		,readcount = #{readCount}
+		,thumbnail_image_filename = #{thumbnailImageFilename}
+		,thumbnail_image_savefilename = #{thumbnailImageSavefilename}
+		,thumbnail_address = #{thumbnailAddress}
+		WHERE seq = #{seq}
+	</update>
+	
+	<delete id="deleteBoard" parameterType="com.bjworld.groupware.board.service.impl.BoardVO">
+		/* deleteBoard */
+		DELETE FROM board_${boardCode}
+		WHERE seq = #{seq}
+	</delete>
+	
+	<update id="updateBoardItemReadCount" parameterType="com.bjworld.groupware.board.service.impl.BoardVO">
+		update board_${boardCode} set readcount = readcount + 1 where seq = #{seq}
+	</update>
+	
+	<select id="selectNextPrevBoard" parameterType="com.bjworld.groupware.board.service.impl.BoardVO" resultType="com.bjworld.groupware.board.service.impl.BoardVO">
+		SELECT
+		(SELECT board_title  FROM board_${boardCode} WHERE seq <![CDATA[ < ]]> #{seq} ORDER BY seq DESC LIMIT 1) AS prevtitle
+		,(SELECT seq  FROM board_${boardCode} WHERE seq <![CDATA[ < ]]> #{seq} ORDER BY seq DESC LIMIT 1) AS prevseq
+		,(SELECT board_title FROM board_${boardCode} WHERE seq <![CDATA[ > ]]> #{seq} ORDER BY seq LIMIT 1) AS nexttitle
+		,(SELECT seq FROM board_${boardCode} WHERE seq <![CDATA[ > ]]> #{seq} ORDER BY seq LIMIT 1) AS nextseq
+		FROM 
+		board_${boardCode}
+		WHERE
+		seq = #{seq}
+	</select>
+</mapper>

@@ -1,0 +1,60 @@
+@charset "UTF-8";
+label{margin-bottom:0px;}
+.modal-footer>.btn+.btn{margin-left:1rem;}
+.dropzone{min-height:10rem;}
+.dt-buttons{margin:0 0 1rem 1rem;}
+[data-action]:after{font-size:1.2rem;}
+[class*=" icon-"], [class^=icon-]{font-size:1.2rem;}
+
+.datatable-header{padding:1rem 1.25rem 0 1.25rem;}
+
+table.dataTable thead th, table.table thead th, table.table th {
+    text-align: center;
+}
+
+table.dataTable thead th {
+    text-align: center;font-weight:700!important;
+}
+
+.dataTables_paginate .paginate_button.current, .dataTables_paginate .paginate_button.current:focus, .dataTables_paginate .paginate_button.current:hover{background-color:#2196f3;}
+.nav-sidebar .nav-link{padding:.4rem 1.25rem;}
+.nav-group-sub .nav-link{padding:.325rem 1.25rem .325rem 3.5rem;}
+.nav-item-submenu>.nav-link:after{top:.45rem}
+
+.modal-footer{padding:1rem;}
+.modal-footer:not([class*=bg-]){padding:1rem;}
+
+.detailtable {margin-bottom: 1.25rem;width:100%;}
+.detailtable tbody tr th,.detailtable thead tr th, .detailtable tbody tr td {padding: 8px; border: 1px solid #C5C5C5;}
+.detailtable tbody tr th:first-child, .detailtable tbody tr td:first-child, 
+.detailtable thead tr th:first-child, .detailtable thead tr td:first-child {border-left: none;}
+.detailtable tbody tr th:last-child, .detailtable tbody tr td:last-child,
+.detailtable thead tr th:last-child, .detailtable thead tr td:last-child {border-right: none;}
+.detailtable tbody tr th,.detailtable thead tr th {color: #146BB8; background-color: #E4EEF6; font-weight: bold;padding-left:18px;}
+.detailtable img{max-width:800px;} 
+.cke_dialog_contents{width:600px !important}
+div[name=Upload] table tbody tr{height:60px !important;}
+
+.fancytree-custom-icon, .fancytree-expander, .fancytree-icon{margin-left:0px;}
+.fancytree-title{margin-left:0px;}
+
+}
+
+/* table.dataTable thead th, table.table thead th, table.table th {
+    color: rgb(20, 107, 184);
+    font-weight: 700;
+    background-color: rgb(228, 238, 246);
+    text-align: center;
+}
+ */
+/* .dataTables_info {
+	margin-left: 0;
+	margin-bottom: 1.4rem;
+    padding: 0.8rem 0 0 0;
+    float: left;
+}
+.dt-buttons {
+	margin: 0 0 0rem .612rem;
+}
+
+.dataTables_length{margin:0 0 0rem 1.25rem} */

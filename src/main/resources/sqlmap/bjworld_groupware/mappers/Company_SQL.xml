@@ -1,0 +1,516 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper
+	namespace="com.bjworld.groupware.company.service.impl.CompanyMapper">
+	<select
+		id="selectCompanyList"
+		parameterType="com.bjworld.groupware.company.service.impl.CompanyVO"
+		resultType="com.bjworld.groupware.company.service.impl.CompanyVO">
+		/* selectCompanyList */
+		SELECT
+		c.seq as seq
+		,concat(left(c.company_business_number,3), '-', mid(c.company_business_number,4,2), '-', right(c.company_business_number,5)) as companyBusinessNumber
+		,c.company_name as companyName
+		,c.company_area as companyArea
+		,c.company_address_zonecode as companyAddressZoneCode
+		,c.company_address as companyAddress
+		,c.company_address_detail as companyAddressDetail
+		,CAST(AES_DECRYPT(UNHEX(c.company_ceo_name), SHA2(#{dbEncString}, 512)) AS CHAR) as companyCeoName
+		,CAST(AES_DECRYPT(UNHEX(c.company_ceo_phone), SHA2(#{dbEncString}, 512)) AS CHAR) as companyCeoPhone
+		,CAST(AES_DECRYPT(UNHEX(c.company_ceo_email), SHA2(#{dbEncString}, 512)) AS CHAR) as companyCeoEmail
+		,CAST(AES_DECRYPT(UNHEX(c.company_charge_name), SHA2(#{dbEncString}, 512)) AS CHAR) as companyChargeName
+		,CAST(AES_DECRYPT(UNHEX(c.company_charge_phone), SHA2(#{dbEncString}, 512)) AS CHAR) as companyChargePhone
+		,CAST(AES_DECRYPT(UNHEX(c.company_charge_email), SHA2(#{dbEncString}, 512)) AS CHAR) as companyChargeEmail
+		,c.company_charge_position as companyChargePosition
+		,c.company_pwd as companyPwd
+		,c.company_corporation_number as companyCorporationNumber
+		,DATE_FORMAT(c.reg_date, '%Y-%m-%d') as regDate
+		,ifnull(DATE_FORMAT(c.company_startdate, '%Y-%m-%d'), '') as companyStartDate
+		,c.company_ceo_sex as companyCeoSex
+		,CASE c.company_ceo_sex WHEN '1' THEN '남' WHEN '2' THEN '여'  ELSE '' END as companyCeoSexDesc
+		,c.company_tel companyTel
+		,c.company_isexport as companyIsExport
+		,CASE c.company_isexport WHEN '0' THEN 'N' WHEN '1' THEN 'Y' end as companyIsExportDesc
+		,c.company_status as companyStatus
+		,CASE c.company_status WHEN '1' THEN '정상운영' WHEN '2' THEN '휴업' WHEN '3' THEN '폐업' end as companyStatusDesc		
+		, c.company_gubun companyGubun
+		, CASE c.company_gubun WHEN '1' THEN '법인' WHEN '2' THEN '개인' END as companyGubunDesc
+		FROM company c							
+		WHERE 1=1
+
+		<if test="companyBusinessNumber != null and companyBusinessNumber != ''"> 
+			AND c.company_business_number like CONCAT('%', #{companyBusinessNumber}, '%')
+		</if>
+		<if test="companyName != null and companyName != ''">
+			AND c.company_name like CONCAT('%', #{companyName}, '%')
+		</if>
+		<if test="companyArea != null and companyArea != ''">
+			AND c.company_area like CONCAT('%', #{companyArea}, '%')
+		</if>
+		<if test="companyCeoName != null and companyCeoName != ''">
+			AND c.company_ceo_name like CONCAT('%', #{companyCeoName}, '%')
+		</if>
+		<if test="companyCorporationNumber != null and companyCorporationNumber != ''">
+			AND c.company_corporation_number like CONCAT('%', #{companyCorporationNumber}, '%')
+		</if>
+		<if test="companyChargeName != null and companyChargeName != ''">
+			AND c.company_charge_name like CONCAT('%', #{companyChargeName}, '%')
+		</if>
+		<if test="regDate != null and regDate != ''">
+			AND c.reg_date like CONCAT('%', #{regDate}, '%')
+		</if>
+		<if test="companyIsExport != null and companyIsExport != ''">
+			AND c.company_isexport like CONCAT('%', #{companyIsExport}, '%')
+		</if>
+		
+		<if test="companyStatus != null and companyStatus != ''">
+			AND c.company_status = #{companyStatus}
+		</if>
+		
+		<if test="searchCondition != null and searchCondition != ''">
+			AND ( c.company_name like CONCAT('%', #{searchCondition}, '%') 
+				OR c.company_business_number like CONCAT('%', #{searchCondition}, '%') 
+			)
+		</if>
+		${orderBy}
+		LIMIT #{startIndex} , #{endIndex}
+	</select>
+
+	<select
+		id="selectCompanyListTotCnt"
+		parameterType="com.bjworld.groupware.company.service.impl.CompanyVO"
+		resultType="Integer">
+		/* selectCompanyListTotCnt */
+		SELECT COUNT(*)
+		FROM company c			
+		WHERE 1=1
+
+		<if test="companyBusinessNumber != null and companyBusinessNumber != ''"> 
+			AND c.company_business_number like CONCAT('%', #{companyBusinessNumber}, '%')
+		</if>
+		<if test="companyName != null and companyName != ''">
+			AND c.company_name like CONCAT('%', #{companyName}, '%')
+		</if>
+		<if test="companyArea != null and companyArea != ''">
+			AND c.company_area like CONCAT('%', #{companyArea}, '%')
+		</if>
+		<if test="companyCeoName != null and companyCeoName != ''">
+			AND c.company_ceo_name like CONCAT('%', #{companyCeoName}, '%')
+		</if>
+		<if test="companyCorporationNumber != null and companyCorporationNumber != ''">
+			AND c.company_corporation_number like CONCAT('%', #{companyCorporationNumber}, '%')
+		</if>
+		<if test="companyChargeName != null and companyChargeName != ''">
+			AND c.company_charge_name like CONCAT('%', #{companyChargeName}, '%')
+		</if>
+		<if test="regDate != null and regDate != ''">
+			AND c.reg_date like CONCAT('%', #{regDate}, '%')
+		</if>
+		<if test="companyIsExport != null and companyIsExport != ''">
+			AND c.company_isexport like CONCAT('%', #{companyIsExport}, '%')
+		</if>
+		<if test="companyStatus != null and companyStatus != ''">
+			AND c.company_status = #{companyStatus}
+		</if>
+		<if test="searchCondition != null and searchCondition != ''">
+			AND ( c.company_name like CONCAT('%', #{searchCondition}, '%') 
+				OR c.company_business_number like CONCAT('%', #{searchCondition}, '%') 
+			)
+		</if>
+	</select>
+
+	<select
+		id="selectCompany"
+		parameterType="com.bjworld.groupware.company.service.impl.CompanyVO"
+		resultType="com.bjworld.groupware.company.service.impl.CompanyVO">
+		/* selectCompany */
+		SELECT
+		c.seq as seq
+		,concat(left(c.company_business_number,3), '-', mid(c.company_business_number,4,2), '-', right(c.company_business_number,5)) as companyBusinessNumber
+		,c.company_name as companyName
+		,c.company_area as companyArea
+		,c.company_address_zonecode as companyAddressZoneCode
+		,c.company_address as companyAddress
+		,c.company_address_detail as companyAddressDetail
+		,CAST(AES_DECRYPT(UNHEX(c.company_ceo_name), SHA2(#{dbEncString}, 512)) AS CHAR) as companyCeoName
+		,CAST(AES_DECRYPT(UNHEX(c.company_ceo_phone), SHA2(#{dbEncString}, 512)) AS CHAR) as companyCeoPhone
+		,CAST(AES_DECRYPT(UNHEX(c.company_ceo_email), SHA2(#{dbEncString}, 512)) AS CHAR) as companyCeoEmail
+		,CAST(AES_DECRYPT(UNHEX(c.company_charge_name), SHA2(#{dbEncString}, 512)) AS CHAR) as companyChargeName
+		,CAST(AES_DECRYPT(UNHEX(c.company_charge_phone), SHA2(#{dbEncString}, 512)) AS CHAR) as companyChargePhone
+		,CAST(AES_DECRYPT(UNHEX(c.company_charge_email), SHA2(#{dbEncString}, 512)) AS CHAR) as companyChargeEmail
+		,c.company_pwd as companyPwd
+		,c.company_corporation_number as companyCorporationNumber
+		,c.company_charge_position as companyChargePosition
+		,DATE_FORMAT(c.reg_date, '%Y-%m-%d') as regDate
+		,ifnull(DATE_FORMAT(c.company_startdate, '%Y-%m-%d'), '') as companyStartDate
+		,c.company_ceo_sex as companyCeoSex
+		,CASE c.company_ceo_sex WHEN '1' THEN '남' WHEN '2' THEN '여'  ELSE '' END as companyCeoSexDesc
+		,c.company_tel companyTel
+		,c.company_fax companyFax
+		,c.company_isexport as companyIsExport
+		,CASE c.company_isexport WHEN '0' THEN 'N' WHEN '1' THEN 'Y' end as companyIsExportDesc
+		, datediff(now(), c.reg_date) as latestRegDateDiff
+		,c.company_status as companyStatus
+		,CASE c.company_status WHEN '1' THEN '정상운영' WHEN '2' THEN '휴업' WHEN '3' THEN '폐업' end as companyStatusDesc
+		, c.company_gubun companyGubun
+		, CASE c.company_gubun WHEN '1' THEN '법인' WHEN '2' THEN '개인' END as companyGubunDesc
+		, c.company_business_sector companyBusinessSector
+		, c.company_business_type companyBusinessType
+		, c.company_homepage as companyHomepage		
+		, ifnull(c.company_employee_count, '') as companyEmployeeCount
+		, ifnull(c.hometax_status,'') homeTaxStatus
+		, ifnull(DATE_FORMAT(c.hometax_search_date, '%Y-%m-%d'), '')  homeTaxSearchDate
+		
+		FROM company c
+		WHERE
+		<if test="seq != null and seq != ''"> 
+			c.seq = #{seq}
+		</if>
+		<if test="companyBusinessNumber != null and companyBusinessNumber != ''"> 
+			c.company_business_number = REPLACE(#{companyBusinessNumber}, '-', '')
+		</if>
+	</select>
+
+	<insert
+		id="mergeCompany"
+		parameterType="com.bjworld.groupware.company.service.impl.CompanyVO"
+		useGeneratedKeys="true" keyProperty="seq">
+		/* mergeCompany */
+		INSERT INTO company
+		(
+		seq
+		,company_business_number
+		,company_name
+		,company_area
+		,company_address_zonecode
+		,company_address
+		,company_address_detail
+		,company_ceo_name
+		,company_ceo_phone
+		,company_ceo_email
+		,company_pwd
+		,company_corporation_number
+		,company_charge_name
+		,company_charge_position
+		,company_charge_phone
+		,company_charge_email
+		,company_isexport
+		,company_startdate
+		,company_ceo_sex
+		,company_tel
+		,company_fax
+		,company_business_sector
+		,company_business_type
+		<if test="companyGubun != null and companyGubun != ''">
+		,company_gubun
+		</if>
+		<if test="isSystemMember != null and isSystemMember != ''">
+		,issystemmember
+		</if>
+		,company_homepage
+		,company_employee_count		
+		,company_status
+		)
+		VALUES
+		(
+		#{seq}
+		,#{companyBusinessNumber}
+		,#{companyName}
+		,#{companyArea}
+		,#{companyAddressZoneCode}
+		,#{companyAddress}
+		,#{companyAddressDetail}
+		,HEX(AES_ENCRYPT(#{companyCeoName}, SHA2(#{dbEncString}, 512)))
+		,HEX(AES_ENCRYPT(#{companyCeoPhone}, SHA2(#{dbEncString}, 512)))
+		,HEX(AES_ENCRYPT(#{companyCeoEmail}, SHA2(#{dbEncString}, 512)))
+		,#{companyPwd}
+		,#{companyCorporationNumber}
+		,HEX(AES_ENCRYPT(#{companyChargeName}, SHA2(#{dbEncString}, 512)))
+		,#{companyChargePosition}
+		,HEX(AES_ENCRYPT(#{companyChargePhone}, SHA2(#{dbEncString}, 512)))
+		,HEX(AES_ENCRYPT(#{companyChargeEmail}, SHA2(#{dbEncString}, 512)))
+		,#{companyIsExport}
+		,REPLACE(#{companyStartDate}, '-', '')
+		,#{companyCeoSex}
+		,#{companyTel}
+		,#{companyFax}
+		,#{companyBusinessSector}
+		,#{companyBusinessType}
+		<if test="companyGubun != null and companyGubun != ''">
+		,#{companyGubun}
+		</if>
+		<if test="isSystemMember != null and isSystemMember != ''">
+		,#{isSystemMember}
+		</if>
+		,#{companyHomepage}
+		,#{companyEmployeeCount}
+		,#{companyStatus}				
+		)
+		ON DUPLICATE KEY UPDATE
+		company_business_number = #{companyBusinessNumber}
+		,company_name = #{companyName}
+		<if test="companyArea != null and companyArea != ''">
+		,company_area = #{companyArea}
+		</if>
+		<if test="companyPwd != null and companyPwd != ''">
+		,company_pwd = #{companyPwd}
+		</if>
+		,company_address_zonecode = #{companyAddressZoneCode}
+		,company_address = #{companyAddress}
+		,company_address_detail = #{companyAddressDetail}
+		,company_ceo_name = HEX(AES_ENCRYPT(#{companyCeoName}, SHA2(#{dbEncString}, 512)))
+		<if test="companyCeoPhone != null and companyCeoPhone != ''">
+		,company_ceo_phone = HEX(AES_ENCRYPT(#{companyCeoPhone}, SHA2(#{dbEncString}, 512)))
+		</if>
+		<if test="companyCeoEmail != null and companyCeoEmail != ''">
+		,company_ceo_email = HEX(AES_ENCRYPT(#{companyCeoEmail}, SHA2(#{dbEncString}, 512)))
+		</if>
+		,company_corporation_number = #{companyCorporationNumber}
+		,company_charge_name = HEX(AES_ENCRYPT(#{companyChargeName}, SHA2(#{dbEncString}, 512)))
+		,company_charge_position = #{companyChargePosition}
+		,company_charge_phone = HEX(AES_ENCRYPT(#{companyChargePhone}, SHA2(#{dbEncString}, 512)))
+		<if test="companyChargeEmail != null and companyChargeEmail != ''">
+		,company_charge_email = HEX(AES_ENCRYPT(#{companyChargeEmail}, SHA2(#{dbEncString}, 512)))
+		</if>
+		<if test="companyIsExport != null and companyIsExport != ''">
+		,company_isexport = #{companyIsExport}
+		</if>
+		,company_business_sector = #{companyBusinessSector}
+		,company_business_type = #{companyBusinessType}
+		<if test="companyStartDate != null and companyStartDate != ''">
+		,company_startdate = REPLACE(#{companyStartDate}, '-', '')
+		</if>
+		<if test="companyCeoSex != null and companyCeoSex != ''">
+		,company_ceo_sex = #{companyCeoSex}
+		</if>
+		<if test="companyTel != null and companyTel != ''">
+		,company_tel = #{companyTel}
+		</if>
+		<if test="companyFax != null and companyFax != ''">
+		,company_fax = #{companyFax}
+		</if>
+		<if test="companyGubun != null and companyGubun != ''">
+		,company_gubun = #{companyGubun}
+		</if>
+		<if test="isSystemMember != null and isSystemMember != ''">
+		,issystemmember = #{isSystemMember}
+		</if>
+		,reg_date = now()
+		<if test="companyHomepage != null and companyHomepage != ''">
+		,company_homepage = #{companyHomepage}
+		</if>
+		<if test="companyEmployeeCount != null and companyEmployeeCount != ''">
+		,company_employee_count = #{companyEmployeeCount}
+		</if>
+		,company_status = #{companyStatus}
+	</insert>
+
+	<insert
+		id="insertCompany"
+		parameterType="com.bjworld.groupware.company.service.impl.CompanyVO">
+		/* insertCompany */
+		INSERT INTO company
+		(
+		seq
+		,company_business_number
+		,company_name
+		,company_area
+		,company_address_zonecode
+		,company_address
+		,company_address_detail
+		,company_ceo_name
+		,company_ceo_phone
+		,company_ceo_email		
+		,company_corporation_number
+		,company_charge_name
+		,company_charge_position
+		,company_charge_phone
+		,company_charge_email
+		,company_isexport
+		,company_startdate
+		,company_ceo_sex
+		,company_tel
+		,company_fax
+		,company_gubun
+		)
+		VALUES
+		(
+		#{seq}
+		,#{companyBusinessNumber}
+		,#{companyName}
+		,#{companyArea}
+		,#{companyAddressZoneCode}
+		,#{companyAddress}
+		,#{companyAddressDetail}
+		,HEX(AES_ENCRYPT(#{companyCeoName}, SHA2(#{dbEncString}, 512)))
+		,HEX(AES_ENCRYPT(#{companyCeoPhone}, SHA2(#{dbEncString}, 512)))
+		,HEX(AES_ENCRYPT(#{companyCeoEmail}, SHA2(#{dbEncString}, 512)))
+		,#{companyCorporationNumber}
+		,HEX(AES_ENCRYPT(#{companyChargeName}, SHA2(#{dbEncString}, 512)))
+		,#{companyChargePosition}
+		,HEX(AES_ENCRYPT(#{companyChargePhone}, SHA2(#{dbEncString}, 512)))
+		,HEX(AES_ENCRYPT(#{companyChargeEmail}, SHA2(#{dbEncString}, 512)))
+		,#{companyIsExport}
+		,REPLACE(#{companyStartDate}, '-', '')
+		,#{companyCeoSex}
+		,#{companyTel}
+		,#{companyFax}
+		,#{companyGubun}
+		)
+	</insert>
+
+	<update
+		id="updateCompany"
+		parameterType="com.bjworld.groupware.company.service.impl.CompanyVO">
+		/* updateCompany */
+		UPDATE company
+		set
+		<choose>
+			<when test="companyPwd != null">
+				company_pwd = #{companyPwd}
+			</when>
+			<otherwise>
+				company_business_number = #{companyBusinessNumber}
+				,company_name = #{companyName}
+				,company_area = #{companyArea}
+				,company_address_zonecode = #{companyAddressZoneCode}
+				,company_address = #{companyAddress}
+				,company_address_detail = #{companyAddressDetail}
+				,HEX(AES_ENCRYPT(#{companyCeoName}, SHA2(#{dbEncString}, 512)))
+				,HEX(AES_ENCRYPT(#{companyCeoPhone}, SHA2(#{dbEncString}, 512)))
+				,HEX(AES_ENCRYPT(#{companyCeoEmail}, SHA2(#{dbEncString}, 512)))
+				,#{companyCorporationNumber}
+				,HEX(AES_ENCRYPT(#{companyChargeName}, SHA2(#{dbEncString}, 512)))
+				,#{companyChargePosition}
+				,HEX(AES_ENCRYPT(#{companyChargePhone}, SHA2(#{dbEncString}, 512)))
+				,HEX(AES_ENCRYPT(#{companyChargeEmail}, SHA2(#{dbEncString}, 512)))
+				,company_isexport = #{companyIsExport}
+				,company_startdate = REPLACE(#{companyStartDate}, '-', '')
+				,company_ceo_sex = #{companyCeoSex}
+				,company_tel = #{companyTel}
+				,company_fax = #{companyFax}
+				,company_gubun = #{companyGubun}
+			</otherwise>
+		</choose>
+		WHERE seq = #{seq}
+	</update>
+	<update
+		id="deleteCompany"
+		parameterType="com.bjworld.groupware.company.service.impl.CompanyVO">
+		/* deleteCompany */
+		DELETE FROM company
+		WHERE seq = #{seq}
+	</update>
+	
+	<select id="selectCompanyByBusinessNumber" parameterType="String" resultType="String">
+	select seq from company where REPLACE(company_business_number, '-', '') = REPLACE(#{value}, '-', '')
+	</select>
+	
+	<select id="selectCompanyBySystemMember" parameterType="String" resultType="com.bjworld.groupware.company.service.impl.CompanyVO">
+	select 
+		c.seq as seq
+		,concat(left(c.company_business_number,3), '-', mid(c.company_business_number,4,2), '-', right(c.company_business_number,5)) as companyBusinessNumber
+		,c.company_name as companyName
+		,c.company_area as companyArea
+		,c.company_address_zonecode as companyAddressZoneCode
+		,c.company_address as companyAddress
+		,c.company_address_detail as companyAddressDetail
+		,CAST(AES_DECRYPT(UNHEX(c.company_ceo_name), SHA2(#{dbEncString}, 512)) AS CHAR) as companyCeoName
+		,CAST(AES_DECRYPT(UNHEX(c.company_ceo_phone), SHA2(#{dbEncString}, 512)) AS CHAR) as companyCeoPhone
+		,CAST(AES_DECRYPT(UNHEX(c.company_ceo_email), SHA2(#{dbEncString}, 512)) AS CHAR) as companyCeoEmail
+		,CAST(AES_DECRYPT(UNHEX(c.company_charge_name), SHA2(#{dbEncString}, 512)) AS CHAR) as companyChargeName
+		,CAST(AES_DECRYPT(UNHEX(c.company_charge_phone), SHA2(#{dbEncString}, 512)) AS CHAR) as companyChargePhone
+		,CAST(AES_DECRYPT(UNHEX(c.company_charge_email), SHA2(#{dbEncString}, 512)) AS CHAR) as companyChargeEmail
+		,c.company_pwd as companyPwd
+		,c.company_corporation_number as companyCorporationNumber
+		,c.company_charge_position as companyChargePosition
+		,c.company_ceo_sex as companyCeoSex
+		,c.company_tel as companyTel
+		,c.company_fax as companyFax
+		,DATE_FORMAT(c.reg_date, '%Y-%m-%d') as regDate
+		,c.company_isexport as companyIsExport
+		,ifnull(DATE_FORMAT(c.company_startdate, '%Y-%m-%d'), '') as companyStartDate
+		,c.company_gubun as companyGubun
+		,c.company_isexport as companyIsExportDesc
+		,CASE c.company_isexport WHEN '0' THEN 'N' WHEN '1' THEN 'Y' end as companyIsExportDesc
+		, datediff(now(), c.reg_date) as latestRegDateDiff
+		,c.company_homepage as companyHomepage
+		,c.company_rent_type as companyRentType
+		, CASE c.company_rent_type WHEN '1' THEN '자가' WHEN '2' THEN '임대' END as companyRentTypeDesc
+		, c.company_employee_count companyEmployeeCount
+		,c.issystemmember isSystemMember
+	from company c
+	where REPLACE(company_business_number, '-', '') = REPLACE(#{value}, '-', '')
+	</select>
+	
+	<select id="selectCompanyUserLogin" 
+		parameterType="com.bjworld.groupware.company.service.impl.CompanyVO"
+		resultType="com.bjworld.groupware.company.service.impl.CompanyVO">
+		
+		SELECT
+		c.seq as seq
+		,concat(left(c.company_business_number,3), '-', mid(c.company_business_number,4,2), '-', right(c.company_business_number,5)) as companyBusinessNumber
+		,c.company_name as companyName
+		,c.company_area as companyArea
+		,c.company_address_zonecode as companyAddressZoneCode
+		,c.company_address as companyAddress
+		,c.company_address_detail as companyAddressDetail
+		,CAST(AES_DECRYPT(UNHEX(c.company_ceo_name), SHA2(#{dbEncString}, 512)) AS CHAR) as companyCeoName
+		,CAST(AES_DECRYPT(UNHEX(c.company_ceo_phone), SHA2(#{dbEncString}, 512)) AS CHAR) as companyCeoPhone
+		,CAST(AES_DECRYPT(UNHEX(c.company_ceo_email), SHA2(#{dbEncString}, 512)) AS CHAR) as companyCeoEmail
+		,CAST(AES_DECRYPT(UNHEX(c.company_charge_name), SHA2(#{dbEncString}, 512)) AS CHAR) as companyChargeName
+		,CAST(AES_DECRYPT(UNHEX(c.company_charge_phone), SHA2(#{dbEncString}, 512)) AS CHAR) as companyChargePhone
+		,CAST(AES_DECRYPT(UNHEX(c.company_charge_email), SHA2(#{dbEncString}, 512)) AS CHAR) as companyChargeEmail
+		,c.company_pwd as companyPwd
+		,c.company_corporation_number as companyCorporationNumber
+		,c.company_charge_position as companyChargePosition
+		,c.company_ceo_sex as companyCeoSex
+		,c.company_tel as companyTel
+		,c.company_fax as companyFax
+		,DATE_FORMAT(c.reg_date, '%Y-%m-%d') as regDate
+		,c.company_isexport as companyIsExport
+		,ifnull(DATE_FORMAT(c.company_startdate, '%Y-%m-%d'), '') as companyStartDate
+		,c.company_gubun as companyGubun
+		,c.company_isexport as companyIsExportDesc
+		,CASE c.company_isexport WHEN '0' THEN 'N' WHEN '1' THEN 'Y' end as companyIsExportDesc
+		, datediff(now(), c.reg_date) as latestRegDateDiff
+		,c.company_homepage as companyHomepage
+		,c.company_rent_type as companyRentType
+		, CASE c.company_rent_type WHEN '1' THEN '자가' WHEN '2' THEN '임대' END as companyRentTypeDesc
+		, c.company_employee_count companyEmployeeCount		
+		, c.company_business_sector companyBusinessSector
+		, ifnull(sdi.classifi5_title, '') companyBusinessSectorTitle
+		from company c
+		left join standardindustry_item sdi on sdi.classifi5_code = c.company_business_sector
+		where c.company_business_number = #{companyBusinessNumber}
+		and c.company_pwd = #{companyPwd}
+	</select>
+	
+	<select id="selectCompanyForPassword" parameterType="com.bjworld.groupware.company.service.impl.CompanyVO" 
+		resultType="com.bjworld.groupware.company.service.impl.CompanyVO">
+		select seq
+		,CAST(AES_DECRYPT(UNHEX(company_charge_phone), SHA2(#{dbEncString}, 512)) AS CHAR) as companyChargePhone 
+		from company where company_business_number = #{companyBusinessNumber} 
+		and company_charge_name = HEX(AES_ENCRYPT(#{companyChargeName} , SHA2(#{dbEncString}, 512))) 
+		and company_charge_phone = HEX(AES_ENCRYPT(#{companyChargePhone} , SHA2(#{dbEncString}, 512)))
+	</select>
+	
+	<update id="updateCompanyPassword" 
+	parameterType="com.bjworld.groupware.company.service.impl.CompanyVO">
+		UPDATE company
+		set
+		company_pwd = #{companyPwd}
+		WHERE seq = #{seq}
+	</update>
+	
+	
+	<update id="updateCompanyAtHomeTaxStatus"
+	parameterType="com.bjworld.groupware.company.service.impl.CompanyVO">
+	UPDATE company SET hometax_status = #{homeTaxStatus}, hometax_search_date = now() WHERE company_business_number = #{companyBusinessNumber}
+	</update>
+		
+	<update id="updateCompanyByEmployeeCount" parameterType="com.bjworld.groupware.company.service.impl.CompanyVO">
+	UPDATE company SET company_employee_count = #{companyEmployeeCount} WHERE seq = #{seq} 
+	</update>
+</mapper>
