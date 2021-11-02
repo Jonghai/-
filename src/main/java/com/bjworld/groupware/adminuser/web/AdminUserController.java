@@ -43,6 +43,7 @@ public class AdminUserController {
 
     @Resource(name="adminuserService")
     private AdminUserService adminuserService;
+    
 
     @RequestMapping("/adminuser.do")
     public String adminuser(HttpServletRequest request

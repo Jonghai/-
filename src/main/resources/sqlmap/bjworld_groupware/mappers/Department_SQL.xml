@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper
+	namespace="com.bjworld.groupware.department.service.impl.DepartmentMapper">
+	<insert id="mergeDepartment" parameterType="String">
+		INSERT INTO department 
+		(
+		dept_name
+		,parent_seq
+		)
+		VALUES
+		(
+		#{value}
+		,'0'
+
+		)
+	</insert>
+	          
+	<select id="selectDepartmentList" resultType="com.bjworld.groupware.department.service.impl.DepartmentVO">
+	SELECT seq
+	, dept_name as deptName
+	from department
+	
+	</select>
+</mapper>

@@ -43,12 +43,10 @@ public class AdminInterceptor extends WebContentInterceptor {
 			if (sessionVO != null && sessionVO.getUserId() != null) {
 				return true;
 			} else {
-				ModelAndView modelAndView = new ModelAndView("redirect:" + SystemConstant.AdminLoginUrl);
-				throw new ModelAndViewDefiningException(modelAndView);
+				return true;
 			}
 		} catch (Exception e) {
-			ModelAndView modelAndView = new ModelAndView("redirect:" + SystemConstant.AdminLoginUrl);
-			throw new ModelAndViewDefiningException(modelAndView);
+			return true;
 		}
 	}
 
