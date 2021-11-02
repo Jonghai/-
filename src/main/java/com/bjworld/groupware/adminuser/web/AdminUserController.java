@@ -55,6 +55,7 @@ public class AdminUserController {
     public HashMap<String, Object> getAdminUserListAjax(HttpServletRequest request
             , AdminUserVO paramVO) throws Exception{
 
+    	//테이블에 바인딩 할 데이터
     	List<?> dataList = adminuserService.selectAdminUserList(paramVO);
 		// Total Count
 		Integer total = adminuserService.selectAdminUserListTotCnt(paramVO);
@@ -83,6 +84,14 @@ public class AdminUserController {
             paramVO.setIsChangePwd("1");
             paramVO.setPwdUpdateDate(EgovDateUtil.getCurrentDate("yyyyMMdd"));
             
+            if(EgovStringUtil.isEmpty(paramVO.getSeq())){
+            	//seq 가 공백이면 insert
+            }
+            else {
+            	//seq 가 공백이 아니면 update
+            }
+            
+            // merge 방식
         	adminuserService.mergeAdminUser(paramVO);
         	
 			result.setData("");
@@ -96,7 +105,7 @@ public class AdminUserController {
 		}
         
         return result;
-    }
+    }        
     
     @RequestMapping(value = "/selectAdminUserAjax.do")
     @ResponseBody

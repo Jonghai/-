@@ -4,35 +4,44 @@
 
 <script type='text/javascript'>
 
+//컨트롤 초기화
 function initControl()
-{
-    
-
+{    
     var table = $('#list').DataTable( {
 		serverSide:true
 		, processing:true
         , ajax: {
-            url: '/admin/getAdminUserListAjax.do',
+            url: '/admin/getAdminUserListAjax.do', //url 정보 수정
             type: 'POST'
         }
 		, order: [[ 0, 'desc' ]]
         , columns: [
            	{ 'data': 'seq', visible:false },
 			{ 'data': 'userId', createdCell:function (td, cellData, rowData, row, col) {
+				
+				//td cursor 스타일 변경
        			$(td).css('cursor', 'pointer');
+				
   	            $(td).click(function(e){
+  	            	//클릭 이벤트 정의
+  	            	
+  	            	//클릭한 td 의 데이터 불러오기
   	            	var rowData = table.row( $(this).closest('tr') ).data();
   	              	
+  	            	//클릭한 직원의 상세정보 불러 오기
    	              	postAjax('/admin/selectAdminUserAjax.do', {seq:rowData.seq}, function(data, status){
-	   	            	$.each(data.data, function(i, att){
-	              			if($('#lbl' + i).length > 0)
+   	              		
+   	              		//상세화면 항목에 데이터 삽입
+	   	            	$.each(data.data, function(key, value){	   	            		
+	              			if($('#lbl' + key).length > 0)
 	              			{
-	              				$('#lbl' + i).text(att);
+	              				$('#lbl' + key).text(value);
 	              			}
-	              		});
+	              		});	   	            	
 						
-	   	         		$('#modalAdminUserView').data('seq', rowData.seq);
-	   	         		$('#modalAdminUserView').modal();
+   	              		//상세화면 seq 지정
+	   	         		$('#modalView').data('seq', rowData.seq);
+	   	         		$('#modalView').modal();
                     });
            		});
             }, className:'text-center'},
@@ -75,12 +84,13 @@ function initControl()
             },
             buttons: [
                 {
-                    text: '시스템관리자 등록',
+                    text: '시스템관리자 등록', //메뉴명에 맞는 버튼 이름으로 변경
                     attr:{
                     	'data-toggle':'modal',
-                    	'data-target':'#modalAdminUserSave'
+                    	'data-target':'#modalSave' //저장 모달창 아이디로 변경
                     },
                     action: function(e, dt, node, config) {
+                    	
                     }
                 }
             ],
@@ -93,7 +103,10 @@ function initControl()
 	//    }, 'This field is required.'
 	//);
 	
-	$('#adminuserForm').validate({
+	//필수 입력값 체크
+	//폼아이디 변경
+	//필수 입력값 name 지정
+	$('#form').validate({
 		rules:{
 			userId:{required:true},
 			userName:{required:true},
@@ -101,7 +114,9 @@ function initControl()
 		}
 	});
 
-	$.each($('#adminuserForm').validate().settings.rules, function(key, value){
+	//필수 입력 항목에 별 표시
+	//폼 아이디 변경
+	$.each($('#form').validate().settings.rules, function(key, value){
 	    $('#' + key).parent().prev().html(function(idx, oldHtml){
 		    if(oldHtml.indexOf('*') < 0)
 			    return '* ' + oldHtml;
@@ -109,18 +124,21 @@ function initControl()
     });
 }
 
+//이벤트 초기화
 function initEvent() {
 	
-
+	//목록 수정버튼 클릭시 이벤트
 	$(document).on('click', 'a[role=dataEdit]', function(){
-				
-    	$('#modalAdminUserSave').data('seq', $(this).data('seq'));
-		$('#modalAdminUserSave').modal();
+		
+		//모달창 아이디 변경
+    	$('#modalSave').data('seq', $(this).data('seq'));
+		$('#modalSave').modal();
     });  
     
     $(document).on('click', 'a[role=dataRemove]', function(){
     	var seq = $(this).data('seq');
-    	
+    	    	
+    	//안내 문구 변경
          swalInit.fire({
              title: '시스템관리자 삭제하시겠습니까?',
              text: '',
@@ -131,8 +149,11 @@ function initEvent() {
              cancelButtonClass: 'btn btn-danger',
              buttonsStyling: false
          }).then(function(result) {
+        	 
              if(result.value) {
-           	  postAjax('/admin/deleteAdminUserAjax.do', {seq:seq}, function(data, status){
+            	//예
+            	//삭제 Url 변경
+           	  	postAjax('/admin/deleteAdminUserAjax.do', {seq:seq}, function(data, status){
         			showAjaxMessage(data);
         			
         			if(data.isSuccess === '1')
@@ -142,51 +163,54 @@ function initEvent() {
         		});
              }
              else if(result.dismiss === swal.DismissReason.cancel) {
-           	
+           		//아니요
              }
          });
     });
 
-    $('#btnAdminUserDataEdit').click(function(){
-    	$('#modalAdminUserSave').data('seq', $('#modalAdminUserView').data('seq'));
-    	$('#modalAdminUserSave').modal();
+    $('#btnDataEdit').click(function(){
+    	$('#modalSave').data('seq', $('#modalView').data('seq'));
+    	$('#modalSave').modal();
     });
     
-    $('#modalAdminUserSave').on('show.bs.modal', function(e) {
-        if ($('#modalAdminUserSave').data('seq'))
+    //수정화면 상세데이터 바인딩
+    $('#modalSave').on('show.bs.modal', function(e) {
+        if ($('#modalSave').data('seq'))
     	{
             postAjax('/admin/selectAdminUserAjax.do', {seq:$(this).data('seq')}, function(data, status){
-                var formInput = $('#adminuserForm input[type!=radio],#adminuserForm textarea');
+                var formInput = $('#form input[type!=radio],#form textarea');
         		
         	    $(formInput).each(function(i, input){
                     var inputValue = data.data[$(input).attr('name')];
         		    $(input).val(htmlDecode(inputValue));
                 });
 				
-        	    $("#userPwd").val("");
-                
+        	    $("#userPwd").val(""); 
             });
         }
     });
 
-    $('#modalAdminUserSave').on('hidden.bs.modal', function(e) {
-    	initForm('adminuserForm');
-        $('#modalAdminUserSave').data('seq', "");
+    $('#modalSave').on('hidden.bs.modal', function(e) {    	
+    	initForm('form');
+        $('#modalSave').data('seq', "");
         
     });
     
-    $('#btnAdminUserDataSave').click(function(){
-        if ($('#adminuserForm').valid())
-		{
+    //저장클릭 이벤트
+    $('#btnDataSave').click(function(){
+        if ($('#form').valid())
+		{            
+            var formData = $('#form').serializeObject();
             
-            var formData = $('#adminuserForm').serializeObject();
-
-            ajax($('#modalAdminUserSave div.modal-content'), '/admin/mergeAdminUserAjax.do', formData, function(data, status){
+            ajax(null, '/admin/mergeAdminUserAjax.do', formData, function(data, status){
                 showAjaxMessage(data);
                 if (data.isSuccess === '1')
                 {
+                	//목록 새로고침
 				    $('#list').DataTable().ajax.reload(null, false);
-				    $('#modalAdminUserSave').modal('hide');
+                	
+				    //모달창 닫기
+				    $('#modalSave').modal('hide');
                 }
             });
         }
@@ -195,6 +219,7 @@ function initEvent() {
 }
 </script>
 
+<!-- 목록 -->
 <div class='card'>
 	<div class='card-header header-elements-inline'>
 		<h5 class='card-title font-weight-bold'><i class='icon-chevron-right mr-1'></i>시스템관리자</h5>
@@ -234,8 +259,8 @@ function initEvent() {
 	</div>
 </div>	
 
-
-<div id='modalAdminUserSave' class='modal fade'>
+<!-- 등록/수정 창 -->
+<div id='modalSave' class='modal fade'>
 	<div class='modal-dialog modal-xl'>
 		<div class='modal-content'>
 			<div class='modal-header bg-primary text-white'>
@@ -243,7 +268,7 @@ function initEvent() {
 				<button type='button' class='close' data-dismiss='modal'>&times;</button>
 			</div>
 
-			<form id='adminuserForm' name='adminuserForm' class='form-horizontal'>
+			<form id='form' name='form' class='form-horizontal'>
                 <input id='seq' name='seq' type='hidden' />
                 <div class='modal-body'>
 				
@@ -294,14 +319,15 @@ function initEvent() {
                 </div>
 			</form>
             <div class='modal-footer border-top'>
-				<button type='button' class='btn bg-primary text-white' id='btnAdminUserDataSave'>저장</button>
+				<button type='button' class='btn bg-primary text-white' id='btnDataSave'>저장</button>
 				<button type='button' class='btn bg-primary text-white' data-dismiss='modal'>닫기</button>
 			</div>
 		</div>
 	</div>
 </div>
 
-<div id='modalAdminUserView' class='modal fade'>
+<!-- 상세보기 창 -->
+<div id='modalView' class='modal fade'>
 	<div class='modal-dialog modal-xl'>
 		<div class='modal-content'>
 			<div class='modal-header bg-primary text-white'>
@@ -354,7 +380,7 @@ function initEvent() {
 				</div>
 			</div>
 			<div class='modal-footer border-top'>
-				<button type='button' class='btn bg-primary text-white' data-dismiss='modal' id='btnAdminUserDataEdit'>수정</button>
+				<button type='button' class='btn bg-primary text-white' data-dismiss='modal' id='btnDataEdit'>수정</button>
                 <button type='button' class='btn bg-primary text-white' data-dismiss='modal'>닫기</button>
 			</div>
 		</div>
