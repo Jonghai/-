@@ -3,183 +3,40 @@
 
 <mapper
 	namespace="com.bjworld.groupware.employee.service.impl.EmployeeMapper">
-	<select id="selectEmployeeList"
-		parameterType="com.bjworld.groupware.employee.service.impl.EmployeeVO"
-		resultType="com.bjworld.groupware.employee.service.impl.EmployeeVO">
-		/* selectEmployeeList */
-		SELECT
-		e.seq as seq
-		,e.emp_org_seq as empOrgSeq
-		,o.org_name as empOrgName
-		,e.emp_name as empName
-		,e.emp_position as empPosition
-		,e.emp_phone as empPhone
-		,e.emp_email as empEmail
-		,e.emp_job as empJob
-		,e.emp_sort as empSort
-		FROM employee e
-			join organization o on e.emp_org_seq = o.seq
-		WHERE 1=1
-
-		<if test="seq != null and seq != ''">
-			AND e.seq = #{seq}
-		</if>
-		<if test="empOrgSeq != null and empOrgSeq != ''">
-			AND e.emp_org_seq like CONCAT('%', #{empOrgSeq}, '%')
-		</if>
-		<if test="empName != null and empName != ''">
-			AND e.emp_name like CONCAT('%', #{empName}, '%')
-		</if>
-		<if test="empPosition != null and empPosition != ''">
-			AND e.emp_position like CONCAT('%', #{empPosition}, '%')
-		</if>
-		<if test="empPhone != null and empPhone != ''">
-			AND e.emp_phone like CONCAT('%', #{empPhone}, '%')
-		</if>
-		<if test="empEmail != null and empEmail != ''">
-			AND e.emp_email like CONCAT('%', #{empEmail}, '%')
-		</if>
-		<if test="empJob != null and empJob != ''">
-			AND e.emp_job like CONCAT('%', #{empJob}, '%')
-		</if>
-
-		${orderBy}
-		LIMIT #{startIndex} , #{endIndex}
-	</select>
-
-	<select id="selectEmployeeListTotCnt"
-		parameterType="com.bjworld.groupware.employee.service.impl.EmployeeVO"
-		resultType="Integer">
-		/* selectEmployeeListTotCnt */
-		SELECT COUNT(*)
-		FROM employee e
-		WHERE 1 = 1
-
-		<if test="seq != null and seq != ''">
-			AND e.seq = #{seq}
-		</if>
-		<if test="empOrgSeq != null and empOrgSeq != ''">
-			AND e.emp_org_seq like CONCAT('%', #{empOrgSeq}, '%')
-		</if>
-		<if test="empName != null and empName != ''">
-			AND e.emp_name like CONCAT('%', #{empName}, '%')
-		</if>
-		<if test="empPosition != null and empPosition != ''">
-			AND e.emp_position like CONCAT('%', #{empPosition}, '%')
-		</if>
-		<if test="empPhone != null and empPhone != ''">
-			AND e.emp_phone like CONCAT('%', #{empPhone}, '%')
-		</if>
-		<if test="empEmail != null and empEmail != ''">
-			AND e.emp_email like CONCAT('%', #{empEmail}, '%')
-		</if>
-		<if test="empJob != null and empJob != ''">
-			AND e.emp_job like CONCAT('%', #{empJob}, '%')
-		</if>
-	</select>
-
-	<select id="selectEmployee"
-		parameterType="com.bjworld.groupware.employee.service.impl.EmployeeVO"
-		resultType="com.bjworld.groupware.employee.service.impl.EmployeeVO">
-		/* selectEmployee */
-		SELECT
-		e.seq as seq
-		,e.emp_org_seq as empOrgSeq
-		,o.org_name as empOrgName
-		,e.emp_name as empName
-		,e.emp_position as empPosition
-		,e.emp_phone as empPhone
-		,e.emp_email as empEmail
-		,e.emp_job as empJob
-		FROM employee e
-			join organization o on e.emp_org_seq = o.seq
-		WHERE e.seq = #{seq}
-	</select>
-
-	<insert id="mergeEmployee"
-		parameterType="com.bjworld.groupware.employee.service.impl.EmployeeVO">
-		/* mergeEmployee */
-		INSERT INTO employee
+	<insert id= "mergeEmployee" parameterType="com.bjworld.groupware.employee.service.impl.EmployeeVO">
+	 INSERT INTO employee
+	 (
+	  emp_name,
+	  emp_phone,
+	  department_seq,
+	  emp_rank,
+	  address_zonecode,
+	  address,
+	  address_detail
+	 )
+	 VALUES
 		(
-		seq
-		,emp_org_seq
-		,emp_name
-		,emp_position
-		,emp_phone
-		,emp_email
-		,emp_job
-		)
-		VALUES
-		(
-		#{seq}
-		,#{empOrgSeq}
-		,#{empName}
-		,#{empPosition}
+		 #{empName}
 		,#{empPhone}
-		,#{empEmail}
-		,#{empJob}
+		,#{departmentSeq}
+		,#{empRank}
+		,#{addressZonecode}
+		,#{addRess}
+		,#{addressDetail}
 		)
-		ON DUPLICATE KEY UPDATE
-		emp_org_seq = #{empOrgSeq}
-		,emp_name = #{empName}
-		,emp_position = #{empPosition}
-		,emp_phone = #{empPhone}
-		,emp_email = #{empEmail}
-		,emp_job = #{empJob}
-	</insert>
-
-	<insert id="insertEmployee"
-		parameterType="com.bjworld.groupware.employee.service.impl.EmployeeVO">
-		/* insertEmployee */
-		INSERT INTO employee
-		(
-		seq
-		,emp_org_seq
-		,emp_name
-		,emp_position
-		,emp_phone
-		,emp_email
-		,emp_job
-		)
-		VALUES
-		(
-		#{seq}
-		,#{empOrgSeq}
-		,#{empName}
-		,#{empPosition}
-		,#{empPhone}
-		,#{empEmail}
-		,#{empJob}
-		)
-	</insert>
-
-	<update id="updateEmployee"
-		parameterType="com.bjworld.groupware.employee.service.impl.EmployeeVO">
-		/* updateEmployee */
-		UPDATE employee
-		set
-		emp_org_seq = #{empOrgSeq}
-		,emp_name = #{empName}
-		,emp_position = #{empPosition}
-		,emp_phone = #{empPhone}
-		,emp_email = #{empEmail}
-		,emp_job = #{empJob}
-		,emp_sort = #{empSort}
-		WHERE seq = #{seq}
-	</update>
+	 </insert>
+	 
+	 <select id="selectEmployeeList" resultType="com.bjworld.groupware.employee.service.impl.EmployeeVO">
+	SELECT seq, 
+	emp_name as empName
+	,emp_phone as empPhone
+	,department_seq as departmentSeq
+	,emp_rank as empRank
+	,address_zonecode as addressZonecode
+	,address as addRess
+	,address_detail as addressDetail
+	from employee
 	
-	<update id="updateEmployeeSort"
-		parameterType="com.bjworld.groupware.employee.service.impl.EmployeeVO">
-		/* updateEmployeeSort */
-		UPDATE employee
-		set emp_sort = #{empSort}
-		WHERE seq = #{seq}
-	</update>
+	</select>
 	
-	<update id="deleteEmployee"
-		parameterType="com.bjworld.groupware.employee.service.impl.EmployeeVO">
-		/* deleteEmployee */
-		DELETE FROM employee
-		WHERE seq = #{seq}
-	</update>
 </mapper>

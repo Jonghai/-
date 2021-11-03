@@ -1,88 +1,63 @@
 package com.bjworld.groupware.employee.service.impl;
 
-import com.bjworld.groupware.common.vo.DefaultVO;
 
-public class EmployeeVO extends DefaultVO {
+public class EmployeeVO {
 	private String seq;
-	private String empOrgSeq;
 	private String empName;
-	private String empPosition;
 	private String empPhone;
-	private String empEmail;
-	private String empJob;
-	private String empOrgName;
-	private String empSort;
-
-	public String getEmpSort() {
-		return empSort;
-	}
-
-	public void setEmpSort(String empSort) {
-		this.empSort = empSort;
-	}
-
+	private String departmentSeq;
+	private String empRank;
+	private String addressZonecode;
+	private String addRess;
+	private String addressDetail;
+	
 	public String getSeq() {
 		return seq;
 	}
-
 	public void setSeq(String seq) {
 		this.seq = seq;
 	}
-
-	public String getEmpOrgSeq() {
-		return empOrgSeq;
-	}
-
-	public void setEmpOrgSeq(String empOrgSeq) {
-		this.empOrgSeq = empOrgSeq;
-	}
-
 	public String getEmpName() {
 		return empName;
 	}
-
 	public void setEmpName(String empName) {
 		this.empName = empName;
 	}
-
-	public String getEmpPosition() {
-		return empPosition;
-	}
-
-	public void setEmpPosition(String empPosition) {
-		this.empPosition = empPosition;
-	}
-
 	public String getEmpPhone() {
 		return empPhone;
 	}
-
 	public void setEmpPhone(String empPhone) {
 		this.empPhone = empPhone;
 	}
-
-	public String getEmpEmail() {
-		return empEmail;
+	public String getDepartmentSeq() {
+		return departmentSeq;
 	}
-
-	public void setEmpEmail(String empEmail) {
-		this.empEmail = empEmail;
+	public void setDepartmentSeq(String departmentSeq) {
+		this.departmentSeq = departmentSeq;
 	}
-
-	public String getEmpJob() {
-		return empJob;
+	public String getEmpRank() {
+		return empRank;
 	}
-
-	public void setEmpJob(String empJob) {
-		this.empJob = empJob;
+	public void setEmpRank(String empRank) {
+		this.empRank = empRank;
 	}
-
-	public String getEmpOrgName() {
-		return empOrgName;
+	public String getAddressZonecode() {
+		return addressZonecode;
 	}
-
-	public void setEmpOrgName(String empOrgName) {
-		this.empOrgName = empOrgName;
+	public void setAddressZonecode(String addressZonecode) {
+		this.addressZonecode = addressZonecode;
+	}
+	public String getAddRess() {
+		return addRess;
+	}
+	public void setAddRess(String addRess) {
+		this.addRess = addRess;
+	}
+	public String getAddressDetail() {
+		return addressDetail;
+	}
+	public void setAddressDetail(String addressDetail) {
+		this.addressDetail = addressDetail;
 	}
 
 }

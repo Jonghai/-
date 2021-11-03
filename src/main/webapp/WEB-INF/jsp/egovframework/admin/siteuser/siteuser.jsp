@@ -7,8 +7,6 @@
 
 function initControl()
 {
-    
-
     var table = $('#list').DataTable( {
 		serverSide:true
 		, processing:true
@@ -18,7 +16,7 @@ function initControl()
         }
 		, order: [[ 0, 'desc' ]]
         , columns: [
-            			{ 'data': 'seq', visible:false },
+            { 'data': 'seq', visible:false },
 			{ 'data': 'userName' 
                 , createdCell:function (td, cellData, rowData, row, col) {
         			    $(td).css('cursor', 'pointer');
