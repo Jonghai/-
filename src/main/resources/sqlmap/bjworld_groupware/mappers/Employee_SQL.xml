@@ -26,7 +26,7 @@
 		)
 	 </insert>
 	 
-	 <select id="selectEmployeeList" resultType="com.bjworld.groupware.employee.service.impl.EmployeeVO">
+	<select id="selectEmployeeList" resultType="com.bjworld.groupware.employee.service.impl.EmployeeVO">
 	SELECT seq, 
 	emp_name as empName
 	,emp_phone as empPhone
@@ -38,5 +38,41 @@
 	from employee
 	
 	</select>
+	
+	<select id="selectEmployee" resultType="com.bjworld.groupware.employee.service.impl.EmployeeVO"
+	parameterType="com.bjworld.groupware.employee.service.impl.EmployeeVO">
+	SELECT 
+	seq as seq 
+	,emp_name as empName
+	,emp_phone as empPhone
+	,department_seq as departmentSeq
+	,emp_rank as empRank
+	,address_zonecode as addressZonecode
+	,address as addRess
+	,address_detail as addressDetail
+	from employee
+	WHERE seq = #{seq}
+	</select>
+	
+	<update id="updateEmployee"
+		parameterType="com.bjworld.groupware.employee.service.impl.EmployeeVO">
+		/* updateEmployee */
+		UPDATE employee
+		set
+		emp_name = #{empName}
+		,emp_phone = #{empPhone}
+		,department_seq = #{departmentSeq}
+		,emp_rank = #{empRank}
+		,address_zonecode = #{addressZonecode}
+		,address = #{addRess}
+		,address_detail = #{addressDetail}
+		WHERE seq = #{seq}
+	</update>
+	<update id="deleteEmployee"
+		parameterType="com.bjworld.groupware.employee.service.impl.EmployeeVO">
+		/* deleteEmployee */
+		DELETE FROM employee
+		WHERE seq = #{seq}
+	</update>
 	
 </mapper>

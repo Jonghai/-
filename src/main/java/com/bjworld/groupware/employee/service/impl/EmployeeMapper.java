@@ -1,7 +1,9 @@
 package com.bjworld.groupware.employee.service.impl;
 
 import java.util.List;
-import javax.annotation.Resource;
+
+import com.bjworld.groupware.employee.service.impl.EmployeeVO;
+
 import egovframework.rte.psl.dataaccess.mapper.Mapper;
 
 @Mapper("employeeMapper")
@@ -9,8 +11,14 @@ public interface EmployeeMapper {
 	
 	void mergeEmployee(EmployeeVO paramVO);
 	
-	List<?> selectEmployeeList();
+	EmployeeVO selectEmployee(EmployeeVO paramVO) throws Exception;
 	
+	void updateEmployee(EmployeeVO paramVO) throws Exception;
+	
+	List<?> selectEmployeeList();
+
+	
+	void deleteEmployee(EmployeeVO paramVO) throws Exception;
 
 }
 

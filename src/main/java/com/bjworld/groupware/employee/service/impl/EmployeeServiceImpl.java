@@ -6,6 +6,9 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.bjworld.groupware.employee.service.impl.EmployeeMapper;
+import com.bjworld.groupware.employee.service.impl.EmployeeVO;
+
 import com.bjworld.groupware.employee.service.EmployeeService;
 
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
@@ -21,8 +24,11 @@ public class EmployeeServiceImpl extends EgovAbstractServiceImpl implements Empl
 	public void mergeEmployee(EmployeeVO paramVO) {
 		employeeMapper.mergeEmployee(paramVO);// TODO Auto-generated method stub
 		
-
 	}
+	
+	public EmployeeVO selectEmployee(EmployeeVO paramVO) throws Exception {
+        return employeeMapper.selectEmployee(paramVO);
+    }
 
 
 	@Override
@@ -30,6 +36,22 @@ public class EmployeeServiceImpl extends EgovAbstractServiceImpl implements Empl
 		
 		return employeeMapper.selectEmployeeList();
 	}
+	
+
+
+	@Override
+	public void deleteEmployee(EmployeeVO paramVO) throws Exception {
+		employeeMapper.deleteEmployee(paramVO);
+		
+	}
+
+	@Override
+	public void updateEmployee(EmployeeVO paramVO) throws Exception {
+		employeeMapper.updateEmployee(paramVO);
+		
+	}
+
+
 
 	
 }

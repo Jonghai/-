@@ -5,10 +5,19 @@ import java.util.List;
 import com.bjworld.groupware.employee.service.impl.EmployeeVO;
 
 public interface EmployeeService {
+	
 	void mergeEmployee(EmployeeVO paramVO);
+	
+	EmployeeVO selectEmployee(EmployeeVO paramVO) throws Exception;
 	
 
 	List<?> selectEmployeeList();
+
+	void deleteEmployee(EmployeeVO paramVO) throws Exception;
+
+
+	void updateEmployee(EmployeeVO paramVO) throws Exception;
+
 
 
 }
