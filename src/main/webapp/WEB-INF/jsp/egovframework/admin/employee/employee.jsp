@@ -17,13 +17,7 @@ function initControl() {
 	, order: [[ 0, 'desc' ]]
     , columns: [
     	{ 'data': 'seq' },
-    	{ 'data': 'empName' },
-    	{'data': 'empPhone' },
-    	{'data': 'departmentSeq' },
-    	{'data': 'empRank' },
-    	{'data': 'addressZonecode' },
-    	{'data': 'addRess' },
-    	{'data': 'addressDetail',createdCell:function (td, cellData, rowData, row, col){
+    	{ 'data': 'empName' ,createdCell:function (td, cellData, rowData, row, col){
 			
 			//td cursor 스타일 변경
    			$(td).css('cursor', 'pointer');
@@ -51,6 +45,12 @@ function initControl() {
                 });
        		});
         }, className:'text-center'},
+    	{'data': 'empPhone' },
+    	{'data': 'departmentSeq' },
+    	{'data': 'empRank' },
+    	{'data': 'addressZonecode' },
+    	{'data': 'addRess' },
+    	{'data': 'addressDetail'},
         {
             className:      'text-center',
             orderable:      false,
@@ -290,15 +290,15 @@ function initEvent() {
                            </tr>
                            <tr>
                                  <th>우편번호</th>
-                                <td><input id='empRank' name='addressZonecode' maxlength='20' class='form-control' type='text' placeholder='우편번호'></td>
+                                <td><input id='addressZonecode' name='addressZonecode' maxlength='20' class='form-control' type='text' placeholder='우편번호'></td>
                            </tr>
                            <tr>
                                  <th>주소</th>
-                                <td><input id='empRank' name='addRess' maxlength='20' class='form-control' type='text' placeholder='주소'></td>
+                                <td><input id='addRess' name='addRess' maxlength='20' class='form-control' type='text' placeholder='주소'></td>
                            </tr>
                            <tr>
                                  <th>상세주소</th>
-                                <td><input id='empRank' name='addressDetail' maxlength='20' class='form-control' type='text' placeholder='상세주소'></td>
+                                <td><input id='addressDetail' name='addressDetail' maxlength='20' class='form-control' type='text' placeholder='상세주소'></td>
                             </tr>                           
                                 
                            
@@ -320,7 +320,7 @@ function initEvent() {
 	<div class='modal-dialog modal-xl'>
 		<div class='modal-content'>
 			<div class='modal-header bg-primary text-white'>
-				<h5 class='modal-title'>시스템관리자 상세</h5>
+				<h5 class='modal-title'>직원목록 상세</h5>
 				<button type='button' class='close' data-dismiss='modal'>&times;</button>
 			</div>
 			<div class='modal-body'>
@@ -332,38 +332,34 @@ function initEvent() {
 						</colgroup>
 						<tbody>
 							<tr>
-								<th>사용자 아이디</th>
-								<td><label id='lbluserId'></label></td>
+								<th>직원이름</th>
+								<td><label id='lblempName'></label></td>
 							</tr>
 							<tr>
-								<th>사용자 이름</th>
-								<td><label id='lbluserName'></label></td>
+								<th>전화번호</th>
+								<td><label id='lblempPhone'></label></td>
+							</tr>
+							<tr>
+								<th>부서명</th>
+								<td><label id='lbldepartmentSeq'></label></td>
 							</tr>
 							<tr>
 								<th>직급</th>
-								<td><label id='lbluserPosition'></label></td>
+								<td><label id='lblempRank'></label></td>
 							</tr>
 							<tr>
-								<th>부서</th>
-								<td><label id='lbluserDeptName'></label></td>
+								<th>우편번호</th>
+								<td><label id='lbladdressZonecode'></label></td>
 							</tr>
 							<tr>
-								<th>자리번호</th>
-								<td><label id='lbluserPhone'></label></td>
+								<th>주소</th>
+								<td><label id='lbladdRess'></label></td>
 							</tr>
 							<tr>
-								<th>핸드폰</th>
-								<td><label id='lbluserPhone2'></label></td>
+								<th>상세주소</th>
+								<td><label id='lbladdressDetail'></label></td>
 							</tr>
-							<tr>
-								<th>이메일</th>
-								<td><label id='lbluserEmail'></label></td>
-							</tr>
-							<tr>
-								<th>등록일</th>
-								<td><label id='lblregDate'></label></td>
-							</tr>
-
+			
 						</tbody>
 					</table>
 				</div>

@@ -36,6 +36,7 @@
 	,address as addRess
 	,address_detail as addressDetail
 	from employee
+	WHERE 1=1
 	
 	</select>
 	
@@ -74,5 +75,14 @@
 		DELETE FROM employee
 		WHERE seq = #{seq}
 	</update>
+	
+	<select id="selectEmployeeListTotCnt"
+		parameterType="com.bjworld.groupware.employee.service.impl.EmployeeVO"
+		resultType="Integer">
+		/* selectEmployeeListTotCnt */
+		SELECT COUNT(*)
+		FROM employee
+		WHERE 1 = 1
+	</select>
 	
 </mapper>

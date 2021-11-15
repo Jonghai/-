@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import com.bjworld.groupware.employee.service.impl.EmployeeMapper;
 import com.bjworld.groupware.employee.service.impl.EmployeeVO;
-
 import com.bjworld.groupware.employee.service.EmployeeService;
 
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
@@ -32,12 +31,11 @@ public class EmployeeServiceImpl extends EgovAbstractServiceImpl implements Empl
 
 
 	@Override
-	public List<?> selectEmployeeList() {
+	public List<EmployeeVO> selectEmployeeList(EmployeeVO paramVO) throws Exception {
 		
-		return employeeMapper.selectEmployeeList();
+		return employeeMapper.selectEmployeeList(paramVO);
 	}
 	
-
 
 	@Override
 	public void deleteEmployee(EmployeeVO paramVO) throws Exception {
@@ -50,6 +48,11 @@ public class EmployeeServiceImpl extends EgovAbstractServiceImpl implements Empl
 		employeeMapper.updateEmployee(paramVO);
 		
 	}
+	
+	 @Override
+	    public Integer selectEmployeeListTotCnt(EmployeeVO paramVO) throws Exception {
+	        return employeeMapper.selectEmployeeListTotCnt(paramVO);
+	    }
 
 
 

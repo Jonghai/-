@@ -15,16 +15,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.bjworld.groupware.adminuser.service.AdminUserService;
-import com.bjworld.groupware.adminuser.service.impl.AdminUserVO;
-import com.bjworld.groupware.adminuser.web.AdminUserController;
+import com.bjworld.groupware.employee.service.EmployeeService;
+import com.bjworld.groupware.employee.service.impl.EmployeeVO;
+import com.bjworld.groupware.employee.web.EmployeeController;
 import com.bjworld.groupware.common.SystemConstant;
 import com.bjworld.groupware.common.util.AjaxResult;
 import com.bjworld.groupware.common.util.EgovDateUtil;
 import com.bjworld.groupware.common.util.EgovFileScrty;
 import com.bjworld.groupware.common.util.EgovStringUtil;
-import com.bjworld.groupware.employee.service.EmployeeService;
-import com.bjworld.groupware.employee.service.impl.EmployeeVO;
+
 
 
 @Controller
@@ -42,16 +41,16 @@ public class EmployeeController {
 
 	@RequestMapping(value = "/getEmployeeListAjax.do")
 	@ResponseBody
-	public HashMap<String, Object> getEmployeeListAjax(HttpServletRequest request, AdminUserVO paramVO)
+	public HashMap<String, Object> getEmployeeListAjax(HttpServletRequest request, EmployeeVO paramVO)
 			throws Exception {
 
 		// 테이블에 바인딩 할 데이터
-		List<?> dataList = employeeService.selectEmployeeList();
+		List<?> dataList = employeeService.selectEmployeeList(paramVO);
 		// Total Count
-		Integer total = 0;
+		Integer total = employeeService.selectEmployeeListTotCnt(paramVO);
 
 		HashMap<String, Object> listMap = new HashMap<String, Object>();
-		listMap.put("draw", paramVO.getDraw());
+		
 		listMap.put("recordsTotal", total);
 		listMap.put("recordsFiltered", total);
 		listMap.put("data", dataList);
@@ -102,7 +101,7 @@ public class EmployeeController {
 		try {
 
 			// select 방식
-			// adminuserService.mergeAdminUser(paramVO);
+			// employeeService.selectEmployee(paramVO);
 			EmployeeVO viewVO =  employeeService.selectEmployee(paramVO);
         	result.setIsSuccess(SystemConstant.AJAX_SUCCESS);
         	result.setData(viewVO);

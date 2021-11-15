@@ -60,4 +60,7 @@ public class EmployeeVO {
 		this.addressDetail = addressDetail;
 	}
 
+
+
+
 }
