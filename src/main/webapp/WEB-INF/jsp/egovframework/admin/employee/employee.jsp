@@ -107,7 +107,7 @@ function initControl() {
 		rules:{
 			empName:{required:true},
 			empPhone:{required:true},
-			selectdept:{required:true},
+			departmentSeq:{required:true},
 		}
 	});
 	
@@ -286,7 +286,7 @@ function initEvent() {
                            <tr>
                                 <th>부서</th>
                                 <td><select id="departmentSeq" name='departmentSeq' class="from-control">
-									<option selected value="none" disabled>===선택===</option>
+									<option selected value="" hidden="">부서선택</option>
 										<c:forEach items="${getDeptList}" var="dept">
 										<option value="${dept.seq}"><c:out value="${dept.deptName}"/></option>
 										</c:forEach>
