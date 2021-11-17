@@ -10,6 +10,7 @@ public class EmployeeVO {
 	private String addressZonecode;
 	private String addRess;
 	private String addressDetail;
+	private String deptName;
 	
 	public String getSeq() {
 		return seq;
@@ -58,6 +59,12 @@ public class EmployeeVO {
 	}
 	public void setAddressDetail(String addressDetail) {
 		this.addressDetail = addressDetail;
+	}
+	public String getDeptName() {
+		return deptName;
+	}
+	public void setDeptName(String deptName) {
+		this.deptName = deptName;
 	}
 
 

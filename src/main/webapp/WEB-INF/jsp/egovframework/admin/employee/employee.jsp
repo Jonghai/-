@@ -17,6 +17,7 @@ function initControl() {
 	, order: [[ 0, 'desc' ]]
     , columns: [
     	{ 'data': 'seq' },
+    	//무엇을 클릭해야 상세보기 창이 뜨는지 설정하는 코드
     	{ 'data': 'empName' ,createdCell:function (td, cellData, rowData, row, col){
 			
 			//td cursor 스타일 변경
@@ -46,7 +47,7 @@ function initControl() {
        		});
         }, className:'text-center'},
     	{'data': 'empPhone' },
-    	{'data': 'departmentSeq' },
+    	{'data': 'deptName' },
     	{'data': 'empRank' },
     	{'data': 'addressZonecode' },
     	{'data': 'addRess' },
@@ -106,7 +107,7 @@ function initControl() {
 		rules:{
 			empName:{required:true},
 			empPhone:{required:true},
-			departmentSeq:{required:true},
+			selectdept:{required:true},
 		}
 	});
 	
@@ -205,10 +206,12 @@ function initEvent() {
 	                	
 					    //모달창 닫기
 					    $('#modalSave').modal('hide');
+					    
 	                }
 	            });
 	 		
 	    });
+	
 }
 
 </script>
@@ -237,7 +240,7 @@ function initEvent() {
 					<th>seq</th>
 					<th>직원이름</th>
 					<th>전화번호</th>
-					<th>부서명</th>
+					<th>부서</th>
 					<th>직급</th>
 					<th>우편번호</th>
 					<th>주소</th>
@@ -281,8 +284,13 @@ function initEvent() {
                                 <td><input id='empPhone' name='empPhone' maxlength='20' class='form-control' type='text' placeholder='전화번호'></td>
                            </tr>
                            <tr>
-                                <th>부서명</th>
-                                <td><input id='departmentSeq' name='departmentSeq' maxlength='20' class='form-control' type='text' placeholder='부서명'></td>
+                                <th>부서</th>
+                                <td><select id="departmentSeq" name='departmentSeq' class="from-control">
+									<option selected>부서</option>
+										<c:forEach items="${getDeptList}" var="dept">
+										<option value="${dept.seq}"><c:out value="${dept.deptName}"/></option>
+										</c:forEach>
+									</select></td>
                            </tr>
                            <tr>
                                 <th>직급</th>
@@ -340,8 +348,8 @@ function initEvent() {
 								<td><label id='lblempPhone'></label></td>
 							</tr>
 							<tr>
-								<th>부서명</th>
-								<td><label id='lbldepartmentSeq'></label></td>
+								<th>부서</th>
+								<td><label id='lbldeptName'></label></td>
 							</tr>
 							<tr>
 								<th>직급</th>

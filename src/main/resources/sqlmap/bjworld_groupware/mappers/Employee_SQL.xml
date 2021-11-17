@@ -27,7 +27,7 @@
 	 </insert>
 	 
 	<select id="selectEmployeeList" resultType="com.bjworld.groupware.employee.service.impl.EmployeeVO">
-	SELECT seq, 
+	SELECT e.seq, 
 	emp_name as empName
 	,emp_phone as empPhone
 	,department_seq as departmentSeq
@@ -35,7 +35,10 @@
 	,address_zonecode as addressZonecode
 	,address as addRess
 	,address_detail as addressDetail
-	from employee
+	,d.dept_name as deptName
+	from employee e 
+	left join department d
+	on e.department_seq = d.seq
 	WHERE 1=1
 	
 	</select>
@@ -43,7 +46,7 @@
 	<select id="selectEmployee" resultType="com.bjworld.groupware.employee.service.impl.EmployeeVO"
 	parameterType="com.bjworld.groupware.employee.service.impl.EmployeeVO">
 	SELECT 
-	seq as seq 
+	e.seq as seq 
 	,emp_name as empName
 	,emp_phone as empPhone
 	,department_seq as departmentSeq
@@ -51,8 +54,11 @@
 	,address_zonecode as addressZonecode
 	,address as addRess
 	,address_detail as addressDetail
-	from employee
-	WHERE seq = #{seq}
+	,d.dept_name as deptName
+	from employee e 
+	left join department d
+	on e.department_seq = d.seq
+	WHERE e.seq = #{seq}
 	</select>
 	
 	<update id="updateEmployee"

@@ -15,5 +15,6 @@ public interface DepartmentMapper {
 	
 	List<?> selectDepartmentList();
 	
+	
 
 }

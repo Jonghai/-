@@ -23,4 +23,12 @@
 	from department
 	
 	</select>
+	
+	<select id="getDetList" resultType="com.bjworld.groupware.department.service.impl.DepartmentVO">
+	<![CDATA[
+	SELECT *
+	from department
+	order by seq
+	]]>
+	</select>
 </mapper>
