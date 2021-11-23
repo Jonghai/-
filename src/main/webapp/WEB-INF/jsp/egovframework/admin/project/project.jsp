@@ -303,7 +303,7 @@ function initEvent() {
                            </tr>
                            <tr>
                                 <th>프로젝트 설명</th>
-                                <td><input id='pjExp' name='pjExp' maxlength='20' class='form-control' type='text' placeholder='프로젝트 설명'></td>
+                                <td><textarea style="height: 200px;" id='pjExp' name='pjExp' maxlength='200' class='form-control' placeholder='프로젝트 설명'></textarea></td>
                            </tr>
                            
                         </tbody>
