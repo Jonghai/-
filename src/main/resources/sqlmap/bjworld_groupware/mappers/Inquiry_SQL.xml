@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper
+	namespace="com.bjworld.groupware.inquiry.service.impl.InquiryMapper">
+	<insert id= "mergeInquiry" parameterType="com.bjworld.groupware.inquiry.service.impl.InquiryVO">
+	 INSERT INTO inquiry
+	 (
+	  cs_seq,
+	  inquiry_date,
+	  inquiry_title,
+	  inquiry_content, 
+	  answer_date,
+	  answer_content
+	 )
+	 VALUES
+		(
+		 #{csSeq}
+		,#{inquiryDate}
+		,#{inquiryTitle}
+		,#{inquiryContent}
+		,#{answerDate}
+		,#{answerContent}
+		)
+	 </insert>
+	 
+	<select id="selectInquiryList" resultType="com.bjworld.groupware.inquiry.service.impl.InquiryVO">
+	SELECT i.seq 
+	,cs_seq as csSeq
+	,inquiry_date as inquiryDate
+	,inquiry_title as inquiryTitle
+	,inquiry_content as inquiryContent
+	,answer_date as answerDate
+	,answer_content as answerContent
+	,c.cs_name as csName
+	from inquiry i 
+	left join customer c
+	on i.cs_seq = c.seq
+	WHERE 1=1
+	
+	</select>
+	
+	<select id="selectInquiry" resultType="com.bjworld.groupware.inquiry.service.impl.InquiryVO"
+	parameterType="com.bjworld.groupware.inquiry.service.impl.InquiryVO">
+	SELECT 
+	i.seq as seq 
+	,cs_seq as csSeq
+	,inquiry_date as inquiryDate
+	,inquiry_title as inquiryTitle
+	,inquiry_content as inquiryContent
+	,answer_date as answerDate
+	,answer_content as answerContent
+	,c.cs_name as csName
+	from inquiry i 
+	left join customer c
+	on i.cs_seq = c.seq
+	WHERE i.seq = #{seq}
+	</select>
+	
+	<update id="updateInquiry"
+		parameterType="com.bjworld.groupware.inquiry.service.impl.InquiryVO">
+		/* updateInquiry */
+		UPDATE inquiry
+		set
+		cs_seq = #{csSeq}
+		,inquiry_date = #{inquiryDate}
+		,inquiry_title = #{inquiryTitle}
+		,inquiry_content = #{inquiryContent}
+		,answer_date = #{answerDate}
+		,answer_content = #{answerContent}
+		WHERE seq = #{seq}
+	</update>
+	<update id="deleteInquiry"
+		parameterType="com.bjworld.groupware.inquiry.service.impl.InquiryVO">
+		/* deleteInquiry */
+		DELETE FROM inquiry
+		WHERE seq = #{seq}
+	</update>
+	
+	<select id="selectInquiryListTotCnt"
+		parameterType="com.bjworld.groupware.inquiry.service.impl.InquiryVO"
+		resultType="Integer">
+		/* selectInquiryListTotCnt */
+		SELECT COUNT(*)
+		FROM inquiry
+		WHERE 1 = 1
+	</select>
+	
+</mapper>

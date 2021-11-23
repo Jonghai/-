@@ -21,28 +21,28 @@ public class ProjectVO {
 	public void setCsSeq(String csSeq) {
 		this.csSeq = csSeq;
 	}
-	public String getprojectName() {
+	public String getProjectName() {
 		return projectName;
 	}
-	public void setprojectName(String projectName) {
+	public void setProjectName(String projectName) {
 		this.projectName = projectName;
 	}
-	public String getprojectStart() {
+	public String getProjectStart() {
 		return projectStart;
 	}
-	public void setprojectStart(String projectStart) {
+	public void setProjectStart(String projectStart) {
 		this.projectStart = projectStart;
 	}
-	public void setprojectEnd(String projectEnd) {
+	public void setProjectEnd(String projectEnd) {
 		this.projectEnd = projectEnd;
 	}
-	public String getprojectEnd() {
+	public String getProjectEnd() {
 		return projectEnd;
 	}
-	public String getprojectExp() {
+	public String getProjectExp() {
 		return projectExp;
 	}
-	public void setprojectExp(String projectExp) {
+	public void setProjectExp(String projectExp) {
 		this.projectExp = projectExp;
 	}
 	public String getCsName() {
