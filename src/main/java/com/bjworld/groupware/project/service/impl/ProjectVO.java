@@ -3,10 +3,10 @@ package com.bjworld.groupware.project.service.impl;
 public class ProjectVO {
 	private String seq;
 	private String csSeq;
-	private String pjName;
-	private String pjStart;
-	private String pjEnd;
-	private String pjExp;
+	private String projectName;
+	private String projectStart;
+	private String projectEnd;
+	private String projectExp;
 	private String csName;
 	
 	public String getSeq() {
@@ -21,29 +21,29 @@ public class ProjectVO {
 	public void setCsSeq(String csSeq) {
 		this.csSeq = csSeq;
 	}
-	public String getPjName() {
-		return pjName;
+	public String getprojectName() {
+		return projectName;
 	}
-	public void setPjName(String pjName) {
-		this.pjName = pjName;
+	public void setprojectName(String projectName) {
+		this.projectName = projectName;
 	}
-	public String getPjStart() {
-		return pjStart;
+	public String getprojectStart() {
+		return projectStart;
 	}
-	public void setPjStart(String pjStart) {
-		this.pjStart = pjStart;
+	public void setprojectStart(String projectStart) {
+		this.projectStart = projectStart;
 	}
-	public void setPjEnd(String pjEnd) {
-		this.pjEnd = pjEnd;
+	public void setprojectEnd(String projectEnd) {
+		this.projectEnd = projectEnd;
 	}
-	public String getPjEnd() {
-		return pjEnd;
+	public String getprojectEnd() {
+		return projectEnd;
 	}
-	public String getPjExp() {
-		return pjExp;
+	public String getprojectExp() {
+		return projectExp;
 	}
-	public void setPjExp(String pjExp) {
-		this.pjExp = pjExp;
+	public void setprojectExp(String projectExp) {
+		this.projectExp = projectExp;
 	}
 	public String getCsName() {
 		return csName;

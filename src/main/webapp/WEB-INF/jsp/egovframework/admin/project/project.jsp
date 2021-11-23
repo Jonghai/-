@@ -5,7 +5,10 @@
 <script type='text/javascript'>
 
 
-function initControl() {  
+function initControl() {
+	
+	$("#projectStart,#projectEnd").datepicker();
+	$("#csSeq").select2({minimumResultsForSearch: Infinity});
 	
 	var table = $('#list').DataTable( {
 	serverSide:true
@@ -18,7 +21,7 @@ function initControl() {
     , columns: [
     	{ 'data': 'seq' },
     	//무엇을 클릭해야 상세보기 창이 뜨는지 설정하는 코드
-    	{ 'data': 'pjName' ,createdCell:function (td, cellData, rowData, row, col){
+    	{ 'data': 'projectName' ,createdCell:function (td, cellData, rowData, row, col){
 			
 			//td cursor 스타일 변경
    			$(td).css('cursor', 'pointer');
@@ -46,24 +49,23 @@ function initControl() {
                 });
        		});
         }, className:'text-center'},
-    	{'data': 'csName' },
+    	{'data': 'csName'},
     	{
             className:      'text-center',
             orderable:      false,
             data:           function(rowObject, f, u, table)
             {
-       
 	            var datehtml = "";
-            	datehtml+=rowObject.pjStart;
+            	datehtml+=rowObject.projectStart;
             	datehtml+='~';
-            	datehtml+=rowObject.pjEnd;
+            	datehtml+=rowObject.projectEnd;
 	
 	            return datehtml;
             },
             'defaultContent': ''
         },
  
-    	{'data': 'pjExp' },
+    	{'data': 'projectExp' },
         {
             className:      'text-center',
             orderable:      false,
@@ -117,7 +119,7 @@ function initControl() {
 	//필수 입력값 name 지정
 	$('#form').validate({
 		rules:{
-			pjName:{required:true},
+			projectName:{required:true},
 			csSeq:{required:true}
 		}
 	});
@@ -285,7 +287,7 @@ function initEvent() {
 
                             <tr>
                                 <th>프로젝트명</th>
-                                <td><input id='pjName' name='pjName' maxlength='20' class='form-control' type='text' placeholder='프로젝트명'></td>
+                                <td><input id='projectName' name='projectName' maxlength='20' class='form-control' type='text' placeholder='프로젝트명'></td>
                            </tr>
                            <tr>
                                 <th>고객사</th>
@@ -298,12 +300,12 @@ function initEvent() {
                            </tr>
                            <tr>
                                 <th>프로젝트 시작일~종료일</th>
-                                <td>시작일<input id='pjStart' name='pjStart' maxlength='20' class='form-control' type='date' placeholder='프로젝트 시작일'>종료일 
-                                <input id='pjEnd' name='pjEnd' maxlength='20' class='form-control' type='date' placeholder='프로젝트 종료일'></td>                             
+                                <td>시작일<input id='projectStart' name='projectStart' maxlength='20' class='form-control' type='text' placeholder='프로젝트 시작일'>종료일 
+                                <input id='projectEnd' name='projectEnd' maxlength='20' class='form-control' type='text' placeholder='프로젝트 종료일'></td>                             
                            </tr>
                            <tr>
                                 <th>프로젝트 설명</th>
-                                <td><textarea style="height: 200px;" id='pjExp' name='pjExp' maxlength='200' class='form-control' placeholder='프로젝트 설명'></textarea></td>
+                                <td><textarea style="height: 200px;" id='projectExp' name='projectExp' maxlength='200' class='form-control' placeholder='프로젝트 설명'></textarea></td>
                            </tr>
                            
                         </tbody>
@@ -337,7 +339,7 @@ function initEvent() {
 						<tbody>
 							<tr>
 								<th>프로젝트명</th>
-								<td><label id='lblpjName'></label></td>
+								<td><label id='lblprojectName'></label></td>
 							</tr>
 							<tr>
 								<th>고객사</th>
@@ -345,12 +347,12 @@ function initEvent() {
 							</tr>
 							<tr>
 								<th>프로젝트 시작일~종료일</th>
-								<td><label id='lblpjStart'></label>
-								~ <label id='lblpjEnd'></label></td>
+								<td><label id='lblprojectStart'></label>
+								~ <label id='lblprojectEnd'></label></td>
 							</tr>
 							<tr>
 								<th>프로젝트 설명</th>
-								<td><label id='lblpjExp'></label></td>
+								<td><label id='lblprojectExp'></label></td>
 							</tr>
 			
 						</tbody>

@@ -7,28 +7,28 @@
 	 INSERT INTO project
 	 (
 	  cs_seq,
-	  pj_name,
-	  pj_start,
-	  pj_end, 
-	  pj_exp
+	  project_name,
+	  project_start,
+	  project_end, 
+	  project_exp
 	 )
 	 VALUES
 		(
 		 #{csSeq}
-		,#{pjName}
-		,#{pjStart}
-		,#{pjEnd}
-		,#{pjExp}
+		,#{projectName}
+		,#{projectStart}
+		,#{projectEnd}
+		,#{projectExp}
 		)
 	 </insert>
 	 
 	<select id="selectProjectList" resultType="com.bjworld.groupware.project.service.impl.ProjectVO">
 	SELECT p.seq, 
 	cs_seq as csSeq
-	,pj_name as pjName
-	,pj_start as pjStart
-	,pj_end as pjEnd
-	,pj_exp as pjExp
+	,project_name as projectName
+	,project_start as projectStart
+	,project_end as projectEnd
+	,project_exp as projectExp
 	,c.cs_name as csName
 	from project p 
 	left join customer c
@@ -42,10 +42,10 @@
 	SELECT 
 	p.seq as seq 
 	,cs_seq as csSeq
-	,pj_name as pjName
-	,pj_start as pjStart
-	,pj_end as pjEnd
-	,pj_exp as pjExp
+	,project_name as projectName
+	,project_start as projectStart
+	,project_end as projectEnd
+	,project_exp as projectExp
 	,c.cs_name as csName
 	from project p  
 	left join customer c
@@ -59,10 +59,10 @@
 		UPDATE project
 		set
 		cs_seq = #{csSeq}
-		,pj_name = #{pjName}
-		,pj_start = #{pjStart}
-		,pj_end = #{pjEnd}
-		,pj_exp = #{pjExp}
+		,project_name = #{projectName}
+		,project_start = #{projectStart}
+		,project_end = #{projectEnd}
+		,project_exp = #{projectExp}
 		WHERE seq = #{seq}
 	</update>
 	<update id="deleteProject"
