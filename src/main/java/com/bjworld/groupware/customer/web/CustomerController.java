@@ -18,7 +18,7 @@ import com.bjworld.groupware.common.SystemConstant;
 import com.bjworld.groupware.common.util.AjaxResult;
 import com.bjworld.groupware.common.util.EgovStringUtil;
 import com.bjworld.groupware.customer.service.impl.CustomerVO;
-import com.bjworld.groupware.customer.service.customerService;
+import com.bjworld.groupware.customer.service.CustomerService;
 /*import com.bjworld.groupware.customer.web.CustomerController;*/
 import com.bjworld.groupware.organization.service.OrganizationService;
 import com.bjworld.groupware.organization.service.impl.OrganizationVO;
@@ -30,7 +30,7 @@ public class CustomerController {
 	Logger logger = LoggerFactory.getLogger(CustomerController.class);
 
 	@Resource(name = "customerService")
-	private customerService customerService;
+	private CustomerService customerService;
 
 	@RequestMapping("/customer.do")
 	public String customer(HttpServletRequest request, Model model) throws Exception {

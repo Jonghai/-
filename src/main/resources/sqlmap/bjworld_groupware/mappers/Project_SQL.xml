@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper
+	namespace="com.bjworld.groupware.project.service.impl.ProjectMapper">
+	<insert id= "mergeProject" parameterType="com.bjworld.groupware.project.service.impl.ProjectVO">
+	 INSERT INTO project
+	 (
+	  cs_seq,
+	  pj_name,
+	  pj_start,
+	  pj_end, 
+	  pj_exp
+	 )
+	 VALUES
+		(
+		 #{csSeq}
+		,#{pjName}
+		,#{pjStart}
+		,#{pjEnd}
+		,#{pjExp}
+		)
+	 </insert>
+	 
+	<select id="selectProjectList" resultType="com.bjworld.groupware.project.service.impl.ProjectVO">
+	SELECT p.seq, 
+	cs_seq as csSeq
+	,pj_name as pjName
+	,pj_start as pjStart
+	,pj_end as pjEnd
+	,pj_exp as pjExp
+	,c.cs_name as csName
+	from project p 
+	left join customer c
+	on p.cs_seq = c.seq
+	WHERE 1=1
+	
+	</select>
+	
+	<select id="selectProject" resultType="com.bjworld.groupware.project.service.impl.ProjectVO"
+	parameterType="com.bjworld.groupware.project.service.impl.ProjectVO">
+	SELECT 
+	p.seq as seq 
+	,cs_seq as csSeq
+	,pj_name as pjName
+	,pj_start as pjStart
+	,pj_end as pjEnd
+	,pj_exp as pjExp
+	,c.cs_name as csName
+	from project p  
+	left join customer c
+	on p.cs_seq = c.seq
+	WHERE p.seq = #{seq}
+	</select>
+	
+	<update id="updateProject"
+		parameterType="com.bjworld.groupware.project.service.impl.ProjectVO">
+		/* updateProject */
+		UPDATE project
+		set
+		cs_seq = #{csSeq}
+		,pj_name = #{pjName}
+		,pj_start = #{pjStart}
+		,pj_end = #{pjEnd}
+		,pj_exp = #{pjExp}
+		WHERE seq = #{seq}
+	</update>
+	<update id="deleteProject"
+		parameterType="com.bjworld.groupware.project.service.impl.ProjectVO">
+		/* deleteProject */
+		DELETE FROM project
+		WHERE seq = #{seq}
+	</update>
+	
+	<select id="selectProjectListTotCnt"
+		parameterType="com.bjworld.groupware.project.service.impl.ProjectVO"
+		resultType="Integer">
+		/* selectProjectListTotCnt */
+		SELECT COUNT(*)
+		FROM project
+		WHERE 1 = 1
+	</select>
+	
+</mapper>

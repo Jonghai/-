@@ -4,7 +4,8 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
-import com.bjworld.groupware.customer.service.customerService;
+
+import com.bjworld.groupware.customer.service.CustomerService;
 import com.bjworld.groupware.customer.service.impl.CustomerVO;
 import com.bjworld.groupware.customer.service.impl.CustomerMapper;
 
@@ -12,7 +13,7 @@ import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 
 
 @Service("customerService")
-public class CustomerServiceImpl extends EgovAbstractServiceImpl implements customerService {
+public class CustomerServiceImpl extends EgovAbstractServiceImpl implements CustomerService {
 	
 	@Resource(name = "customerMapper")
 	private CustomerMapper customerMapper;
@@ -46,5 +47,12 @@ public class CustomerServiceImpl extends EgovAbstractServiceImpl implements cust
 	@Override
 	public Integer selectCustomerListTotCnt(CustomerVO paramVO) throws Exception {
 		return customerMapper.selectCustomerListTotCnt(paramVO);		
-	}	
+	}
+
+	@Override
+	public List<?> selectCustomerList() {
+		
+		return customerMapper.selectCustomerList();
+	}
+	
 }

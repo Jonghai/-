@@ -21,6 +21,9 @@ public interface CustomerMapper {
 	void deleteCustomer(CustomerVO paramVO) throws Exception;
 	
 	Integer selectCustomerListTotCnt(CustomerVO paramVO) throws Exception;
+
+	List<?> selectCustomerList();
+
 }
 
 /*@Mapper("customerMapper")

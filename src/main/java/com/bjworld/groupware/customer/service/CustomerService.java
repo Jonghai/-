@@ -5,7 +5,7 @@ import java.util.List;
 import com.bjworld.groupware.customer.service.impl.CustomerVO;
 import com.bjworld.groupware.employee.service.impl.EmployeeVO;
 
-public interface customerService {
+public interface CustomerService {
 
 	CustomerVO selectCustomer(CustomerVO paramVO) throws Exception;
 
@@ -18,6 +18,9 @@ public interface customerService {
 	void deleteCustomer(CustomerVO paramVO) throws Exception;
 	
 	Integer selectCustomerListTotCnt(CustomerVO paramVO) throws Exception;
+
+	List<?> selectCustomerList();
+	
 }
 
 /*
