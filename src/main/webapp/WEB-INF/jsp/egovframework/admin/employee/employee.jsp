@@ -5,7 +5,9 @@
 <script type='text/javascript'>
 
 
-function initControl() {  
+function initControl() {
+	
+	$("#departmentSeq").select2({minimumResultsForSearch: Infinity});
 	
 	var table = $('#list').DataTable( {
 	serverSide:true
