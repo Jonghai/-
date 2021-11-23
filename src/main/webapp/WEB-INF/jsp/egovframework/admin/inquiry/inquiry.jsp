@@ -21,21 +21,7 @@ function initControl() {
 	, order: [[ 0, 'desc' ]]
     , columns: [
     	{ 'data': 'seq' },
-    	{'data': 'csName'},
-    	{
-            className:      'text-center',
-            orderable:      false,
-            data:           function(rowObject, f, u, table)
-            {
-	            var datehtml = "";
-            	datehtml+=rowObject.inquiryDate;
-	
-	            return datehtml;
-            },
-            'defaultContent': ''
-        },
-    	//무엇을 클릭해야 상세보기 창이 뜨는지 설정하는 코드
-    	{ 'data': 'inquiryTitle' ,createdCell:function (td, cellData, rowData, row, col){
+		{ 'data': 'csName' ,createdCell:function (td, cellData, rowData, row, col){
 			
 			//td cursor 스타일 변경
    			$(td).css('cursor', 'pointer');
@@ -63,6 +49,21 @@ function initControl() {
                 });
        		});
         }, className:'text-center'},
+    	{'data': 'inquiryTitle'},
+    	{
+            className:      'text-center',
+            orderable:      false,
+            data:           function(rowObject, f, u, table)
+            {
+	            var datehtml = "";
+            	datehtml+=rowObject.inquiryDate;
+	
+	            return datehtml;
+            },
+            'defaultContent': ''
+        },
+    	//무엇을 클릭해야 상세보기 창이 뜨는지 설정하는 코드
+    	
         {'data': 'inquiryContent'},
         {
             className:      'text-center',
@@ -322,7 +323,7 @@ function initEvent() {
                            </tr>
                            <tr>
                                 <th>문의 내용</th>
-                                <td><textarea style="height: 200px;" id='inquiryContent' name='inquiryContent' maxlength='20' class='form-control' type='text' placeholder='문의 내용'></textarea></td>
+                                <td><textarea style="height: 200px;" id='inquiryContent' name='inquiryContent' maxlength='20' class='form-control' placeholder='문의 내용'></textarea></td>
                            </tr>
                            <tr>
                                 <th>답변 일자</th>
@@ -380,7 +381,7 @@ function initEvent() {
 							</tr>
 							<tr>
 								<th>답변 일자</th>
-								<td><label id='lblanswerDatet'></label></td>
+								<td><label id='lblanswerDate'></label></td>
 							</tr>
 							<tr>
 								<th>답변 내용</th>
