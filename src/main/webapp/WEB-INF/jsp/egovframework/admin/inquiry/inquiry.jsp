@@ -20,7 +20,7 @@ function initControl() {
     }
 	, order: [[ 0, 'desc' ]]
     , columns: [
-    	{ 'data': 'seq' },
+    	{ 'data': 'seq', visible:false },
 		{ 'data': 'csName' ,createdCell:function (td, cellData, rowData, row, col){
 			
 			//td cursor 스타일 변경
@@ -137,7 +137,6 @@ function initControl() {
 			inquiryTitle:{required:true},
 			inquiryContent:{required:true},
 			answerDate:{required:true},
-			answerContent:{required:true},
 			csSeq:{required:true}
 		}
 	});
@@ -212,7 +211,7 @@ function initEvent() {
                     var inputValue = data.data[$(input).attr('name')];
         		    $(input).val(htmlDecode(inputValue));
                 });
-				 
+        	    $("#csSeq").val(data.data.csSeq).trigger("change.select2");
             });
         }
     });

@@ -18,7 +18,7 @@ function initControl() {
     }
 	, order: [[ 0, 'desc' ]]
     , columns: [
-    	{ 'data': 'seq' },
+    	{ 'data': 'seq',visible:false },
     	//무엇을 클릭해야 상세보기 창이 뜨는지 설정하는 코드
     	{ 'data': 'empName' ,createdCell:function (td, cellData, rowData, row, col){
 			
@@ -183,7 +183,7 @@ function initEvent() {
                     var inputValue = data.data[$(input).attr('name')];
         		    $(input).val(htmlDecode(inputValue));
                 });
-				 
+        	    $("#departmentSeq").val(data.data.departmentSeq).trigger("change.select2");
             });
         }
     });
