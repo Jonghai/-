@@ -49,7 +49,6 @@ function initControl() {
                 });
        		});
         }, className:'text-center'},
-    	{'data': 'inquiryTitle'},
     	{
             className:      'text-center',
             orderable:      false,
@@ -62,6 +61,7 @@ function initControl() {
             },
             'defaultContent': ''
         },
+        {'data': 'inquiryTitle'},
     	//무엇을 클릭해야 상세보기 창이 뜨는지 설정하는 코드
     	
         {'data': 'inquiryContent'},
