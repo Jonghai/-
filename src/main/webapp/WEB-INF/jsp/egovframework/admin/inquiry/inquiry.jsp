@@ -136,7 +136,6 @@ function initControl() {
 			inquiryDate:{required:true},
 			inquiryTitle:{required:true},
 			inquiryContent:{required:true},
-			answerDate:{required:true},
 			csSeq:{required:true}
 		}
 	});
