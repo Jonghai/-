@@ -45,7 +45,7 @@ public class CustomerController {
 		// 테이블에 바인딩 할 데이터
 		List<?> dataList = customerService.selectCustomerList(paramVO);
 		// Total Count
-		Integer total = 0;
+		Integer total = customerService.selectCustomerListTotCnt(paramVO);
 
 		HashMap<String, Object> listMap = new HashMap<String, Object>();
 
