@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bjworld.groupware.emergencynumber.service.impl.EmergencynumberMapper"><insert id= "mergeEmergencynumber" parameterType="com.bjworld.groupware.emergencynumber.service.impl.EmergencynumberVO">
+	 INSERT INTO employee_emergencynumber
+	 (
+	  emer_num,
+	  employee_seq,
+	  emp_name,
+	  emp_rel,
+	  emer_edit
+	 )
+	 VALUES
+		(
+		 #{emerNum}
+		,#{employeeSeq}
+		,#{empName}
+		,#{empRel}
+		,#{emerEdit}
+		
+		)
+	 </insert>
+	 
+	<select id="selectEmergencynumberList" resultType="com.bjworld.groupware.emergencynumber.service.impl.EmergencynumberVO">
+	SELECT seq, 
+	emer_num as emerNum
+	,employee_seq as employeeSeq
+	,emp_name as empName
+	,emp_rel as empRel
+	,emer_edit as emerEdit
+	from employee_emergencynumber
+	WHERE 1=1
+	
+	</select>
+	
+	<select id="selectEmergencynumber" resultType="com.bjworld.groupware.emergencynumber.service.impl.EmergencynumberVO"
+	parameterType="com.bjworld.groupware.emergencynumber.service.impl.EmergencynumberVO">
+	SELECT 
+	seq as seq 
+	,emer_num as emerNum
+	,employee_seq as employeeSeq
+	,emp_name as empName
+	,emp_rel as empRel
+	,emer_edit as emerEdit
+	from employee_emergencynumber
+	WHERE seq = #{seq}
+	</select>
+	
+	<update id="updateEmergencynumber"
+		parameterType="com.bjworld.groupware.emergencynumber.service.impl.EmergencynumberVO">
+		/* updateEmergencynumber */
+		UPDATE employee_emergencynumber
+		set
+		emer_num = #{emerNum}
+		,employee_seq = #{employeeSeq}
+		,emp_name = #{empName}
+		,emp_rel = #{empRel}
+		,emer_edit = #{emerEdit}
+		WHERE seq = #{seq}
+	</update>
+	<update id="deleteEmergencynumber"
+		parameterType="com.bjworld.groupware.emergencynumber.service.impl.EmergencynumberVO">
+		/* deleteEmergencynumber */
+		DELETE FROM employee_emergencynumber
+		WHERE seq = #{seq}
+	</update>
+	
+	<select id="selectEmergencynumberListTotCnt"
+		parameterType="com.bjworld.groupware.emergencynumber.service.impl.EmergencynumberVO"
+		resultType="Integer">
+		/* selectEmergencynumberListTotCnt */
+		SELECT COUNT(*)
+		FROM employee_emergencynumber
+		WHERE 1 = 1
+	</select>
+	</mapper>
