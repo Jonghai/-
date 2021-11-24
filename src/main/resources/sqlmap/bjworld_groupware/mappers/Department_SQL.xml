@@ -11,20 +11,20 @@
 		)
 		VALUES
 		(
-		#{value}
-		,'0'
-
+		#{deptName}
+		,#{parentSeq}
 		)
 	</insert>
 	          
 	<select id="selectDepartmentList" resultType="com.bjworld.groupware.department.service.impl.DepartmentVO">
 	SELECT seq
 	, dept_name as deptName
+	, parent_seq as parentSeq
 	from department
 	
 	</select>
 	
-	<select id="getDetList" resultType="com.bjworld.groupware.department.service.impl.DepartmentVO">
+	<select id="getDepartmentList" resultType="com.bjworld.groupware.department.service.impl.DepartmentVO">
 	<![CDATA[
 	SELECT *
 	from department

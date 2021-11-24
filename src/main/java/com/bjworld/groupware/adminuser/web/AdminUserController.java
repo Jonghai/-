@@ -1,24 +1,19 @@
 package com.bjworld.groupware.adminuser.web;
 
 import com.bjworld.groupware.common.util.AjaxResult;
-import com.bjworld.groupware.common.util.ProjectUtility;
 import com.bjworld.groupware.common.util.EgovBasicLogger;
 import com.bjworld.groupware.common.util.EgovDateUtil;
 import com.bjworld.groupware.common.util.EgovFileScrty;
 import com.bjworld.groupware.common.SystemConstant;
 import com.bjworld.groupware.common.util.EgovSessionCookieUtil;
 import com.bjworld.groupware.common.util.EgovStringUtil;
-import com.bjworld.groupware.common.util.UploadFileVO;
-import com.bjworld.groupware.common.vo.SessionVO;
 import com.bjworld.groupware.adminuser.service.AdminUserService;
 import com.bjworld.groupware.adminuser.service.impl.AdminUserVO;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.json.simple.JSONObject;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,9 +22,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.List;
-import java.io.File;
 import java.util.List;
 import java.util.HashMap;
 
@@ -71,8 +63,7 @@ public class AdminUserController {
 
     @RequestMapping(value = "/mergeAdminUserAjax.do")
     @ResponseBody
-    public AjaxResult<String> mergeBuyerCompanyAjax(HttpServletRequest request
-            , AdminUserVO paramVO ) throws Exception{
+    public AjaxResult<String> mergeBuyerCompanyAjax(HttpServletRequest request, AdminUserVO paramVO ) throws Exception{
     	
         AjaxResult<String> result = new AjaxResult<>();
         try {
