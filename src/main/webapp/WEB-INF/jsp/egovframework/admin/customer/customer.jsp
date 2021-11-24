@@ -300,7 +300,7 @@ function initEvent() {
 			<thead>
 				<tr>
 					<th>seq</th>
-					<th>고객명</th>
+					<th>고객사</th>
 					<th>담당자</th>
 					<th>직급</th>
 					<th>휴대폰</th>
@@ -335,7 +335,7 @@ function initEvent() {
 	                    	</colgroup>
 	                    	<tbody>
                             <tr>
-                                <th>고객명</th>
+                                <th>고객사</th>
                                 <td><input id='customerName' name='customerName' maxlength='20' class='form-control' type='text' placeholder='고객 이름'></td>
                             </tr>
                             <tr>

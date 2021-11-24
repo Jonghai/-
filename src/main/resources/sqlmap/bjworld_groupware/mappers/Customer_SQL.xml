@@ -37,11 +37,11 @@
 		/* selectCustomerList */
 		SELECT
 		seq as seq
-		,cs_name as customerName		
-		,cs_manager as customerManager
-		,cs_rank as customerRank
-		,cs_phone as customerPhone
-		,cs_email as customerEmail
+		,customer_name as customerName		
+		,customer_manager as customerManager
+		,customer_rank as customerRank
+		,customer_phone as customerPhone
+		,customer_email as customerEmail
 		FROM customer
         <!-- 1 = 1은 말그대로 참을 의미해요. 즉 전부 조회 -->
 		WHERE 1=1
@@ -70,7 +70,7 @@
 					        
 
 		<if test="customerName != null and customerName != ''">
-			AND cs.cs_name like CONCAT('%', #{customerName}, '%')
+			AND cs.customer_name like CONCAT('%', #{customerName}, '%')
 		</if>
         <if test="customerManager != null and customerManager != ''">
 			AND cs.cs_manager like CONCAT('%', #{customerManager}, '%')
@@ -90,11 +90,11 @@
 	parameterType="com.bjworld.groupware.customer.service.impl.CustomerVO">
 		SELECT
 		cs.seq as seq
-		,cs.cs_name as customerName
-		,cs.cs_manager as customerManager
-		,cs.cs_rank as customerRank
-		,cs.cs_phone as customerPhone
-		,cs.cs_email as customerEmail
+		,cs.customer_name as customerName
+		,cs.customer_manager as customerManager
+		,cs.customer_rank as customerRank
+		,cs.customer_phone as customerPhone
+		,cs.customer_email as customerEmail
 		FROM customer cs
 		WHERE seq = #{seq}
 	</select>
@@ -104,11 +104,11 @@
 		parameterType="com.bjworld.groupware.customer.service.impl.CustomerVO">
 		INSERT INTO customer
 		(		
-		cs_name
-		,cs_manager
-		,cs_rank
-		,cs_phone
-		,cs_email
+		customer_name
+		,customer_manager
+		,customer_rank
+		,customer_phone
+		,customer_email
 		)
 		VALUES
 		(
@@ -124,11 +124,11 @@
 		/* updateCustomer */
 		UPDATE customer
 		set
-		cs_name = #{customerName}
-		,cs_manager = #{customerManager}		
-		,cs_rank = #{customerRank}
-		,cs_phone = #{customerPhone}
-		,cs_email = #{customerEmail}		
+		customer_name = #{customerName}
+		,customer_manager = #{customerManager}		
+		,customer_rank = #{customerRank}
+		,customer_phone = #{customerPhone}
+		,customer_email = #{customerEmail}		
 		WHERE seq = #{seq}
 	</update>
 	
