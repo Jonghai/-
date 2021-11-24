@@ -251,7 +251,7 @@ function initEvent() {
 <!-- 목록 -->
 <div class='card'>
 	<div class='card-header header-elements-inline'>
-		<h5 class='card-title font-weight-bold'><i class='icon-chevron-right mr-1'></i>프로젝트관리</h5>
+		<h5 class='card-title font-weight-bold'><i class='icon-chevron-right mr-1'></i>문의 관리</h5>
         <div class='header-elements'>
 			<div class='list-icons ml-3'>
           		<!-- <a class='list-icons-item' data-action='collapse'></a> -->
