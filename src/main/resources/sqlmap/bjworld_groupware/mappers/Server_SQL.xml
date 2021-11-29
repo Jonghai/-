@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper
+	namespace="com.bjworld.groupware.server.service.impl.ServerMapper">
+	<insert id= "mergeServer" parameterType="com.bjworld.groupware.server.service.impl.ServerVO">
+	 INSERT INTO server
+	 (
+	  customer_seq
+	  ,server_address
+	  ,server_ip
+	  ,os	  
+	  ,server_port 
+	  ,server_location
+	  ,server_start
+	  ,server_end
+	 )
+	 VALUES
+		(
+		 #{customerSeq}
+		,#{serverAddress}
+		,#{serverIp}
+		,#{os}		
+		,#{serverPort}
+		,#{serverLocation}
+		,#{serverStart}
+		,#{serverEnd}		
+		)
+	 </insert>
+	 	 	 
+	 <!-- 
+	 ex_ My_Table의 No_Emp,Nm_Kor,Age 칼럼 조회
+	 SELECT No_Emp,Nm_Kor,Age FROM My_Table 
+	 
+	 https://androman.tistory.com/142
+	 결과적으로 저장되는 값은 as 뒤에 나오는 별칭
+	 -->
+	 
+	<select id="selectServerList" resultType="com.bjworld.groupware.server.service.impl.ServerVO">
+	SELECT sv.seq, 
+	customer_seq  as customerSeq
+	,server_address  as serverAddress
+	,server_ip  as serverIp
+	,os as os	
+	,server_port  as serverPort
+	,sv.server_location  as serverLocation
+	,server_start as serverStart
+	,sv.server_end as serverEnd	
+	from server sv 
+	left join customer c
+	on sv.customer_seq = c.seq
+	WHERE 1=1
+	</select>
+	
+	<select id="selectServer" resultType="com.bjworld.groupware.server.service.impl.ServerVO"
+	parameterType="com.bjworld.groupware.server.service.impl.ServerVO">
+	SELECT
+	sv.seq as seq 
+	,customer_seq as customerSeq
+	,server_address as serverAddress
+	,server_ip as serverIp
+	,os as os	
+	,server_port as serverPort	
+	,server_location as serverLocation
+	,server_start  as serverStart
+	,server_end  as serverEnd	
+	from server sv  
+	left join customer c
+	on sv.customer_seq = c.seq
+	WHERE sv.seq = #{seq}
+	</select>
+	
+	<update id="updateServer"
+		parameterType="com.bjworld.groupware.server.service.impl.ServerVO">
+		/* updateServer */
+		UPDATE server
+		set
+		customer_seq  = #{customerSeq}
+		,server_address  = #{serverAddress}
+		,server_ip = #{serverIp}
+		,os  = #{os}		
+		,server_port = #{serverPort	}
+		,server_location = #{serverLocation}
+		,server_start = #{serverStart}
+		,server_end = #{serverEnd}		
+		WHERE seq = #{seq}
+	</update>
+	<update id="deleteServer"
+		parameterType="com.bjworld.groupware.server.service.impl.ServerVO">
+		/* deleteServer */
+		DELETE FROM server
+		WHERE seq = #{seq}
+	</update>
+	
+	<select id="selectServerListTotCnt"
+		parameterType="com.bjworld.groupware.server.service.impl.ServerVO"
+		resultType="Integer">
+		/* selectServerListTotCnt */
+		SELECT COUNT(*)
+		FROM server
+		WHERE 1 = 1
+	</select>	
+</mapper>
