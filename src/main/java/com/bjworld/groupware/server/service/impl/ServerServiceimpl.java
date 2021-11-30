@@ -15,7 +15,7 @@ import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 public class ServerServiceimpl extends EgovAbstractServiceImpl implements ServerService {
 	@Resource(name = "serverMapper")
 	private ServerMapper serverMapper;
-
+	
 	@Override
 	public void mergeServer(ServerVO paramVO) {
 		serverMapper.mergeServer(paramVO);

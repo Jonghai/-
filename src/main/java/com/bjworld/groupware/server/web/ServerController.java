@@ -86,7 +86,6 @@ public class ServerController {
 			result.setIsSuccess(SystemConstant.AJAX_FAIL);
 			result.setMsg(String.format(SystemConstant.AJAX_ERROR_MESSAGE, "시스템관리자를 저장 중"));
 		}
-
 		return result;
 	}
 

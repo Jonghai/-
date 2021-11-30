@@ -4,9 +4,7 @@
 
 <script type='text/javascript'>
 
-
-function initControl() {
-	
+function initControl() {	
 	$("#serverStart,#serverEnd").datepicker();
 	$("#csSeq").select2({minimumResultsForSearch: Infinity});
 	
@@ -18,32 +16,29 @@ function initControl() {
         type: 'POST'
     }
 	, order: [[ 0, 'desc' ]]
-    , columns: [
+    , columns:
+    [
     	{ 'data': 'seq', visible:false},
     	{ 'data': 'customerSeq'},
     	//무엇을 클릭해야 상세보기 창이 뜨는지 설정하는 코드
-    	{ 'data': 'serverAddress',createdCell:function (td, cellData, rowData, row, col){
-			
+    	{ 'data': 'serverAddress',createdCell:function (td, cellData, rowData, row, col){			
 			//td cursor 스타일 변경
-   			$(td).css('cursor', 'pointer');
-			
+   			$(td).css('cursor', 'pointer');			
 	            $(td).click(function(e){
-	            	//클릭 이벤트 정의
-	            	
+	            	//클릭 이벤트 정의	            	
 	            	//클릭한 td 의 데이터 불러오기
 	            	var rowData = table.row( $(this).closest('tr') ).data();
 	              	
 	            	//클릭한 직원의 상세정보 불러 오기
 	              	postAjax('/admin/selectServerAjax.do', {seq:rowData.seq}, function(data, status){
 	              		
-	              		//상세화면 항목에 데이터 삽입
+	              	//상세화면 항목에 데이터 삽입
    	            	$.each(data.data, function(key, value){	   	            		
               			if($('#lbl' + key).length > 0)
               			{
               				$('#lbl' + key).text(value);
               			}
-              		});	   	            	
-					
+              		});	 
 	              		//상세화면 seq 지정
    	         		$('#modalView').data('seq', rowData.seq);
    	         		$('#modalView').modal();
@@ -52,8 +47,8 @@ function initControl() {
         }, className:'text-center'},
         
     	
-    	{ 'data': 'serverIp', className:'text-center' },
-    	{ 'data': 'os', className:'text-center'},
+    	{'data': 'serverIp', className:'text-center' },
+    	{'data': 'os', className:'text-center'},
         {'data': 'serverPort', className:'text-center'},
     	{'data': 'serverLocation', className:'text-center'},
     	{
@@ -91,12 +86,9 @@ function initControl() {
 	            actionButtonHtml += "</div>";
 	            actionButtonHtml += "</div>";
 	            actionButtonHtml += "</div>";
-	
-	            return actionButtonHtml;
-            },
-            'defaultContent': ''
-        },
-    	
+	            
+	            return actionButtonHtml; },
+            'defaultContent': '' },    	
     ],     
     buttons: {
     	dom: {
@@ -123,8 +115,8 @@ function initControl() {
 	//필수 입력값 name 지정
 	$('#form').validate({
 		rules:{
-			serverName:{required:true},
-			csSeq:{required:true}
+			serverAddress:{required:true},
+			serverIp:{required:true}			
 		}
 	});
 	
@@ -222,13 +214,10 @@ function initEvent() {
 					    $('#list').DataTable().ajax.reload(null, false);
 	                	
 					    //모달창 닫기
-					    $('#modalSave').modal('hide');
-					    
+					    $('#modalSave').modal('hide');					    
 	                }
-	            });
-	 		
-	    });
-	
+	            });	 		
+	    });	
 }
 
 </script>
@@ -293,12 +282,20 @@ function initEvent() {
 	                    	<tbody>
 	                    	<tr>
                                 <th>고객 번호</th>
-                                <td><select id="customerSeq" name='customerSeq' class="from-control">
+                                <td>
+                                <!-- 
+                                Select 태그는 name 속성을 통해 서버에서 접근 가능하다                                 
+                                -->
+                                	<select id="customerSeq" name='customerSeq' class="from-control">
 									<option selected value="" hidden="">고객번호</option>
 										<c:forEach items="${getCsList}" var="cs">
-										<option value="${cs.seq}"><c:out value="${cs.seq}"/></option>
+											<option value="${cs.seq}">
+											<!-- https://lifejusik1004.tistory.com/entry/JSP-JSTL-cout-%ED%83%9C%EA%B7%B8-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0 -->
+											<c:out value="${cs.customerName}"/>																				  
+											</option>										
 										</c:forEach>
-									</select></td>
+									</select>
+								</td>
                            </tr>
 							<tr>
 								<th>서버주소</th>
@@ -320,8 +317,7 @@ function initEvent() {
 								<th>설치위치</th>
 								<td><textarea id='serverLocation' name='serverLocation' maxlength='200' class='form-control' placeholder='서버위치'></textarea></td>
 							</tr>
-                           
-                           <tr>
+							<tr>
                                 <th>서버 시작일~종료일</th>
                                 <td>시작일<input id='serverStart' name='serverStart' maxlength='20' class='form-control' type='text' placeholder='서버 시작일'>종료일 
                                 <input id='serverEnd' name='serverEnd' maxlength='20' class='form-control' type='text' placeholder='서버 종료일'></td>                             

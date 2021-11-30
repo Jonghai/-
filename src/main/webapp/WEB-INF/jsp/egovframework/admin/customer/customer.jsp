@@ -30,7 +30,7 @@ function initControl()
         // 복수의 항목으로 정렬하고 싶은 경우에는 다음과 같이 설정합니다.
 		, order: [[ 0, 'desc' ]]
         , columns: [
-           	{ 'data': 'seq' },//보여지지는 않음
+           	{ 'data': 'seq',visible:false  },//보여지지는 않음
 			{ 'data': 'customerName', createdCell:function (td, cellData, rowData, row, col) {                
                                                     //td cursor 스타일 변경 https://www.codingfactory.net/10265
                                                     //pointer설명 http://www.homejjang.com/09/cursor.php
@@ -118,7 +118,7 @@ function initControl()
             },
             buttons: [
                 {
-                    text: '고객 등록', //메뉴명에 맞는 버튼 이름으로 변경
+                    text: '업체 등록', //메뉴명에 맞는 버튼 이름으로 변경
                     attr:{
                     	'data-toggle':'modal',
                     	'data-target':'#modalSave' //저장 모달창 아이디로 변경
@@ -172,7 +172,7 @@ function initEvent() {
 
     	//안내 문구 변경
          swalInit.fire({
-             title: '고객명단을 삭제하시겠습니까?',
+             title: '업체명단을 삭제하시겠습니까?',
              text: '',
              showCancelButton: true,
              confirmButtonText: '예',
@@ -278,7 +278,7 @@ function initEvent() {
 <!-- 목록 -->
 <div class='card'>
 	<div class='card-header header-elements-inline'>
-		<h5 class='card-title font-weight-bold'><i class='icon-chevron-right mr-1'></i>고객관리자</h5>
+		<h5 class='card-title font-weight-bold'><i class='icon-chevron-right mr-1'></i>업체 관리자</h5>
         <div class='header-elements'>
 			<div class='list-icons ml-3'>
           		<!-- <a class='list-icons-item' data-action='collapse'></a> -->
@@ -290,7 +290,7 @@ function initEvent() {
 	<div class='card-body'>
 		<table id='list' class='table table-hover'>
 			<colgroup>
-				<col style=''>
+				<%-- <col style=''> --%>
 				<col style='width: 20%;'>
 				<col style='width: 10%;'>
 				<col style='width: 20%;'>
@@ -300,7 +300,7 @@ function initEvent() {
 			<thead>
 				<tr>
 					<th>seq</th>
-					<th>고객사</th>
+					<th>업체명</th>
 					<th>담당자</th>
 					<th>직급</th>
 					<th>휴대폰</th>
@@ -319,7 +319,7 @@ function initEvent() {
 	<div class='modal-dialog modal-xl'>
 		<div class='modal-content'>
 			<div class='modal-header bg-primary text-white'>
-				<h5 class='modal-title'>고객 저장</h5>
+				<h5 class='modal-title'>업체 저장</h5>
 				<button type='button' class='close' data-dismiss='modal'>&times;</button>
 			</div>
 
@@ -335,8 +335,8 @@ function initEvent() {
 	                    	</colgroup>
 	                    	<tbody>
                             <tr>
-                                <th>고객사</th>
-                                <td><input id='customerName' name='customerName' maxlength='20' class='form-control' type='text' placeholder='고객 이름'></td>
+                                <th>업체명</th>
+                                <td><input id='customerName' name='customerName' maxlength='20' class='form-control' type='text' placeholder='업체 이름'></td>
                             </tr>
                             <tr>
                                 <th>담당자</th>
@@ -372,7 +372,7 @@ function initEvent() {
 	<div class='modal-dialog modal-xl'>
 		<div class='modal-content'>
 			<div class='modal-header bg-primary text-white'>
-				<h5 class='modal-title'>고객목록 상세</h5>
+				<h5 class='modal-title'>업체목록 상세</h5>
 				<button type='button' class='close' data-dismiss='modal'>&times;</button>
 			</div>
 			<div class='modal-body'>
@@ -384,7 +384,7 @@ function initEvent() {
 						</colgroup>
 						<tbody>
 							<tr>
-								<th>고객명</th>
+								<th>업체명</th>
 								<td><label id='lblcustomerName'></label></td>
 							</tr>
 							<tr>
