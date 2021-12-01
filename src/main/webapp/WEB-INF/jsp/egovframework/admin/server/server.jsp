@@ -130,6 +130,19 @@ function initControl() {
     });
 }
 
+//번호만 적혀있는지확인
+function checkNumber(){
+    var objEv = event.srcElement;
+    var numPattern = /([^0-9])/;
+    numPattern = objEv.value.match(numPattern);
+    if(numPattern != null){
+        alert("숫자만 입력해 주세요!");
+        objEv.value="";
+        objEv.focus();
+        return false;
+    }
+}
+
 function initEvent() {
 	
 	//목록 수정버튼 클릭시 이벤트
@@ -147,7 +160,7 @@ function initEvent() {
          swalInit.fire({
              title: '서버를 삭제하시겠습니까?',
              text: '',
-             showCancelButton: true,
+             showCancelButton: true,             
              confirmButtonText: '예',
              cancelButtonText: '아니요',
              confirmButtonClass: 'btn btn-success',
@@ -303,16 +316,26 @@ function initEvent() {
 							</tr>
 							<tr>
 								<th>아이피</th>
-								<td><textarea id='serverIp' name='serverIp' maxlength='100' class='form-control' placeholder='아이피'></textarea></td>
+								<td>
+                                    <!-- <textarea id='serverPort' name='serverPort' maxlength='50' class='form-control' placeholder='포트번호'></textarea></td> -->
+                                    <input type="text" name="ip1" onchange="checkNumber()" size="3" maxlength="3"
+                                        style="border: 1px solid #666633"> .
+                                    <input type="text" name="ip2" onchange="checkNumber()" size="3" maxlength="3"
+                                        style="border: 1px solid #666633"> .
+                                    <input type="text" name="ip3" onchange="checkNumber()" size="3" maxlength="3"
+                                        style="border: 1px solid #666633"> .
+                                    <input type="text" name="ip4" onchange="checkNumber()" size="3" maxlength="3"
+                                        style="border: 1px solid #666633">
+                                </td>
 							</tr>
 	                    	<tr>
 								<th>운영체제</th>
 								<td><textarea id='os' name='os' maxlength='20' class='form-control' placeholder='운영체제'></textarea></td>
 							</tr>
-							<tr>
-								<th>접속포트</th>
-								<td><textarea id='serverPort' name='serverPort' maxlength='50' class='form-control' placeholder='포트번호'></textarea></td>
-							</tr>
+                            <tr>
+                                <th>접속포트</th>
+                                <td><textarea id='serverPort' name='serverPort' maxlength='200' class='form-control' placeholder='서버포트'></textarea></td>                                
+                            </tr>
 							<tr>
 								<th>설치위치</th>
 								<td><textarea id='serverLocation' name='serverLocation' maxlength='200' class='form-control' placeholder='서버위치'></textarea></td>
