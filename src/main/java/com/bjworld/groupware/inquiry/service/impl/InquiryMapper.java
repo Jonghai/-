@@ -19,7 +19,7 @@ public interface InquiryMapper {
 	
 	Integer selectInquiryListTotCnt(InquiryVO paramVO) throws Exception;
 
-	
 	void deleteInquiry(InquiryVO paramVO) throws Exception;
+	
 
 }

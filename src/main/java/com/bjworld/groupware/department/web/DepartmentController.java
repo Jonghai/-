@@ -28,12 +28,9 @@ public class DepartmentController {
 	private DepartmentService departmentService;
 
 	@RequestMapping("/department.do")
-	public String department(HttpServletRequest request, Model model, DepartmentVO paramVO) throws Exception {
-		paramVO.setParentSeq("0");
-		List<?> dataList = departmentService.selectDepartmentList(paramVO);
-		
+	public String department(HttpServletRequest request, Model model) throws Exception {
+		List<?> dataList = departmentService.selectDepartmentList();
 		model.addAttribute("dataList", dataList);
-		
 		return "department/department.at";
 	}
 
@@ -76,7 +73,7 @@ public class DepartmentController {
             }
 			// merge 방식
 			// adminuserService.mergeAdminUser(paramVO);
-			departmentService.mergeDepartment(paramVO);
+			
 			result.setData("");
 			result.setIsSuccess(SystemConstant.AJAX_SUCCESS);
 			result.setMsg("부서를 저장하였습니다.");

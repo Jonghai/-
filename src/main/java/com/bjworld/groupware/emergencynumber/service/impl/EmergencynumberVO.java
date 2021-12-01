@@ -1,8 +1,8 @@
 package com.bjworld.groupware.emergencynumber.service.impl;
 
-import com.bjworld.groupware.common.vo.DefaultVO;
 
-public class EmergencynumberVO extends DefaultVO {
+
+public class EmergencynumberVO {
 	private String seq;
 	private String employeeSeq;
 	private String emerNum;

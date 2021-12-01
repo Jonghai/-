@@ -41,8 +41,8 @@ public class EmployeeController {
 	private DepartmentService departmentService;
 
 	@RequestMapping("/employee.do")
-	public String employee(HttpServletRequest request, Model model) throws Exception {
-		List<?> getDeptList = departmentService.selectDepartmentList();
+	public String employee(HttpServletRequest request, Model model,DepartmentVO paramVO) throws Exception {
+		List<?> getDeptList = departmentService.selectDepartmentList(paramVO);
 		model.addAttribute("getDeptList", getDeptList);
 		return "employee/employee.at";
 	}

@@ -19,5 +19,6 @@ public interface InquiryService {
 	void updateInquiry(InquiryVO paramVO) throws Exception;
 
 	Integer selectInquiryListTotCnt(InquiryVO paramVO) throws Exception;
+	
 
 }

@@ -7,20 +7,21 @@
 
 function initControl() {
 	
-	$("#departmentSeq").select2({minimumResultsForSearch: Infinity});
+	$("#inquiryDate").datepicker();
+	$("#answerDate").datepicker();
+	$("#csSeq").select2({minimumResultsForSearch: Infinity});
 	
 	var table = $('#list').DataTable( {
 	serverSide:true
 	, processing:true
     , ajax: {
-        url: '/admin/getEmployeeListAjax.do', //url 정보 수정
+        url: '/admin/getInquiryListAjax.do', //url 정보 수정
         type: 'POST'
     }
 	, order: [[ 0, 'desc' ]]
     , columns: [
-    	{ 'data': 'seq',visible:false },
-    	//무엇을 클릭해야 상세보기 창이 뜨는지 설정하는 코드
-    	{ 'data': 'empName' ,createdCell:function (td, cellData, rowData, row, col){
+    	{ 'data': 'seq', visible:false },
+		{ 'data': 'csName' ,createdCell:function (td, cellData, rowData, row, col){
 			
 			//td cursor 스타일 변경
    			$(td).css('cursor', 'pointer');
@@ -32,7 +33,7 @@ function initControl() {
 	            	var rowData = table.row( $(this).closest('tr') ).data();
 	              	
 	            	//클릭한 직원의 상세정보 불러 오기
-	              	postAjax('/admin/selectEmployeeAjax.do', {seq:rowData.seq}, function(data, status){
+	              	postAjax('/admin/selectInquiryAjax.do', {seq:rowData.seq}, function(data, status){
 	              		
 	              		//상세화면 항목에 데이터 삽입
    	            	$.each(data.data, function(key, value){	   	            		
@@ -48,12 +49,37 @@ function initControl() {
                 });
        		});
         }, className:'text-center'},
-    	{'data': 'empPhone' },
-    	{'data': 'deptName' },
-    	{'data': 'empRank' },
-    	{'data': 'addressZonecode' },
-    	{'data': 'addRess' },
-    	{'data': 'addressDetail'},
+    	{
+            className:      'text-center',
+            orderable:      false,
+            data:           function(rowObject, f, u, table)
+            {
+	            var datehtml = "";
+            	datehtml+=rowObject.inquiryDate;
+	
+	            return datehtml;
+            },
+            'defaultContent': ''
+        },
+        {'data': 'inquiryTitle'},
+    	//무엇을 클릭해야 상세보기 창이 뜨는지 설정하는 코드
+    	
+        {'data': 'inquiryContent'},
+        {
+            className:      'text-center',
+            orderable:      false,
+            data:           function(rowObject, f, u, table)
+            {
+	            var datehtml = "";
+            	datehtml+=rowObject.answerDate;
+	
+	            return datehtml;
+            },
+            'defaultContent': ''
+        },
+        { 'data': 'answerContent' },
+    	
+ 
         {
             className:      'text-center',
             orderable:      false,
@@ -90,7 +116,7 @@ function initControl() {
         },
         buttons: [
             {
-                text: '직원 등록', //메뉴명에 맞는 버튼 이름으로 변경
+                text: '문의 등록', //메뉴명에 맞는 버튼 이름으로 변경
                 attr:{
                 	'data-toggle':'modal',
                 	'data-target':'#modalSave' //저장 모달창 아이디로 변경
@@ -107,9 +133,10 @@ function initControl() {
 	//필수 입력값 name 지정
 	$('#form').validate({
 		rules:{
-			empName:{required:true},
-			empPhone:{required:true},
-			departmentSeq:{required:true},
+			inquiryDate:{required:true},
+			inquiryTitle:{required:true},
+			inquiryContent:{required:true},
+			csSeq:{required:true}
 		}
 	});
 	
@@ -138,7 +165,7 @@ function initEvent() {
     	    	
     	//안내 문구 변경
          swalInit.fire({
-             title: '시스템관리자 삭제하시겠습니까?',
+             title: '문의를 삭제하시겠습니까?',
              text: '',
              showCancelButton: true,
              confirmButtonText: '예',
@@ -151,7 +178,7 @@ function initEvent() {
              if(result.value) {
             	//예
             	//삭제 Url 변경
-           	  	postAjax('/admin/deleteEmployeeAjax.do', {seq:seq}, function(data, status){
+           	  	postAjax('/admin/deleteInquiryAjax.do', {seq:seq}, function(data, status){
         			showAjaxMessage(data);
         			
         			if(data.isSuccess === '1')
@@ -175,7 +202,7 @@ function initEvent() {
     $('#modalSave').on('show.bs.modal', function(e) {
         if ($('#modalSave').data('seq'))
     	{
-            postAjax('/admin/selectEmployeeAjax.do', {seq:$(this).data('seq')}, function(data, status){
+            postAjax('/admin/selectInquiryAjax.do', {seq:$(this).data('seq')}, function(data, status){
             	console.log(data);
                 var formInput = $('#form input[type!=radio],#form textarea');
         		
@@ -183,7 +210,7 @@ function initEvent() {
                     var inputValue = data.data[$(input).attr('name')];
         		    $(input).val(htmlDecode(inputValue));
                 });
-        	    $("#departmentSeq").val(data.data.departmentSeq).trigger("change.select2");
+        	    $("#csSeq").val(data.data.csSeq).trigger("change.select2");
             });
         }
     });
@@ -199,7 +226,7 @@ function initEvent() {
 	                 
 	            var formData = $('#form').serializeObject();
 	            
-	            ajax(null, '/admin/mergeEmployeeAjax.do', formData, function(data, status){
+	            ajax(null, '/admin/mergeInquiryAjax.do', formData, function(data, status){
 	                showAjaxMessage(data);
 	                if (data.isSuccess === '1')
 	                {
@@ -220,9 +247,23 @@ function initEvent() {
 
 
 <!-- 목록 -->
-<div class='card'>
+<div class='row m-0 h-100'>
+	<div class='col-lg-2 p-0'>
+		<div class='card h-100'>
+			<div class='card-header header-elements-inline'>
+				<h5 class='card-title font-weight-bold'>
+					<i class='icon-chevron-right mr-1'></i> 고객사
+				</h5>
+			</div>
+			<div class='card-body'>
+				<div class="tree-ajax p-1"></div>
+			</div>
+		</div>
+	</div>
+<div class='col-lg-10 p-0'>
+<div class='card h-100'>
 	<div class='card-header header-elements-inline'>
-		<h5 class='card-title font-weight-bold'><i class='icon-chevron-right mr-1'></i>직원관리</h5>
+		<h5 class='card-title font-weight-bold'><i class='icon-chevron-right mr-1'></i>문의 관리</h5>
         <div class='header-elements'>
 			<div class='list-icons ml-3'>
           		<!-- <a class='list-icons-item' data-action='collapse'></a> -->
@@ -240,13 +281,12 @@ function initEvent() {
 			<thead>
 				<tr>
 					<th>seq</th>
-					<th>직원이름</th>
-					<th>전화번호</th>
-					<th>부서</th>
-					<th>직급</th>
-					<th>우편번호</th>
-					<th>주소</th>
-					<th>상세주소</th>
+					<th>고객사</th>
+					<th>문의 날짜</th>
+					<th>문의 제목</th>
+					<th>문의 내용</th>
+					<th>답변 일자</th>
+					<th>답변 내용</th>
 					<th>기능</th>
 				</tr>
 			</thead>
@@ -255,13 +295,15 @@ function initEvent() {
 			</tbody>
 		</table>
 	</div>
+</div>
+</div>
 </div>	
 
 <div id='modalSave' class='modal fade'>
 	<div class='modal-dialog modal-xl'>
 		<div class='modal-content'>
 			<div class='modal-header bg-primary text-white'>
-				<h5 class='modal-title'>직원등록</h5>
+				<h5 class='modal-title'>문의 등록</h5>
 				<button type='button' class='close' data-dismiss='modal'>&times;</button>
 			</div>
 
@@ -276,41 +318,35 @@ function initEvent() {
 	                    		<col style=''/>
 	                    	</colgroup>
 	                    	<tbody>
-
-                            <tr>
-                                <th>직원이름</th>
-                                <td><input id='empName' name='empName' maxlength='20' class='form-control' type='text' placeholder='직원이름'></td>
-                           </tr>
-                           <tr>
-                                <th>전화번호</th>
-                                <td><input id='empPhone' name='empPhone' maxlength='20' class='form-control' type='text' placeholder='전화번호'></td>
-                           </tr>
-                           <tr>
-                                <th>부서</th>
-                                <td><select id="departmentSeq" name='departmentSeq' class="from-control">
-									<option selected value="" hidden="">부서선택</option>
-										<c:forEach items="${getDeptList}" var="getDeptList">
-										<option value="${getDeptList.seq}"><c:out value="${getDeptList.deptName}"/></option>
+	                    	<tr>
+                                <th>고객사</th>
+                                <td><select id="csSeq" name='csSeq' class="from-control">
+									<option selected value="" hidden="">고객사 선택</option>
+										<c:forEach items="${getCsList}" var="cs">
+										<option value="${cs.seq}"><c:out value="${cs.customerName}"/></option>
 										</c:forEach>
 									</select></td>
                            </tr>
                            <tr>
-                                <th>직급</th>
-                                <td><input id='empRank' name='empRank' maxlength='20' class='form-control' type='text' placeholder='직급'></td>
+                                <th>문의 날짜</th>
+                                <td><input id='inquiryDate' name='inquiryDate' maxlength='20' class='form-control' type='text' placeholder='문의 날짜'></td>                             
+                           </tr>
+                            <tr>
+                                <th>문의 제목</th>
+                                <td><input id='inquiryTitle' name='inquiryTitle' maxlength='20' class='form-control' type='text' placeholder='문의 제목'></td>
                            </tr>
                            <tr>
-                                 <th>우편번호</th>
-                                <td><input id='addressZonecode' name='addressZonecode' maxlength='20' class='form-control' type='text' placeholder='우편번호'></td>
+                                <th>문의 내용</th>
+                                <td><textarea style="height: 200px;" id='inquiryContent' name='inquiryContent' maxlength='20' class='form-control' placeholder='문의 내용'></textarea></td>
                            </tr>
                            <tr>
-                                 <th>주소</th>
-                                <td><input id='addRess' name='addRess' maxlength='20' class='form-control' type='text' placeholder='주소'></td>
+                                <th>답변 일자</th>
+                                <td><input id='answerDate' name='answerDate' maxlength='20' class='form-control' type='text' placeholder='답변 일자'></td>                             
                            </tr>
                            <tr>
-                                 <th>상세주소</th>
-                                <td><input id='addressDetail' name='addressDetail' maxlength='20' class='form-control' type='text' placeholder='상세주소'></td>
-                            </tr>                           
-                                
+                                <th>답변 내용</th>
+                                <td><textarea style="height: 200px;" id='answerContent' name='answerContent' maxlength='200' class='form-control' placeholder='답변 내용'></textarea></td>
+                           </tr>
                            
                         </tbody>
                     </table>
@@ -330,7 +366,7 @@ function initEvent() {
 	<div class='modal-dialog modal-xl'>
 		<div class='modal-content'>
 			<div class='modal-header bg-primary text-white'>
-				<h5 class='modal-title'>직원목록 상세</h5>
+				<h5 class='modal-title'>문의 상세</h5>
 				<button type='button' class='close' data-dismiss='modal'>&times;</button>
 			</div>
 			<div class='modal-body'>
@@ -342,32 +378,28 @@ function initEvent() {
 						</colgroup>
 						<tbody>
 							<tr>
-								<th>직원이름</th>
-								<td><label id='lblempName'></label></td>
+								<th>고객사</th>
+								<td><label id='lblcsName'></label></td>
 							</tr>
 							<tr>
-								<th>전화번호</th>
-								<td><label id='lblempPhone'></label></td>
+								<th>문의 날짜</th>
+								<td><label id='lblinquiryDate'></label></td>
 							</tr>
 							<tr>
-								<th>부서</th>
-								<td><label id='lbldeptName'></label></td>
+								<th>문의 제목</th>
+								<td><label id='lblinquiryTitle'></label></td>
 							</tr>
 							<tr>
-								<th>직급</th>
-								<td><label id='lblempRank'></label></td>
+								<th>문의 내용</th>
+								<td><label id='lblinquiryContent'></label></td>
 							</tr>
 							<tr>
-								<th>우편번호</th>
-								<td><label id='lbladdressZonecode'></label></td>
+								<th>답변 일자</th>
+								<td><label id='lblanswerDate'></label></td>
 							</tr>
 							<tr>
-								<th>주소</th>
-								<td><label id='lbladdRess'></label></td>
-							</tr>
-							<tr>
-								<th>상세주소</th>
-								<td><label id='lbladdressDetail'></label></td>
+								<th>답변 내용</th>
+								<td><label id='lblanswerContent'></label></td>
 							</tr>
 			
 						</tbody>

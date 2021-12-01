@@ -42,7 +42,6 @@ public class EmergencynumberController {
 		Integer total = dataList.size();
 
 		HashMap<String, Object> listMap = new HashMap<String, Object>();
-		listMap.put("draw", paramVO.getDraw());
 		listMap.put("recordsTotal", total);
 		listMap.put("recordsFiltered", total);
 		listMap.put("data", dataList);

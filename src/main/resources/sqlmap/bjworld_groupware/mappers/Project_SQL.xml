@@ -29,7 +29,7 @@
 	,project_start as projectStart
 	,project_end as projectEnd
 	,project_exp as projectExp
-	,c.cs_name as csName
+	,c.customer_name as csName
 	from project p 
 	left join customer c
 	on p.cs_seq = c.seq
@@ -46,7 +46,7 @@
 	,project_start as projectStart
 	,project_end as projectEnd
 	,project_exp as projectExp
-	,c.cs_name as csName
+	,c.customer_name as csName
 	from project p  
 	left join customer c
 	on p.cs_seq = c.seq
