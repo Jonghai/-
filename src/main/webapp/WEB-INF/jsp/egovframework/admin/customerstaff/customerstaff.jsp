@@ -19,6 +19,7 @@ function initControl() {
 	, order: [[ 0, 'desc' ]]
     , columns: [
     	{ 'data': 'seq', visible:false},
+    	{'data': 'csName'},
     	//무엇을 클릭해야 상세보기 창이 뜨는지 설정하는 코드
     	{ 'data': 'staffName' ,createdCell:function (td, cellData, rowData, row, col){
 			
@@ -53,7 +54,6 @@ function initControl() {
         {'data': 'staffPhone'},
         {'data': 'staffEmail'},
     	{'data': 'staffNote'},
-    	{'data': 'csName'},
         {
             className:      'text-center',
             orderable:      false,
@@ -242,13 +242,13 @@ function initEvent() {
 			<thead>
 				<tr>
 					<th>seq</th>
+					<th>소속회사</th>
 					<th>직원이름</th>
 					<th>직원 부서명</th>
 					<th>직원 직책</th>
 					<th>직원 연락처</th>
 					<th>직원 이메일</th>
 					<th>직원 비고</th>
-					<th>소속회사</th>
 					<th>기능</th>
 				</tr>
 			</thead>
@@ -278,6 +278,15 @@ function initEvent() {
 	                    		<col style=''/>
 	                    	</colgroup>
 	                    	<tbody>
+	                    	<tr>
+                                <th>소속회사</th>
+                                <td><select id="csSeq" name='csSeq' class="from-control">
+									<option selected value="" hidden="">소속회사 선택</option>
+										<c:forEach items="${getCsList}" var="cs">
+										<option value="${cs.seq}"><c:out value="${cs.customerName}"/></option>
+										</c:forEach>
+									</select></td>
+                           </tr>  
 
                             <tr>
                                 <th>직원이름</th>
@@ -303,15 +312,7 @@ function initEvent() {
                                 <th>직원 비고</th>
                                 <td><textarea style="height: 200px;" id='staffNote' name='staffNote' maxlength='200' class='form-control' placeholder='비고'></textarea></td>
                            </tr>
-                           <tr>
-                                <th>소속회사</th>
-                                <td><select id="csSeq" name='csSeq' class="from-control">
-									<option selected value="" hidden="">소속회사 선택</option>
-										<c:forEach items="${getCsList}" var="cs">
-										<option value="${cs.seq}"><c:out value="${cs.customerName}"/></option>
-										</c:forEach>
-									</select></td>
-                           </tr>  
+                           
                         </tbody>
                     </table>
                 </div>
@@ -342,6 +343,10 @@ function initEvent() {
 						</colgroup>
 						<tbody>
 							<tr>
+								<th>소속회사</th>
+								<td><label id='lblcsName'></label></td>
+							</tr>
+							<tr>
 								<th>직원이름</th>
 								<td><label id='lblstaffName'></label></td>
 							</tr>
@@ -365,10 +370,7 @@ function initEvent() {
 								<th>직원 비고</th>
 								<td><label id='lblstaffNote'></label></td>
 							</tr>
-							<tr>
-								<th>소속회사</th>
-								<td><label id='lblcsName'></label></td>
-							</tr>
+							
 						</tbody>
 					</table>
 				</div>
