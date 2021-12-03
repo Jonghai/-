@@ -7,20 +7,21 @@
 
 function initControl() {
 	
-	$("#departmentSeq").select2({minimumResultsForSearch: Infinity});
+	$("#csSeq").select2({minimumResultsForSearch: Infinity});
 	
 	var table = $('#list').DataTable( {
 	serverSide:true
 	, processing:true
     , ajax: {
-        url: '/admin/getEmployeeListAjax.do', //url 정보 수정
+        url: '/admin/getCustomerStaffListAjax.do', //url 정보 수정
         type: 'POST'
     }
 	, order: [[ 0, 'desc' ]]
     , columns: [
-    	{ 'data': 'seq',visible:false },
+    	{ 'data': 'seq', visible:false},
+    	{'data': 'csName'},
     	//무엇을 클릭해야 상세보기 창이 뜨는지 설정하는 코드
-    	{ 'data': 'empName' ,createdCell:function (td, cellData, rowData, row, col){
+    	{ 'data': 'staffName' ,createdCell:function (td, cellData, rowData, row, col){
 			
 			//td cursor 스타일 변경
    			$(td).css('cursor', 'pointer');
@@ -32,7 +33,7 @@ function initControl() {
 	            	var rowData = table.row( $(this).closest('tr') ).data();
 	              	
 	            	//클릭한 직원의 상세정보 불러 오기
-	              	postAjax('/admin/selectEmployeeAjax.do', {seq:rowData.seq}, function(data, status){
+	              	postAjax('/admin/selectCustomerStaffAjax.do', {seq:rowData.seq}, function(data, status){
 	              		
 	              		//상세화면 항목에 데이터 삽입
    	            	$.each(data.data, function(key, value){	   	            		
@@ -48,12 +49,11 @@ function initControl() {
                 });
        		});
         }, className:'text-center'},
-    	{'data': 'empPhone' },
-    	{'data': 'deptName' },
-    	{'data': 'empRank' },
-    	{'data': 'addressZonecode' },
-    	{'data': 'addRess' },
-    	{'data': 'addressDetail'},
+        {'data': 'staffDepartment'},
+        {'data': 'staffRank'},
+        {'data': 'staffPhone'},
+        {'data': 'staffEmail'},
+    	{'data': 'staffNote'},
         {
             className:      'text-center',
             orderable:      false,
@@ -107,9 +107,11 @@ function initControl() {
 	//필수 입력값 name 지정
 	$('#form').validate({
 		rules:{
-			empName:{required:true},
-			empPhone:{required:true},
-			departmentSeq:{required:true},
+			staffName:{required:true},
+			staffEmail:{required:true},
+			staffPhone:{required:true},
+			staffName:{required:true},
+			csSeq:{required:true}
 		}
 	});
 	
@@ -138,7 +140,7 @@ function initEvent() {
     	    	
     	//안내 문구 변경
          swalInit.fire({
-             title: '시스템관리자 삭제하시겠습니까?',
+             title: '프로젝트를 삭제하시겠습니까?',
              text: '',
              showCancelButton: true,
              confirmButtonText: '예',
@@ -151,7 +153,7 @@ function initEvent() {
              if(result.value) {
             	//예
             	//삭제 Url 변경
-           	  	postAjax('/admin/deleteEmployeeAjax.do', {seq:seq}, function(data, status){
+           	  	postAjax('/admin/deleteCustomerStaffAjax.do', {seq:seq}, function(data, status){
         			showAjaxMessage(data);
         			
         			if(data.isSuccess === '1')
@@ -175,7 +177,7 @@ function initEvent() {
     $('#modalSave').on('show.bs.modal', function(e) {
         if ($('#modalSave').data('seq'))
     	{
-            postAjax('/admin/selectEmployeeAjax.do', {seq:$(this).data('seq')}, function(data, status){
+            postAjax('/admin/selectCustomerStaffAjax.do', {seq:$(this).data('seq')}, function(data, status){
             	console.log(data);
                 var formInput = $('#form input[type!=radio],#form textarea');
         		
@@ -183,7 +185,7 @@ function initEvent() {
                     var inputValue = data.data[$(input).attr('name')];
         		    $(input).val(htmlDecode(inputValue));
                 });
-        	    $("#departmentSeq").val(data.data.departmentSeq).trigger("change.select2");
+        	    $("#csSeq").val(data.data.csSeq).trigger("change.select2");
             });
         }
     });
@@ -199,7 +201,7 @@ function initEvent() {
 	                 
 	            var formData = $('#form').serializeObject();
 	            
-	            ajax(null, '/admin/mergeEmployeeAjax.do', formData, function(data, status){
+	            ajax(null, '/admin/mergeCustomerStaffAjax.do', formData, function(data, status){
 	                showAjaxMessage(data);
 	                if (data.isSuccess === '1')
 	                {
@@ -222,7 +224,7 @@ function initEvent() {
 <!-- 목록 -->
 <div class='card'>
 	<div class='card-header header-elements-inline'>
-		<h5 class='card-title font-weight-bold'><i class='icon-chevron-right mr-1'></i>직원관리</h5>
+		<h5 class='card-title font-weight-bold'><i class='icon-chevron-right mr-1'></i>고객사 직원관리</h5>
         <div class='header-elements'>
 			<div class='list-icons ml-3'>
           		<!-- <a class='list-icons-item' data-action='collapse'></a> -->
@@ -240,13 +242,13 @@ function initEvent() {
 			<thead>
 				<tr>
 					<th>seq</th>
+					<th>소속회사</th>
 					<th>직원이름</th>
-					<th>전화번호</th>
-					<th>부서</th>
-					<th>직급</th>
-					<th>우편번호</th>
-					<th>주소</th>
-					<th>상세주소</th>
+					<th>직원 부서명</th>
+					<th>직원 직책</th>
+					<th>직원 연락처</th>
+					<th>직원 이메일</th>
+					<th>직원 비고</th>
 					<th>기능</th>
 				</tr>
 			</thead>
@@ -261,7 +263,7 @@ function initEvent() {
 	<div class='modal-dialog modal-xl'>
 		<div class='modal-content'>
 			<div class='modal-header bg-primary text-white'>
-				<h5 class='modal-title'>직원등록</h5>
+				<h5 class='modal-title'>직원 등록</h5>
 				<button type='button' class='close' data-dismiss='modal'>&times;</button>
 			</div>
 
@@ -276,41 +278,40 @@ function initEvent() {
 	                    		<col style=''/>
 	                    	</colgroup>
 	                    	<tbody>
+	                    	<tr>
+                                <th>소속회사</th>
+                                <td><select id="csSeq" name='csSeq' class="from-control">
+									<option selected value="" hidden="">소속회사 선택</option>
+										<c:forEach items="${getCsList}" var="cs">
+										<option value="${cs.seq}"><c:out value="${cs.customerName}"/></option>
+										</c:forEach>
+									</select></td>
+                           </tr>  
 
                             <tr>
                                 <th>직원이름</th>
-                                <td><input id='empName' name='empName' maxlength='20' class='form-control' type='text' placeholder='직원이름'></td>
+                                <td><input id='staffName' name='staffName' maxlength='20' class='form-control' type='text' placeholder='직원이름'></td>
                            </tr>
                            <tr>
-                                <th>전화번호</th>
-                                <td><input id='empPhone' name='empPhone' maxlength='20' class='form-control' type='text' placeholder='전화번호'></td>
+                                <th>직원 부서명</th>
+                                <td><input  id='staffDepartment' name='staffDepartment' type='text' maxlength='20' class='form-control' placeholder='직원 부서명'></td>
                            </tr>
                            <tr>
-                                <th>부서</th>
-                                <td><select id="departmentSeq" name='departmentSeq' class="from-control">
-									<option selected value="" hidden="">부서선택</option>
-										<c:forEach items="${getDeptList}" var="getDeptList">
-										<option value="${getDeptList.seq}"><c:out value="${getDeptList.deptName}"/></option>
-										</c:forEach>
-									</select></td>
+                                <th>직원 직책</th>
+                                <td><input  id='staffRank' name='staffRank' maxlength='20' class='form-control' type='text' placeholder='직원 직책'></td>
                            </tr>
                            <tr>
-                                <th>직급</th>
-                                <td><input id='empRank' name='empRank' maxlength='20' class='form-control' type='text' placeholder='직급'></td>
+                                <th>직원 연락처</th>
+                                <td><input  id='staffPhone' name='staffPhone' maxlength='20' class='form-control' type='text' placeholder='직원 연락처'></td>
                            </tr>
                            <tr>
-                                 <th>우편번호</th>
-                                <td><input id='addressZonecode' name='addressZonecode' maxlength='20' class='form-control' type='text' placeholder='우편번호'></td>
+                                <th>직원 이메일</th>
+                                <td><input  id='staffEmail' name='staffEmail' maxlength='20' class='form-control' type='text' placeholder='직원 이메일'></td>
                            </tr>
                            <tr>
-                                 <th>주소</th>
-                                <td><input id='addRess' name='addRess' maxlength='20' class='form-control' type='text' placeholder='주소'></td>
+                                <th>직원 비고</th>
+                                <td><textarea style="height: 200px;" id='staffNote' name='staffNote' maxlength='200' class='form-control' placeholder='비고'></textarea></td>
                            </tr>
-                           <tr>
-                                 <th>상세주소</th>
-                                <td><input id='addressDetail' name='addressDetail' maxlength='20' class='form-control' type='text' placeholder='상세주소'></td>
-                            </tr>                           
-                                
                            
                         </tbody>
                     </table>
@@ -330,7 +331,7 @@ function initEvent() {
 	<div class='modal-dialog modal-xl'>
 		<div class='modal-content'>
 			<div class='modal-header bg-primary text-white'>
-				<h5 class='modal-title'>직원목록 상세</h5>
+				<h5 class='modal-title'>직원 상세</h5>
 				<button type='button' class='close' data-dismiss='modal'>&times;</button>
 			</div>
 			<div class='modal-body'>
@@ -342,34 +343,34 @@ function initEvent() {
 						</colgroup>
 						<tbody>
 							<tr>
+								<th>소속회사</th>
+								<td><label id='lblcsName'></label></td>
+							</tr>
+							<tr>
 								<th>직원이름</th>
-								<td><label id='lblempName'></label></td>
+								<td><label id='lblstaffName'></label></td>
 							</tr>
 							<tr>
-								<th>전화번호</th>
-								<td><label id='lblempPhone'></label></td>
+								<th>직원 부서명</th>
+								<td><label id='lblstaffDepartment'></label></td>
 							</tr>
 							<tr>
-								<th>부서</th>
-								<td><label id='lbldeptName'></label></td>
+								<th>직원 직책</th>
+								<td><label id='lblstaffRank'></label></td>
 							</tr>
 							<tr>
-								<th>직급</th>
-								<td><label id='lblempRank'></label></td>
+								<th>직원 연락처</th>
+								<td><label id='lblstaffPhone'></label></td>
 							</tr>
 							<tr>
-								<th>우편번호</th>
-								<td><label id='lbladdressZonecode'></label></td>
+								<th>직원 이메일</th>
+								<td><label id='lblstaffEmail'></label></td>
 							</tr>
 							<tr>
-								<th>주소</th>
-								<td><label id='lbladdRess'></label></td>
+								<th>직원 비고</th>
+								<td><label id='lblstaffNote'></label></td>
 							</tr>
-							<tr>
-								<th>상세주소</th>
-								<td><label id='lbladdressDetail'></label></td>
-							</tr>
-			
+							
 						</tbody>
 					</table>
 				</div>

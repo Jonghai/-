@@ -1,11 +1,14 @@
 package com.bjworld.groupware.inquiry.web;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -17,9 +20,13 @@ import com.bjworld.groupware.common.SystemConstant;
 import com.bjworld.groupware.common.util.AjaxResult;
 import com.bjworld.groupware.common.util.EgovStringUtil;
 import com.bjworld.groupware.customer.service.CustomerService;
+import com.bjworld.groupware.customer.service.impl.CustomerVO;
 import com.bjworld.groupware.inquiry.service.InquiryService;
 import com.bjworld.groupware.inquiry.service.impl.InquiryVO;
 import com.bjworld.groupware.inquiry.web.InquiryController;
+import com.mysql.cj.xdevapi.JsonArray;
+import com.mysql.cj.xdevapi.JsonValue;
+
 
 @Controller
 @RequestMapping("/admin")
@@ -45,7 +52,7 @@ public class InquiryController {
 	@ResponseBody
 	public HashMap<String, Object> getInquiryListAjax(HttpServletRequest request, InquiryVO paramVO)
 			throws Exception {
-
+System.out.println(paramVO);
 		// 테이블에 바인딩 할 데이터
 		List<?> dataList = inquiryService.selectInquiryList(paramVO);
 		// Total Count
@@ -58,8 +65,61 @@ public class InquiryController {
 		listMap.put("data", dataList);
 		return listMap;
 	}
+	
+    @RequestMapping(value = "/getInquiryTreeAjax.do")
+    @ResponseBody
+    public JSONArray getInquiryTree(HttpServletRequest request
+            , CustomerVO paramVO) throws Exception
+    {
+    	
+    	List<CustomerVO> listCustomer = customerService.selectCustomerList(paramVO);
+    	
+    	CustomerVO rootVO = new CustomerVO();
+    	rootVO.setSeq("0");
+    	rootVO.setCustomerName("고객사");
+    	
+    	JSONArray treeArray = new JSONArray();
+    	initTreeData(treeArray, listCustomer, rootVO);
+    	
+    	return treeArray;
+    }
 
+    @SuppressWarnings("unchecked")
+ 	private void initTreeData(JSONArray treeArray, List<CustomerVO> originListData, CustomerVO parentNode)
+     {	
+     	JSONObject treeNodeObject = new JSONObject();
+     	treeNodeObject.put("key", parentNode.getSeq());
+     	treeNodeObject.put("title", parentNode.getCustomerName());
+     	treeNodeObject.put("expanded", parentNode.getSeq().equals("0") ? true : false);
+     	treeNodeObject.put("folder", true);
+     	
+     	
+     	if(originListData.size() > 0)
+     	{
+     		JSONArray childArray = new JSONArray();
+ 			
+     		for(CustomerVO childNodeItemVO : originListData)
+     		{
+     			childrenArray(childArray,childNodeItemVO);
+     		}
+     		treeNodeObject.put("children", childArray);
+     	}
+     		
+     	treeArray.add(treeNodeObject);    
+     }
 
+    
+	@SuppressWarnings("unchecked")
+	private void childrenArray(JSONArray childArray, CustomerVO childNodeItemVO) {
+		 JSONObject treeNodeObject = new JSONObject();
+	     treeNodeObject.put("key", childNodeItemVO.getSeq());
+	     treeNodeObject.put("title", childNodeItemVO.getCustomerName());
+	     treeNodeObject.put("expanded", childNodeItemVO.getSeq().equals("0") ? true : false);
+	     treeNodeObject.put("folder", false);
+	     
+	     childArray.add(treeNodeObject);
+	}
+    
 	@RequestMapping(value = "/mergeInquiryAjax.do")
 	@ResponseBody
 	public AjaxResult<String>  mergeBuyerCompanyAjax(HttpServletRequest request, InquiryVO paramVO) throws Exception {

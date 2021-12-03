@@ -32,11 +32,14 @@
 	,inquiry_content as inquiryContent
 	,answer_date as answerDate
 	,answer_content as answerContent
-	,c.cs_name as csName
+	,c.customer_name as csName
 	from inquiry i 
 	left join customer c
 	on i.cs_seq = c.seq
 	WHERE 1=1
+	 <if test="csSeq != null  and csSeq!=''">
+		AND cs_seq= #{csSeq}
+ 	</if> 
 	
 	</select>
 	
@@ -50,7 +53,7 @@
 	,inquiry_content as inquiryContent
 	,answer_date as answerDate
 	,answer_content as answerContent
-	,c.cs_name as csName
+	,c.customer_name as csName
 	from inquiry i 
 	left join customer c
 	on i.cs_seq = c.seq
@@ -85,5 +88,6 @@
 		FROM inquiry
 		WHERE 1 = 1
 	</select>
+	
 	
 </mapper>

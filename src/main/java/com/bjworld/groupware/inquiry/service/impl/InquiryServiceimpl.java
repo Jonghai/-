@@ -53,4 +53,5 @@ public class InquiryServiceimpl extends EgovAbstractServiceImpl implements Inqui
 	        return inquiryMapper.selectInquiryListTotCnt(paramVO);
 	    }
 
+
 }

@@ -3,7 +3,7 @@
 
 <mapper
 	namespace="com.bjworld.groupware.department.service.impl.DepartmentMapper">
-	<insert id="mergeDepartment" parameterType="String">
+	<insert id="mergeDepartment" parameterType="com.bjworld.groupware.department.service.impl.DepartmentVO">
 		INSERT INTO department 
 		(
 		dept_name
@@ -21,14 +21,43 @@
 	, dept_name as deptName
 	, parent_seq as parentSeq
 	from department
+	WHERE 1=1
 	
 	</select>
 	
-	<select id="getDepartmentList" resultType="com.bjworld.groupware.department.service.impl.DepartmentVO">
-	<![CDATA[
-	SELECT *
+	<select id="selectDepartment" resultType="com.bjworld.groupware.department.service.impl.DepartmentVO">
+	SELECT
+	seq as seq
+	, dept_name as deptName
+	, parent_seq as parentSeq
 	from department
-	order by seq
-	]]>
+	WHERE seq = #{seq}
+	
 	</select>
+	
+	<update id="updateDepartment" parameterType="com.bjworld.groupware.department.service.impl.DepartmentVO">
+	/* updateDepartment */
+	UPDATE department
+	set
+	dept_name = #{deptName}
+	,parent_seq = #{parentSeq}
+	WHERE seq = #{seq}
+	</update>
+	
+	<update id="deleteDepartment"
+		parameterType="com.bjworld.groupware.department.service.impl.DepartmentVO">
+		/* deleteDepartment */
+		DELETE FROM department
+		WHERE seq = #{seq}
+	</update>
+	
+	<select id="selectDepartmentListTotCnt"
+		parameterType="com.bjworld.groupware.department.service.impl.DepartmentVO"
+		resultType="Integer">
+		/* selectDepartmentListTotCnt */
+		SELECT COUNT(*)
+		FROM department
+		WHERE 1 = 1
+	</select>
+	
 </mapper>

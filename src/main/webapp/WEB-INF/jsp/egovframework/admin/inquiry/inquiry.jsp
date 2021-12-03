@@ -2,6 +2,9 @@
 <%@ taglib prefix='c' uri='http://java.sun.com/jsp/jstl/core'%>
 <%@ taglib prefix='spring' uri='http://www.springframework.org/tags'%>
 
+<script src="/js/plugins/fancytree/fancytree_all.min.js"></script>
+<script src="/js/plugins/datatables/extensions/row_reorder.min.js"></script>
+
 <script type='text/javascript'>
 
 
@@ -11,24 +14,43 @@ function initControl() {
 	$("#answerDate").datepicker();
 	$("#csSeq").select2({minimumResultsForSearch: Infinity});
 	
+	 var fancytree = $('.tree-ajax').fancytree({
+	    	//checkbox: true,
+	        //selectMode: 3,
+	        source: {
+	        	url: '/admin/getInquiryTreeAjax.do'
+	        },
+	       	 init: function(event, data) {
+	        	//$.ui.fancytree.getTree('.tree-ajax').activateKey("0");
+	        }, 
+	        activate: function(event, data){     
+	            $('#list').DataTable().ajax.reload();
+	        },
+	    });
+	
 	var table = $('#list').DataTable( {
 	serverSide:true
 	, processing:true
     , ajax: {
         url: '/admin/getInquiryListAjax.do', //url 정보 수정
-        type: 'POST'
+        type: 'POST',
+        data:function(d){
+            var selectedTreeValue = getSelectTreeItem();
+            console.log(selectedTreeValue);
+         
+            if(selectedTreeValue)
+            	if(selectedTreeValue.key!="0"){
+            	d.csSeq = selectedTreeValue.key;}
+            }
     }
 	, order: [[ 0, 'desc' ]]
     , columns: [
     	{ 'data': 'seq', visible:false },
 		{ 'data': 'csName' ,createdCell:function (td, cellData, rowData, row, col){
-			
 			//td cursor 스타일 변경
    			$(td).css('cursor', 'pointer');
-			
 	            $(td).click(function(e){
 	            	//클릭 이벤트 정의
-	            	
 	            	//클릭한 td 의 데이터 불러오기
 	            	var rowData = table.row( $(this).closest('tr') ).data();
 	              	
@@ -213,6 +235,12 @@ function initEvent() {
         	    $("#csSeq").val(data.data.csSeq).trigger("change.select2");
             });
         }
+        else{
+        	var selectedNode = getSelectTreeItem();
+        	
+        	$("#csSeq").val(selectedNode.key);
+        	$("#iconName").val("icon-minus2");
+        }
     });
 
     $('#modalSave').on('hidden.bs.modal', function(e) {    	
@@ -241,13 +269,33 @@ function initEvent() {
 	 		
 	    });
 	
+}	
+	 function getSelectTreeItem(){
+			var selectedNode = $(".tree-ajax").fancytree("getTree").getActiveNode();
+			return selectedNode;
+	 
 }
+	 
 
 </script>
 
 
 <!-- 목록 -->
-<div class='card'>
+<div class='row m-0 h-100'>
+	<div class='col-lg-2 p-0'>
+		<div class='card h-100'>
+			<div class='card-header header-elements-inline'>
+				<h5 class='card-title font-weight-bold'>
+					<i class='icon-chevron-right mr-1'></i> 고객사
+				</h5>
+			</div>
+			<div class='card-body'>
+				<div class="tree-ajax p-1"></div>
+			</div>
+		</div>
+	</div>
+<div class='col-lg-10 p-0'>
+<div class='card h-100'>
 	<div class='card-header header-elements-inline'>
 		<h5 class='card-title font-weight-bold'><i class='icon-chevron-right mr-1'></i>문의 관리</h5>
         <div class='header-elements'>
@@ -281,6 +329,8 @@ function initEvent() {
 			</tbody>
 		</table>
 	</div>
+</div>
+</div>
 </div>	
 
 <div id='modalSave' class='modal fade'>

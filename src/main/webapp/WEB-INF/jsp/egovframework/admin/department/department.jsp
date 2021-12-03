@@ -228,9 +228,9 @@ function initEvent() {
 			</colgroup>
 			<thead>
 				<tr>
-					<th>seq</th>
-					<th>상위 부서</th>		
-					<th>부서명</th>			
+					<th>seq</th>		
+					<th>부서명</th>
+					<th>상위 부서</th>			
 					<th>편집</th>					
 				</tr>
 			</thead>
@@ -260,24 +260,14 @@ function initEvent() {
 	                    		<col style=''/>
 	                    	</colgroup>
 	                    	<tbody>
-							<tr>
-							<th>
-							상위 부서
-							</th>
-							<td>
-							<select name ="parentSeq">
-							<c:forEach var="dataList" items="${dataList}">
-							<option value="${dataList.seq }">${dataList.deptName }</option>
-							</c:forEach>
-							</select>
-							</td>
-							</tr>
-							
                            <tr>
                                 <th>부서명</th>
                                <td><input id='deptName' name='deptName' maxlength='20' class='form-control' type='text' placeholder='부서명'></td>
                            </tr>
-                           
+                           <tr>
+							<th>상위 부서</th>
+							<td><input id='parentSeq' name='parentSeq' maxlength='20' class='form-control' type='text' placeholder='상위부서'></td>
+							</tr>
 
                         </tbody>
                     </table>
@@ -311,7 +301,11 @@ function initEvent() {
 						
 							<tr>
 								<th>부서명</th>
-								<td><label id='deptName'></label></td>
+								<td><label id='lbldeptName'></label></td>
+							</tr>
+							<tr>
+								<th>상위부서</th>
+								<td><label id='lblparentSeq'></label></td>
 							</tr>
 							
 						</tbody>
