@@ -65,8 +65,7 @@ public class ServerController {
 	public AjaxResult<String>  mergeServerAjax(HttpServletRequest request, ServerVO paramVO) throws Exception {
 
 		AjaxResult<String> result = new AjaxResult<>();
-		try {
-        		
+		try {        		
             if(EgovStringUtil.isEmpty(paramVO.getSeq())){
             	//seq 가 공백이면 insert
             	serverService.mergeServer(paramVO);
@@ -74,12 +73,11 @@ public class ServerController {
             else {
             	//seq 가 공백이 아니면 update
             	serverService.updateServer(paramVO);            	
-            }            
+            }
             // merge 방식
 			result.setData("");
 			result.setIsSuccess(SystemConstant.AJAX_SUCCESS);
 			result.setMsg("시스템관리자를 저장하였습니다.");
-
 
 		} catch (Exception e) {
 			logger.error(e.getMessage());

@@ -2,6 +2,21 @@
 <%@ taglib prefix='c' uri='http://java.sun.com/jsp/jstl/core'%>
 <%@ taglib prefix='spring' uri='http://www.springframework.org/tags'%>
 
+<style>
+    .form-setting {
+        /* display: block; */
+        padding: 0.375rem 0.75rem;
+        font-size: 1rem;
+        line-height: 1.5;
+        color: #495057;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid #ddd;
+        border-radius: 0.25rem;
+        /* transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out; */
+    }
+</style>
+
 <script type='text/javascript'>
 
 function initControl() {	
@@ -210,15 +225,18 @@ function initEvent() {
 
     $('#modalSave').on('hidden.bs.modal', function(e) {    	
     	initForm('form');
-        $('#modalSave').data('seq', "");
-        
+        $('#modalSave').data('seq', "");        
     });
     
 	//저장 이벤트
 	 $('#btnDataSave').click(function(){
 	                 
-	            var formData = $('#form').serializeObject();
-	            
+	            var formData = $('#form').serializeArray();
+                var serverIp = $('#serverIp1').val() +"."+ $('#serverIp2').val() +"."+ $('#serverIp3').val() +"."+ $('#serverIp4').val()
+	            formData.push({"name":"serverIp","value":serverIp});
+
+                console.log(formData);                
+
 	            ajax(null, '/admin/mergeServerAjax.do', formData, function(data, status){
 	                showAjaxMessage(data);
 	                if (data.isSuccess === '1')
@@ -318,14 +336,10 @@ function initEvent() {
 								<th>아이피</th>
 								<td>
                                     <!-- <textarea id='serverPort' name='serverPort' maxlength='50' class='form-control' placeholder='포트번호'></textarea></td> -->
-                                    <input type="text" name="ip1" onchange="checkNumber()" size="3" maxlength="3"
-                                        style="border: 1px solid #666633"> .
-                                    <input type="text" name="ip2" onchange="checkNumber()" size="3" maxlength="3"
-                                        style="border: 1px solid #666633"> .
-                                    <input type="text" name="ip3" onchange="checkNumber()" size="3" maxlength="3"
-                                        style="border: 1px solid #666633"> .
-                                    <input type="text" name="ip4" onchange="checkNumber()" size="3" maxlength="3"
-                                        style="border: 1px solid #666633">
+                                    <input type="text" id="serverIp1" onchange="checkNumber()" class='form-setting' size="3" maxlength="3"> .
+                                    <input type="text" id="serverIp2" onchange="checkNumber()" class='form-setting' size="3" maxlength="3"> .
+                                    <input type="text" id="serverIp3" onchange="checkNumber()" class='form-setting' size="3" maxlength="3"> .
+                                    <input type="text" id="serverIp4" onchange="checkNumber()" class='form-setting' size="3" maxlength="3">
                                 </td>
 							</tr>
 	                    	<tr>
