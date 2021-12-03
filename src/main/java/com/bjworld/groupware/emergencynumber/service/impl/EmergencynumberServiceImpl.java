@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.bjworld.groupware.emergencynumber.service.EmergencynumberService;
+import com.bjworld.groupware.employee.service.impl.EmployeeVO;
 
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 
@@ -16,26 +17,48 @@ public class EmergencynumberServiceImpl extends EgovAbstractServiceImpl implemen
 	@Resource(name = "emergencynumberMapper")
 	private EmergencynumberMapper emergencynumberMapper;
 	
+	@Override
 	public void mergeEmergencynumber(EmergencynumberVO paramVO) {
 		emergencynumberMapper.mergeEmergencynumber(paramVO);// TODO Auto-generated method stub
 
-	
 	}
 
+	public EmergencynumberVO selectEmergencynumber(EmergencynumberVO paramVO) {
+        return emergencynumberMapper.selectEmergencynumber(paramVO);
+    }
+	
 	@Override
-	public List<?> selectEmergencynumberList() {
+	public List<EmergencynumberVO> selectEmergencynumberList(EmergencynumberVO paramVO) throws Exception {
 		
-		return emergencynumberMapper.selectEmergencynumberList();
+		return emergencynumberMapper.selectEmergencynumberList(paramVO);
 	}
 
 	@Override
 	public void deleteEmergencynumber(EmergencynumberVO paramVO) throws Exception {
-		// TODO Auto-generated method stub
+		emergencynumberMapper.deleteEmergencynumber(paramVO);
 		
 	}
 
-	
 
+	@Override
+	public Integer selectEmergencynumberListTotCnt(EmergencynumberVO paramVO) throws Exception {
+		
+		return emergencynumberMapper.selectEmergencynumberListTotCnt(paramVO);
+	}
+
+	@Override
+	public void updateEmergencynumber(EmergencynumberVO paramVO) throws Exception  {
+		emergencynumberMapper.updateEmergencynumber(paramVO);
+		
+	}
+
+	@Override
+	public List<?> selectEmergencynumberList() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
 	
 	}
 
