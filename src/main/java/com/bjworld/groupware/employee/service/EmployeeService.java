@@ -21,6 +21,8 @@ public interface EmployeeService {
 
 	Integer selectEmployeeListTotCnt(EmployeeVO paramVO) throws Exception;
 
+	List<?> selectEmployeeList();
+
 	
 
 

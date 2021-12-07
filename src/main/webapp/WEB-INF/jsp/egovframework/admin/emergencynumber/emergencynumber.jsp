@@ -314,7 +314,7 @@ function initEvent() {
 	<div class='modal-dialog modal-xl'>
 		<div class='modal-content'>
 			<div class='modal-header bg-primary text-white'>
-				<h5 class='modal-title'>비상연락망 상세</h5>
+				<h5 class='modal-title'>직원 상세정보</h5>
 				<button type='button' class='close' data-dismiss='modal'>&times;</button>
 			</div>
 			<div class='modal-body'>
