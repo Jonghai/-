@@ -1,5 +1,4 @@
-<%@ page language='java' contentType='text/html; charset=UTF-8'
-	pageEncoding='UTF-8'%>
+<%@ page language='java' contentType='text/html; charset=UTF-8' pageEncoding='UTF-8'%>
 <%@ taglib prefix='c' uri='http://java.sun.com/jsp/jstl/core'%>
 <%@ taglib prefix='spring' uri='http://www.springframework.org/tags'%>
 
@@ -7,81 +6,81 @@
 
 
 function initControl() {
-   
-   $("#employeeSeq").select2({minimumResultsForSearch: Infinity});
-   
-   var table = $('#list').DataTable( {
-   serverSide:true
-   , processing:true
+	
+	$("#emergencynumberSeq").select2({minimumResultsForSearch: Infinity});
+	
+	var table = $('#list').DataTable( {
+	serverSide:true
+	, processing:true
     , ajax: {
         url: '/admin/getEmergencynumberListAjax.do', //url 정보 수정
         type: 'POST'
     }
-   , order: [[ 0, 'desc' ]]
+	, order: [[ 0, 'desc' ]]
     , columns: [
-       { 'data': 'seq', visible:false },
-       //무엇을 클릭해야 상세보기 창이 뜨는지 설정하는 코드
-       { 'data': 'empName' ,createdCell:function (td, cellData, rowData, row, col){
-         
-         //td cursor 스타일 변경
-            $(td).css('cursor', 'pointer');
-         
-               $(td).click(function(e){
-                  //클릭 이벤트 정의
-                  
-                  //클릭한 td 의 데이터 불러오기
-                  var rowData = table.row( $(this).closest('tr') ).data();
-                    
-                  //클릭한 직원의 상세정보 불러 오기
-                    postAjax('/admin/selectEmployeeAjax.do', {seq:rowData.seq}, function(data, status){
-                       
-                       //상세화면 항목에 데이터 삽입
-                     $.each(data.data, function(key, value){                           
-                       if($('#lbl' + key).length > 0)
-                       {
-                          $('#lbl' + key).text(value);
-                       }
-                    });                        
-               
-                       //상세화면 seq 지정
-                     $('#modalView').data('seq', rowData.seq);
-                     $('#modalView').modal();
+    	{ 'data': 'seq', visible:false },
+    	//무엇을 클릭해야 상세보기 창이 뜨는지 설정하는 코드
+    	{ 'data': 'empName' ,createdCell:function (td, cellData, rowData, row, col){
+			
+			//td cursor 스타일 변경
+   			$(td).css('cursor', 'pointer');
+			
+	            $(td).click(function(e){
+	            	//클릭 이벤트 정의
+	            	
+	            	//클릭한 td 의 데이터 불러오기
+	            	var rowData = table.row( $(this).closest('tr') ).data();
+	              	
+	            	//클릭한 직원의 상세정보 불러 오기
+	              	postAjax('/admin/selectEmployeeAjax.do', {seq:rowData.seq}, function(data, status){
+	              		
+	              		//상세화면 항목에 데이터 삽입
+   	            	$.each(data.data, function(key, value){	   	            		
+              			if($('#lbl' + key).length > 0)
+              			{
+              				$('#lbl' + key).text(value);
+              			}
+              		});	   	            	
+					
+	              		//상세화면 seq 지정
+   	         		$('#modalView').data('seq', rowData.seq);
+   	         		$('#modalView').modal();
                 });
-             });
+       		});
         }, className:'text-center'},
-       {'data': 'emerNum' },
-       {'data': 'emerName' },
-       {'data': 'empRel' },
+    	{'data': 'emerNum' },
+    	{'data': 'emerName' },
+    	{'data': 'empRel' },
         {
             className:      'text-center',
             orderable:      false,
             data:           function(rowObject, f, u, table)
             {
-               var actionButtonItem = "";
-   
-               actionButtonItem += "<a href='#' class='dropdown-item' data-seq='"+rowObject.seq+"' role='dataEdit'><i class='icon-pencil5'></i>수정</a>";
-               actionButtonItem += "<a href='#' class='dropdown-item' data-seq='"+rowObject.seq+"' role='dataRemove'><i class='icon-x'></i>삭제</a>";   
-   
-               var actionButtonHtml = "";
-               actionButtonHtml += "<div class='list-icons'>";
-               actionButtonHtml += "   <div class='dropdown'>";
-               actionButtonHtml += "<a href='#' class='list-icons-item' data-toggle='dropdown'>";
-               actionButtonHtml += "<i class='icon-menu9'></i>";
-               actionButtonHtml += "</a>";
-               actionButtonHtml += "<div class='dropdown-menu dropdown-menu-right'>";
-               actionButtonHtml += actionButtonItem;
-               actionButtonHtml += "</div>";
-               actionButtonHtml += "</div>";
-               actionButtonHtml += "</div>";
-   
-               return actionButtonHtml;
+	            var actionButtonItem = "";
+	
+	            actionButtonItem += "<a href='#' class='dropdown-item' data-seq='"+rowObject.seq+"' role='dataEdit'><i class='icon-pencil5'></i>수정</a>";
+	            actionButtonItem += "<a href='#' class='dropdown-item' data-seq='"+rowObject.seq+"' role='dataRemove'><i class='icon-x'></i>삭제</a>";	
+	
+	            var actionButtonHtml = "";
+	            actionButtonHtml += "<div class='list-icons'>";
+	            actionButtonHtml += "	<div class='dropdown'>";
+	            actionButtonHtml += "<a href='#' class='list-icons-item' data-toggle='dropdown'>";
+	            actionButtonHtml += "<i class='icon-menu9'></i>";
+	            actionButtonHtml += "</a>";
+	            actionButtonHtml += "<div class='dropdown-menu dropdown-menu-right'>";
+	            actionButtonHtml += actionButtonItem;
+	            actionButtonHtml += "</div>";
+	            actionButtonHtml += "</div>";
+	            actionButtonHtml += "</div>";
+	
+	            return actionButtonHtml;
             },
             'defaultContent': ''
         },
-       
+    	
     ],     
     buttons: {
-       dom: {
+    	dom: {
             button: {
                 className: 'btn btn-primary'
             }
@@ -90,51 +89,51 @@ function initControl() {
             {
                 text: '비상연락망 등록', //메뉴명에 맞는 버튼 이름으로 변경
                 attr:{
-                   'data-toggle':'modal',
-                   'data-target':'#modalSave' //저장 모달창 아이디로 변경
+                	'data-toggle':'modal',
+                	'data-target':'#modalSave' //저장 모달창 아이디로 변경
                 },
                 action: function(e, dt, node, config) {
-                   
+                	
                 }
             }
         ],
     }
 } );
-   //필수 입력값 체크
-   //폼아이디 변경
-   //필수 입력값 name 지정
-   $('#form').validate({
-      rules:{
-         emerNum:{required:true},
-         emerName:{required:true},
-         empRel:{required:true},
-      }
-   });
-   
-   //필수 입력 항목에 별 표시
-   //폼 아이디 변경
-   $.each($('#form').validate().settings.rules, function(key, value){
-       $('#' + key).parent().prev().html(function(idx, oldHtml){
-          if(oldHtml.indexOf('*') < 0)
-             return '*' + oldHtml;
-       })
+	//필수 입력값 체크
+	//폼아이디 변경
+	//필수 입력값 name 지정
+	$('#form').validate({
+		rules:{
+			emerNum:{required:true},
+			emerName:{required:true},
+			empRel:{required:true},
+		}
+	});
+	
+	//필수 입력 항목에 별 표시
+	//폼 아이디 변경
+	$.each($('#form').validate().settings.rules, function(key, value){
+	    $('#' + key).parent().prev().html(function(idx, oldHtml){
+		    if(oldHtml.indexOf('*') < 0)
+			    return '*' + oldHtml;
+	    })
     });
 }
 
 function initEvent() {
-   
-   //목록 수정버튼 클릭시 이벤트
-   $(document).on('click', 'a[role=dataEdit]', function(){
-      
-      //모달창 아이디 변경
-       $('#modalSave').data('seq', $(this).data('seq'));
-      $('#modalSave').modal();
+	
+	//목록 수정버튼 클릭시 이벤트
+	$(document).on('click', 'a[role=dataEdit]', function(){
+		
+		//모달창 아이디 변경
+    	$('#modalSave').data('seq', $(this).data('seq'));
+		$('#modalSave').modal();
     });  
     
     $(document).on('click', 'a[role=dataRemove]', function(){
-       var seq = $(this).data('seq');
-              
-       //안내 문구 변경
+    	var seq = $(this).data('seq');
+    	    	
+    	//안내 문구 변경
          swalInit.fire({
              title: '비상연락망을 삭제하시겠습니까?',
              text: '',
@@ -145,76 +144,73 @@ function initEvent() {
              cancelButtonClass: 'btn btn-danger',
              buttonsStyling: false
          }).then(function(result) {
-            
+        	 
              if(result.value) {
-               //예
-               //삭제 Url 변경
-                   postAjax('/admin/deleteEmergencynumberAjax.do', {seq:seq}, function(data, status){
-                 showAjaxMessage(data);
-                 
-                 if(data.isSuccess === '1')
-                 {
-                    $('#list').DataTable().ajax.reload();
-                 }
-              });
+            	//예
+            	//삭제 Url 변경
+           	  	postAjax('/admin/deleteEmergencynumberAjax.do', {seq:seq}, function(data, status){
+        			showAjaxMessage(data);
+        			
+        			if(data.isSuccess === '1')
+        			{
+	        			$('#list').DataTable().ajax.reload();
+        			}
+        		});
              }
              else if(result.dismiss === swal.DismissReason.cancel) {
-                 //아니요
+           		//아니요
              }
          });
     });
 
     $('#btnDataEdit').click(function(){
-       $('#modalSave').data('seq', $('#modalView').data('seq'));
-       $('#modalSave').modal();
+    	$('#modalSave').data('seq', $('#modalView').data('seq'));
+    	$('#modalSave').modal();
     });
     
     //수정화면 상세데이터 바인딩
     $('#modalSave').on('show.bs.modal', function(e) {
         if ($('#modalSave').data('seq'))
-       {
+    	{
             postAjax('/admin/selectEmergencynumberAjax.do', {seq:$(this).data('seq')}, function(data, status){
-               console.log(data);
+            	console.log(data);
                 var formInput = $('#form input[type!=radio],#form textarea');
-              
-               $(formInput).each(function(i, input){
+        		
+        	    $(formInput).each(function(i, input){
                     var inputValue = data.data[$(input).attr('name')];
-                  $(input).val(htmlDecode(inputValue));
+        		    $(input).val(htmlDecode(inputValue));
                 });
-               $("#employeeSeq").val(data.data.employeeSeq).trigger("change.select2");
+        	    $("#employeeSeq").val(data.data.employeeSeq).trigger("change.select2");
             });
         }
     });
 
-    $('#modalSave').on('hidden.bs.modal', function(e) {       
-       initForm('form');
+    $('#modalSave').on('hidden.bs.modal', function(e) {    	
+    	initForm('form');
         $('#modalSave').data('seq', "");
         
     });
     
-   //저장 이벤트
-    $('#btnDataSave').click(function(){
-    	if ($('#form').valid())
-    	{
-    	
-                    
-               var formData = $('#form').serializeObject();
-               
-               ajax(null, '/admin/mergeEmergencynumberAjax.do', formData, function(data, status){
-                   showAjaxMessage(data);
-                   if (data.isSuccess === '1')
-                   {
-                      //목록 새로고침
-                   $('#list').DataTable().ajax.reload(null, false);
-                      
-                   //모달창 닫기
-                   $('#modalSave').modal('hide');
-                   
-                   }
-               });
-    	}
-       });
-   
+	//저장 이벤트
+	 $('#btnDataSave').click(function(){
+	                 
+	            var formData = $('#form').serializeObject();
+	            
+	            ajax(null, '/admin/mergeEmergencynumberAjax.do', formData, function(data, status){
+	                showAjaxMessage(data);
+	                if (data.isSuccess === '1')
+	                {
+	                	//목록 새로고침
+					    $('#list').DataTable().ajax.reload(null, false);
+	                	
+					    //모달창 닫기
+					    $('#modalSave').modal('hide');
+					    
+	                }
+	            });
+	 		
+	    });
+	
 }
 
 </script>
@@ -223,23 +219,21 @@ function initEvent() {
 <!-- 목록 -->
 <div class='card'>
 	<div class='card-header header-elements-inline'>
-		<h5 class='card-title font-weight-bold'>
-			<i class='icon-chevron-right mr-1'></i>비상연락망 관리
-		</h5>
-		<div class='header-elements'>
+		<h5 class='card-title font-weight-bold'><i class='icon-chevron-right mr-1'></i>비상연락망 관리</h5>
+        <div class='header-elements'>
 			<div class='list-icons ml-3'>
-				<!-- <a class='list-icons-item' data-action='collapse'></a> -->
-				<a class='list-icons-item' data-action='reload'></a>
-				<!-- <a class='list-icons-item' data-action='remove></a> -->
-			</div>
-		</div>
+          		<!-- <a class='list-icons-item' data-action='collapse'></a> -->
+          		<a class='list-icons-item' data-action='reload'></a>
+          		<!-- <a class='list-icons-item' data-action='remove></a> -->
+          	</div>
+       	</div>
 	</div>
 	<div class='card-body'>
 		<table id='list' class='table table-hover' style='text-align: center;'>
 			<colgroup>
 				<col style=''>
 				<col style='width: 20%;'>
-
+				
 			</colgroup>
 			<thead>
 				<tr>
@@ -256,7 +250,7 @@ function initEvent() {
 			</tbody>
 		</table>
 	</div>
-</div>
+</div>	
 
 <div id='modalSave' class='modal fade'>
 	<div class='modal-dialog modal-xl'>
@@ -267,56 +261,49 @@ function initEvent() {
 			</div>
 
 			<form id='form' name='form' class='form-horizontal'>
-				<input id='seq' name='seq' type='hidden' />
-				<div class='modal-body'>
+                <input id='seq' name='seq' type='hidden' />
+                <div class='modal-body'>
+				
+                    <div class='datatable-scroll'>
+	                    <table class='detailtable mb-3'>
+	                    	<colgroup>
+	                    		<col style='width:20%'/>
+	                    		<col style=''/>
+	                    	</colgroup>
+	                    	<tbody>
 
-					<div class='datatable-scroll'>
-						<table class='detailtable mb-3'>
-							<colgroup>
-								<col style='width: 20%' />
-								<col style='' />
-							</colgroup>
-							<tbody>
-
-								<tr>
-									<th>직원</th>
-									<td><select id="employeeSeq" name='employeeSeq'
-										class="from-control">
-											<option selected value="" hidden="">직원 선택</option>
-											<c:forEach items="${getEmployeeList}" var="getEmployeeList">
-												<option value="${getEmployeeList.seq}"><c:out
-														value="${getEmployeeList.empName}" /></option>
-											</c:forEach>
+                            <tr>
+                                <th>직원</th>
+                                <td><select id="employeeSeq" name='employeeSeq' class="from-control">
+									<option selected value="" hidden="">직원 선택</option>
+										<c:forEach items="${getEmployeeList}" var="getEmployeeList">
+										<option value="${getEmployeeList.seq}"><c:out value="${getEmployeeList.empName}"/></option>
+										</c:forEach>
 									</select></td>
-								</tr>
-								<tr>
-									<th>비상연락망 전화번호</th>
-									<td><input id='emerNum' name='emerNum' maxlength='20'
-										class='form-control' type='text' placeholder='전화번호'></td>
-								</tr>
-								<tr>
-									<th>비상연락망 주인 성함</th>
-									<td><input id='emerName' name='emerName' maxlength='20'
-										class='form-control' type='text' placeholder='비상연락망 주인 성함'></td>
-								</tr>
-								<tr>
-									<th>관계</th>
-									<td><input id='empRel' name='empRel' maxlength='20'
-										class='form-control' type='text' placeholder='관계'></td>
-								</tr>
-
-
-
-							</tbody>
-						</table>
-					</div>
-				</div>
+                           </tr>
+                           <tr>
+                                <th>비상연락망 전화번호</th>
+                                <td><input id='emerNum' name='emerNum' maxlength='20' class='form-control' type='text' placeholder='전화번호'></td>
+                           </tr>
+                           <tr>
+                                <th>비상연락망 주인 성함</th>
+                                <td><input id='emerName' name='emerName' maxlength='20' class='form-control' type='text' placeholder='비상연락망 주인 성함'></td>
+                           </tr>
+                           <tr>
+                                <th>관계</th>
+                                <td><input id='empRel' name='empRel' maxlength='20' class='form-control' type='text' placeholder='관계'></td>
+                           </tr>
+                                               
+                                
+                           
+                        </tbody>
+                    </table>
+                </div>
+                </div>
 			</form>
-			<div class='modal-footer border-top'>
-				<button type='button' class='btn bg-primary text-white'
-					id='btnDataSave'>저장</button>
-				<button type='button' class='btn bg-primary text-white'
-					data-dismiss='modal'>닫기</button>
+            <div class='modal-footer border-top'>
+				<button type='button' class='btn bg-primary text-white' id='btnDataSave'>저장</button>
+				<button type='button' class='btn bg-primary text-white' data-dismiss='modal'>닫기</button>
 			</div>
 		</div>
 	</div>
@@ -366,16 +353,14 @@ function initEvent() {
 								<th>상세주소</th>
 								<td><label id='lbladdressDetail'></label></td>
 							</tr>
-
+			
 						</tbody>
 					</table>
 				</div>
 			</div>
 			<div class='modal-footer border-top'>
-				<button type='button' class='btn bg-primary text-white'
-					data-dismiss='modal' id='btnDataEdit'>수정</button>
-				<button type='button' class='btn bg-primary text-white'
-					data-dismiss='modal'>닫기</button>
+				<button type='button' class='btn bg-primary text-white' data-dismiss='modal' id='btnDataEdit'>수정</button>
+                <button type='button' class='btn bg-primary text-white' data-dismiss='modal'>닫기</button>
 			</div>
 		</div>
 	</div>
