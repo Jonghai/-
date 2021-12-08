@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper
+	namespace="com.bjworld.groupware.maintenance.service.impl.MaintenanceMapper">
+	<insert id= "mergeMaintenance" parameterType="com.bjworld.groupware.maintenance.service.impl.MaintenanceVO">
+	 INSERT INTO maintenance
+	 (
+	  project_seq,
+	  request_name,
+	  request_content,
+	  request_date,
+	  pro_result,
+	  <if test="proDate != null and proDate !=''">
+		pro_date,
+		</if> 
+	  pro_state
+	 )
+	 VALUES
+		(
+		 #{projectSeq}
+		,#{requestName}
+		,#{requestContent}
+		,#{requestDate}
+		,#{proResult}
+		
+		<if test="proDate != null and proDate !=''">
+		,#{proDate}
+		</if>
+		,#{proState}
+		)
+	 </insert>
+	 
+	<select id="selectMaintenanceList" resultType="com.bjworld.groupware.maintenance.service.impl.MaintenanceVO">
+	SELECT m.seq 
+	,project_seq as projectSeq
+	,request_name as requestName
+	,request_content as requestContent
+	,request_date as requestDate
+	,pro_result as proResult
+	,IFNULL(DATE_FORMAT(pro_date, '%Y-%m-%d'), "-") as proDate
+	,(CASE
+			WHEN pro_state = '1'
+			THEN '등록'
+			WHEN pro_state = '2'
+			THEN '요청확인'
+			WHEN pro_state = '9'
+			THEN '처리완료'
+			
+		END) AS proState 
+	,p.project_name as projectName
+	from maintenance m 
+	left join project p
+	on m.project_seq = p.seq
+	WHERE 1=1
+
+	</select>
+	
+	<select id="selectMaintenance" resultType="com.bjworld.groupware.maintenance.service.impl.MaintenanceVO"
+	parameterType="com.bjworld.groupware.maintenance.service.impl.MaintenanceVO">
+	SELECT 
+	m.seq as seq 
+	,project_seq as projectSeq
+	,request_name as requestName
+	,request_content as requestContent
+	,request_date as requestDate
+	,pro_result as proResult
+	,pro_date as proDate
+	,(CASE
+			WHEN pro_state = '1'
+			THEN '등록'
+			WHEN pro_state = '2'
+			THEN '요청확인'
+			WHEN pro_state = '9'
+			THEN '처리완료'
+		
+		END) AS proState
+	,p.project_name as projectName
+	from maintenance m 
+	left join project p
+	on m.project_seq = p.seq
+	WHERE m.seq = #{seq}
+	</select>
+	
+	<update id="updateMaintenance"
+		parameterType="com.bjworld.groupware.maintenance.service.impl.MaintenanceVO">
+		/* updateMaintenance */
+		UPDATE maintenance
+		set
+		 project_seq = #{projectSeq}
+		,request_name = #{requestName}
+		,request_content = #{requestContent}
+		,request_date = #{requestDate}
+		,pro_result = #{proResult}
+		<if test="proDate != null and proDate !=''">
+		,pro_date= #{proDate}
+		</if>
+		,pro_state = #{proState}
+		WHERE seq = #{seq}
+	</update>
+	<update id="deleteMaintenance"
+		parameterType="com.bjworld.groupware.maintenance.service.impl.MaintenanceVO">
+		/* deleteMaintenance */
+		DELETE FROM maintenance
+		WHERE seq = #{seq}
+	</update>
+	
+	<select id="selectMaintenanceListTotCnt"
+		parameterType="com.bjworld.groupware.maintenance.service.impl.MaintenanceVO"
+		resultType="Integer">
+		/* selectMaintenanceListTotCnt */
+		SELECT COUNT(*)
+		FROM maintenance
+		WHERE 1 = 1
+	</select>
+	
+	<update id="updateProStateMaintenance" parameterType="com.bjworld.groupware.maintenance.service.impl.MaintenanceVO">
+		UPDATE maintenance
+		set	
+		pro_state = #{proState}
+		WHERE seq = #{seq}
+	</update>
+	
+</mapper>

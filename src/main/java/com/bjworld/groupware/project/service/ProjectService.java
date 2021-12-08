@@ -20,4 +20,6 @@ public interface ProjectService {
 
 	Integer selectProjectListTotCnt(ProjectVO paramVO) throws Exception;
 
+	
+
 }
