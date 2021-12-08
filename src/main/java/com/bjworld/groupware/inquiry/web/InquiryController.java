@@ -142,13 +142,13 @@ System.out.println(paramVO);
         	
 			result.setData("");
 			result.setIsSuccess(SystemConstant.AJAX_SUCCESS);
-			result.setMsg("시스템관리자를 저장하였습니다.");
+			result.setMsg("문의를 저장하였습니다.");
 
 
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			result.setIsSuccess(SystemConstant.AJAX_FAIL);
-			result.setMsg(String.format(SystemConstant.AJAX_ERROR_MESSAGE, "시스템관리자를 저장 중"));
+			result.setMsg(String.format(SystemConstant.AJAX_ERROR_MESSAGE, "문의 저장 중"));
 		}
 
 		return result;
@@ -171,7 +171,7 @@ System.out.println(paramVO);
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			result.setIsSuccess(SystemConstant.AJAX_FAIL);
-			result.setMsg(String.format(SystemConstant.AJAX_ERROR_MESSAGE, "시스템관리자를 불러 중"));
+			result.setMsg(String.format(SystemConstant.AJAX_ERROR_MESSAGE, "문의 불러오는 중"));
 		}
 
 		return result;
@@ -189,12 +189,12 @@ System.out.println(paramVO);
 	        	inquiryService.deleteInquiry(paramVO);
 	        	result.setIsSuccess(SystemConstant.AJAX_SUCCESS);
 	        	result.setData("");
-	        	result.setMsg("시스템관리자를 삭제하였습니다.");
+	        	result.setMsg("문의가 삭제하였습니다.");
 	        }
 	        catch(Exception e) {
 	            logger.error(e.getMessage());
 	        	result.setIsSuccess(SystemConstant.AJAX_FAIL);
-	        	result.setMsg(String.format(SystemConstant.AJAX_ERROR_MESSAGE, " 시스템관리자를 삭제 하는 중"));
+	        	result.setMsg(String.format(SystemConstant.AJAX_ERROR_MESSAGE, " 문의 삭제 하는 중"));
 	        }
 	        
 	        return result;

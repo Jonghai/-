@@ -237,9 +237,16 @@ function initEvent() {
         }
         else{
         	var selectedNode = getSelectTreeItem();
+        	//selectedNode의 값이 null이 아니라면 또는 있다면 다음 실행/ 이 코드 자체에서 오류가 난다면 form이 아예 열리지 않음
+        	if(selectedNode) {
+        		//selectedNode.key값(고객사 key값은 0, 삼성전자는 8 과 같은 seq값이라고 생각하면 됨)이 0이 아니라면 $("#csSeq").val부분 실행
+        		if(selectedNode.key !='0'){
+        		$("#csSeq").val(selectedNode.key).trigger("change.select2");
+        		}
+        	}
         	
-        	$("#csSeq").val(selectedNode.key);
         	$("#iconName").val("icon-minus2");
+        	
         }
     });
 
@@ -251,7 +258,8 @@ function initEvent() {
     
 	//저장 이벤트
 	 $('#btnDataSave').click(function(){
-	                 
+		 if ($('#form').valid())
+		 {     
 	            var formData = $('#form').serializeObject();
 	            
 	            ajax(null, '/admin/mergeInquiryAjax.do', formData, function(data, status){
@@ -266,7 +274,7 @@ function initEvent() {
 					    
 	                }
 	            });
-	 		
+		 }
 	    });
 	
 }	

@@ -21,7 +21,7 @@
 	<select id="selectEmergencynumberList" resultType="com.bjworld.groupware.emergencynumber.service.impl.EmergencynumberVO">
 	SELECT en.seq, 
 	en.emer_num as emerNum
-	,en.employee_seq as emergencynumberSeq
+	,en.employee_seq as employeeSeq
 	,en.emer_name as emerName
 	,en.emp_rel as empRel
     ,e.emp_name as empName
@@ -38,9 +38,9 @@
 	<select id="selectEmergencynumber" resultType="com.bjworld.groupware.emergencynumber.service.impl.EmergencynumberVO"
 	parameterType="com.bjworld.groupware.emergencynumber.service.impl.EmergencynumberVO">
 	SELECT 
-	en.seq as en.seq 
+	en.seq as seq 
 	,en.emer_num as emerNum
-	,en.employee_seq as emergencynumberSeq
+	,en.employee_seq as employeeSeq
 	,en.emer_name as emerName
 	,en.emp_rel as empRel
     ,e.emp_name as empName
@@ -51,7 +51,7 @@
  	on en.employee_seq = e.seq
     left join department d
     on e.department_seq = d.seq
-	WHERE seq = #{seq}
+	WHERE en.seq = #{seq}
 	</select>
 	
 	<update id="updateEmergencynumber"
@@ -59,10 +59,10 @@
 		
 		UPDATE employee_emergencynumber
 		set
-		,en.emer_num = #{emerNum}
-		,en.employee_seq = #{emergencynumberSeq}
-		,en.emer_name = #{emerName}
-		,en.emp_rel = #{empRel}
+		 emer_num = #{emerNum}
+		,employee_seq = #{employeeSeq}
+		,emer_name = #{emerName}
+		,emp_rel = #{empRel}
 		WHERE seq = #{seq}
 	</update>
 	

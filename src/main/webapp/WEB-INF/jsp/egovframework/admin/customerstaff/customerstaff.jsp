@@ -198,7 +198,8 @@ function initEvent() {
     
 	//저장 이벤트
 	 $('#btnDataSave').click(function(){
-	                 
+		 if ($('#form').valid())
+		 {       
 	            var formData = $('#form').serializeObject();
 	            
 	            ajax(null, '/admin/mergeCustomerStaffAjax.do', formData, function(data, status){
@@ -213,7 +214,7 @@ function initEvent() {
 					    
 	                }
 	            });
-	 		
+		 }
 	    });
 	
 }

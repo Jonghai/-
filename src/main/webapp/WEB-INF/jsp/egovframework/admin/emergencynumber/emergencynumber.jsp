@@ -7,7 +7,7 @@
 
 function initControl() {
 	
-	$("#emergencynumberSeq").select2({minimumResultsForSearch: Infinity});
+	$("#employeeSeq").select2({minimumResultsForSearch: Infinity});
 	
 	var table = $('#list').DataTable( {
 	serverSide:true
