@@ -2,62 +2,78 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
 <mapper
-	namespace="com.bjworld.groupware.department.service.impl.DepartmentMapper">
-	<insert id="mergeDepartment" parameterType="com.bjworld.groupware.department.service.impl.DepartmentVO">
-		INSERT INTO department 
-		(
-		dept_name
-		,parent_seq
-		)
-		VALUES
-		(
-		#{deptName}
-		,#{parentSeq}
-		)
-	</insert>
-	          
-	<select id="selectDepartmentList" resultType="com.bjworld.groupware.department.service.impl.DepartmentVO">
-	SELECT seq
-	, dept_name as deptName
-	, parent_seq as parentSeq
-	from department
-	WHERE 1=1
-	
-	</select>
-	
-	<select id="selectDepartment" resultType="com.bjworld.groupware.department.service.impl.DepartmentVO">
-	SELECT
-	seq as seq
-	, dept_name as deptName
-	, parent_seq as parentSeq
-	from department
-	WHERE seq = #{seq}
-	
-	</select>
-	
-	<update id="updateDepartment" parameterType="com.bjworld.groupware.department.service.impl.DepartmentVO">
-	/* updateDepartment */
-	UPDATE department
-	set
-	dept_name = #{deptName}
-	,parent_seq = #{parentSeq}
-	WHERE seq = #{seq}
-	</update>
-	
-	<update id="deleteDepartment"
-		parameterType="com.bjworld.groupware.department.service.impl.DepartmentVO">
-		/* deleteDepartment */
-		DELETE FROM department
-		WHERE seq = #{seq}
-	</update>
-	
-	<select id="selectDepartmentListTotCnt"
-		parameterType="com.bjworld.groupware.department.service.impl.DepartmentVO"
-		resultType="Integer">
-		/* selectDepartmentListTotCnt */
-		SELECT COUNT(*)
-		FROM department
-		WHERE 1 = 1
-	</select>
-	
+   namespace="com.bjworld.groupware.department.service.impl.DepartmentMapper">
+   <insert id="mergeDepartment" parameterType="com.bjworld.groupware.department.service.impl.DepartmentVO">
+      INSERT INTO department 
+      (
+      parent_seq
+      ,dept_name
+      
+      )
+      VALUES
+      (
+      #{parentSeq}
+      ,#{deptName}
+      
+      )
+   </insert>
+             
+   <select id="selectDepartmentList" resultType="com.bjworld.groupware.department.service.impl.DepartmentVO">
+
+   	SELECT 
+  	 d.seq as seq
+  	 , d.dept_name as deptName
+  	 , d.parent_seq as parentSeq,
+   	case
+   	when d.parent_seq = '0' then '본부'
+   	else d2.dept_name
+   	end
+   	as parentDeptname
+   	from department d
+   	left join (select seq, dept_name from department) d2
+   	on d.parent_seq = d2.seq
+   	WHERE 1=1
+   <if test="parentSeq != null and parentSeq != ''">
+ and d.parent_seq = #{parentSeq}
+</if>
+   
+   </select>
+   
+   <select id="selectDepartment" resultType="com.bjworld.groupware.department.service.impl.DepartmentVO">
+   SELECT
+   seq as seq
+   , parent_seq as parentSeq
+   , dept_name as deptName
+   , parent_dept_name as parentDeptName
+   from department
+   WHERE seq = #{seq}
+   
+   </select>
+   
+   <update id="updateDepartment" parameterType="com.bjworld.groupware.department.service.impl.DepartmentVO">
+   
+   UPDATE department
+   set
+   parent_seq = #{parentSeq}
+   ,dept_name = #{deptName}
+   ,parent_dept_name = #{parentDeptName}
+   WHERE seq = #{seq}
+   </update>
+   
+   <update id="deleteDepartment"
+      parameterType="com.bjworld.groupware.department.service.impl.DepartmentVO">
+      
+      DELETE FROM department
+      WHERE seq = #{seq}
+   </update>
+   
+   <select id="selectDepartmentListTotCnt"
+      parameterType="com.bjworld.groupware.department.service.impl.DepartmentVO"
+      resultType="Integer">
+     
+      SELECT COUNT(*)
+      FROM department
+      WHERE 1 = 1
+   </select>
+   
 </mapper>

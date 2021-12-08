@@ -4,6 +4,7 @@ public class DepartmentVO{
 	private String seq;
 	private String parentSeq;
 	private String deptName;
+	private String parentDeptName;
 	
 	
 	public String getParentSeq() {
@@ -24,5 +25,11 @@ public class DepartmentVO{
 	public void setDeptName(String deptName) {
 		this.deptName = deptName;
 	}
-
+	public String getParentDeptName() {
+		return parentDeptName;
+	}
+	
+	public void setParentDeptName(String parentDeptName) {
+		this.parentDeptName = parentDeptName;
+	}
 }

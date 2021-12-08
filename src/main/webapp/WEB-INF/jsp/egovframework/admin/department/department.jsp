@@ -16,37 +16,13 @@ function initControl() {
     }
 	, order: [[ 0, 'desc' ]]
     , columns: [
-    	{ 'data': 'seq' },
-    	{ 'data': 'deptName' ,createdCell:function (td, cellData, rowData, row, col){
+    	{ 'data': 'seq',visible:false  },
+    	
+    	{ 'data': 'parentDeptName' ,createdCell:function (td, cellData, rowData, row, col){
 			
-			//td cursor 스타일 변경
-   			$(td).css('cursor', 'pointer');
 			
-	            $(td).click(function(e){
-	            	//클릭 이벤트 정의
-	            	
-	            	//클릭한 td 의 데이터 불러오기
-	            	var rowData = table.row( $(this).closest('tr') ).data();
-	              	
-	            	//클릭한 직원의 상세정보 불러 오기
-	              	postAjax('/admin/selectDepartmentAjax.do', {seq:rowData.seq}, function(data, status){
-	              		
-	              		//상세화면 항목에 데이터 삽입
-   	            	$.each(data.data, function(key, value){	   	            		
-              			if($('#lbl' + key).length > 0)
-              			{
-              				$('#lbl' + key).text(value);
-              			}
-              		});	   	            	
-					
-	              		//상세화면 seq 지정
-   	         		$('#modalView').data('seq', rowData.seq);
-   	         		$('#modalView').modal();
-                });
-       		});
         }, className:'text-center'},
-    	/* {'data': 'deptName' }, */
-    	{'data' : 'parentSeq'},    	
+    	{'data' : 'deptName'},    	
         {
             className:      'text-center',
             orderable:      false,
@@ -228,9 +204,9 @@ function initEvent() {
 			</colgroup>
 			<thead>
 				<tr>
-					<th>seq</th>		
-					<th>부서명</th>
-					<th>상위 부서</th>			
+					<th>seq</th>
+					<th>상위 부서</th>		
+					<th>부서명</th>			
 					<th>편집</th>					
 				</tr>
 			</thead>
@@ -260,14 +236,24 @@ function initEvent() {
 	                    		<col style=''/>
 	                    	</colgroup>
 	                    	<tbody>
+							<tr>
+							<th>
+							상위 부서
+							</th>
+							<td>
+							<select name ="parentSeq">
+							<c:forEach var="dataList" items="${dataList}">
+							<option value="${dataList.seq }">${dataList.deptName }</option>
+							</c:forEach>
+							</select>
+							</td>
+							</tr>
+							
                            <tr>
                                 <th>부서명</th>
                                <td><input id='deptName' name='deptName' maxlength='20' class='form-control' type='text' placeholder='부서명'></td>
                            </tr>
-                           <tr>
-							<th>상위 부서</th>
-							<td><input id='parentSeq' name='parentSeq' maxlength='20' class='form-control' type='text' placeholder='상위부서'></td>
-							</tr>
+                           
 
                         </tbody>
                     </table>
@@ -301,11 +287,7 @@ function initEvent() {
 						
 							<tr>
 								<th>부서명</th>
-								<td><label id='lbldeptName'></label></td>
-							</tr>
-							<tr>
-								<th>상위부서</th>
-								<td><label id='lblparentSeq'></label></td>
+								<td><label id='deptName'></label></td>
 							</tr>
 							
 						</tbody>

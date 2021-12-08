@@ -28,9 +28,12 @@ public class DepartmentController {
 	private DepartmentService departmentService;
 
 	@RequestMapping("/department.do")
-	public String department(HttpServletRequest request, Model model) throws Exception {
-		List<?> dataList = departmentService.selectDepartmentList();
+	public String department(HttpServletRequest request, Model model, DepartmentVO paramVO) throws Exception {
+		paramVO.setParentSeq("0");
+		List<?> dataList = departmentService.selectDepartmentList(paramVO);
+		
 		model.addAttribute("dataList", dataList);
+		
 		return "department/department.at";
 	}
 
