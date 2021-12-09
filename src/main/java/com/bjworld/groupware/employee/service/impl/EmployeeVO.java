@@ -11,7 +11,9 @@ public class EmployeeVO {
 	private String addRess;
 	private String addressDetail;
 	private String deptName;
+	private String dayOff;
 	
+
 	public String getSeq() {
 		return seq;
 	}
@@ -67,7 +69,12 @@ public class EmployeeVO {
 		this.deptName = deptName;
 	}
 
-
+	public String getDayOff() {
+		return dayOff;
+	}
+	public void setDayOff(String dayOff) {
+		this.dayOff = dayOff;
+	}
 
 
 }

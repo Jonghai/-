@@ -12,7 +12,8 @@
 	  emp_rank,
 	  address_zonecode,
 	  address,
-	  address_detail
+	  address_detail,
+	  day_off
 	 )
 	 VALUES
 		(
@@ -23,6 +24,7 @@
 		,#{addressZonecode}
 		,#{addRess}
 		,#{addressDetail}
+		,#{dayOff}
 		)
 	 </insert>
 	 
@@ -36,6 +38,7 @@
 	,address as addRess
 	,address_detail as addressDetail
 	,d.dept_name as deptName
+	,day_off as dayOff
 	from employee e 
 	left join department d
 	on e.department_seq = d.seq
@@ -55,6 +58,7 @@
 	,address as addRess
 	,address_detail as addressDetail
 	,d.dept_name as deptName
+	,day_off as dayOff
 	from employee e 
 	left join department d
 	on e.department_seq = d.seq
@@ -73,6 +77,7 @@
 		,address_zonecode = #{addressZonecode}
 		,address = #{addRess}
 		,address_detail = #{addressDetail}
+		,day_off = #{dayOff}
 		WHERE seq = #{seq}
 	</update>
 	<update id="deleteEmployee"

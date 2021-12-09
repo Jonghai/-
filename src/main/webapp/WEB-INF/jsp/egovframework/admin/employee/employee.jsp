@@ -54,6 +54,7 @@ function initControl() {
     	{'data': 'addressZonecode' },
     	{'data': 'addRess' },
     	{'data': 'addressDetail'},
+    	{'data': 'dayOff'},
         {
             className:      'text-center',
             orderable:      false,
@@ -249,6 +250,7 @@ function initEvent() {
 					<th>우편번호</th>
 					<th>주소</th>
 					<th>상세주소</th>
+					<th>월차갯수</th>
 					<th>기능</th>
 				</tr>
 			</thead>
@@ -311,9 +313,11 @@ function initEvent() {
                            <tr>
                                  <th>상세주소</th>
                                 <td><input id='addressDetail' name='addressDetail' maxlength='20' class='form-control' type='text' placeholder='상세주소'></td>
-                            </tr>                           
-                                
-                           
+                            </tr>    
+                            <tr>
+                                 <th>월차갯수</th>
+                                <td><input id='dayOff' name='dayOff' maxlength='20' class='form-control'  placeholder='월차갯수' data-inputtype='onlynumber'></td>
+                            </tr>                       
                         </tbody>
                     </table>
                 </div>
@@ -370,6 +374,10 @@ function initEvent() {
 							<tr>
 								<th>상세주소</th>
 								<td><label id='lbladdressDetail'></label></td>
+							</tr>
+							<tr>
+								<th>월차</th>
+								<td><label id='lbldayOff'></label></td>
 							</tr>
 			
 						</tbody>
