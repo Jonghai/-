@@ -132,7 +132,9 @@ function initControl() {
 	$('#form').validate({
 		rules:{
 			projectSeq:{required:true},
-			request_name:{required:true}
+			requestName:{required:true},
+			requestContent:{required:true},
+			requestDate:{required:true}
 		}
 	});
 	
@@ -153,7 +155,7 @@ function initEvent() {
 		
 		//모달창 아이디 변경
     	$('#modalSave').data('seq', $(this).data('seq'));
-		$('#modalSave').modal();
+		$('#modalSave').modal(); 
     });  
     
     $(document).on('click', 'a[role=dataRemove]', function(){
@@ -230,10 +232,11 @@ function initEvent() {
     
 	//저장 이벤트
 	 $('#btnDataSave').click(function(){
+		 		//if ($('#form').valid()) = 저장버튼을 눌렀을때 폼아이디 값이 유효하다면 저장을 실행한다 유효하지 않다면 실행하지 않고 입력하라고 안내창이 뜸
 				 if ($('#form').valid())
 				 {
-		
-				 }
+					 
+				 
 	                 
 	            var formData = $('#form').serializeObject();
 	            
@@ -248,10 +251,12 @@ function initEvent() {
 					    $('#modalSave').modal('hide');
 					    
 	                }
+	       
+	          
 	            });
-	 		
+				 }
 	    });
-	
+	 
 }
 
 </script>

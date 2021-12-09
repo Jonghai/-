@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bjworld.groupware.emergencynumber.service.impl.EmergencynumberMapper">
+<<<<<<< HEAD
    <insert id= "mergeEmergencynumber" parameterType="com.bjworld.groupware.emergencynumber.service.impl.EmergencynumberVO">
     INSERT INTO employee_emergencynumber
     (
@@ -24,6 +25,31 @@
    ,en.employee_seq as employeeSeq
    ,en.emer_name as emerName
    ,en.emp_rel as empRel
+=======
+	<insert id= "mergeEmergencynumber" parameterType="com.bjworld.groupware.emergencynumber.service.impl.EmergencynumberVO">
+	 INSERT INTO employee_emergencynumber
+	 (
+	  emer_num,
+	  employee_seq,
+	  emer_name,
+	  emp_rel
+	 )
+	 VALUES
+		(
+		 #{emerNum}
+		,#{employeeSeq}
+		,#{emerName}
+		,#{empRel}
+		)
+	 </insert>
+	 
+	<select id="selectEmergencynumberList" resultType="com.bjworld.groupware.emergencynumber.service.impl.EmergencynumberVO">
+	SELECT en.seq, 
+	en.emer_num as emerNum
+	,en.employee_seq as employeeSeq
+	,en.emer_name as emerName
+	,en.emp_rel as empRel
+>>>>>>> ecd81c27b24daa352cf3f91cb7db620416389618
     ,e.emp_name as empName
     ,e.emp_phone as empPhone
     ,d.dept_name as deptName
@@ -32,6 +58,7 @@
     on en.employee_seq = e.seq
     left join department d
     on e.department_seq = d.seq
+<<<<<<< HEAD
    WHERE 1=1
    </select>
    
@@ -43,6 +70,19 @@
    ,en.employee_seq as employeeSeq
    ,en.emer_name as emerName
    ,en.emp_rel as empRel
+=======
+	WHERE 1=1
+	</select>
+	
+	<select id="selectEmergencynumber" resultType="com.bjworld.groupware.emergencynumber.service.impl.EmergencynumberVO"
+	parameterType="com.bjworld.groupware.emergencynumber.service.impl.EmergencynumberVO">
+	SELECT 
+	en.seq as seq 
+	,en.emer_num as emerNum
+	,en.employee_seq as employeeSeq
+	,en.emer_name as emerName
+	,en.emp_rel as empRel
+>>>>>>> ecd81c27b24daa352cf3f91cb7db620416389618
     ,e.emp_name as empName
     ,e.emp_phone as empPhone
     ,d.dept_name as deptName
@@ -51,6 +91,7 @@
     on en.employee_seq = e.seq
     left join department d
     on e.department_seq = d.seq
+<<<<<<< HEAD
    WHERE en.seq = #{seq}
    </select>
    
@@ -80,3 +121,34 @@
       WHERE 1 = 1
    </select>
    </mapper>
+=======
+	WHERE en.seq = #{seq}
+	</select>
+	
+	<update id="updateEmergencynumber"
+		parameterType="com.bjworld.groupware.emergencynumber.service.impl.EmergencynumberVO">
+		
+		UPDATE employee_emergencynumber
+		set
+		 emer_num = #{emerNum}
+		,employee_seq = #{employeeSeq}
+		,emer_name = #{emerName}
+		,emp_rel = #{empRel}
+		WHERE seq = #{seq}
+	</update>
+	
+	<update id="deleteEmergencynumber"
+		parameterType="com.bjworld.groupware.emergencynumber.service.impl.EmergencynumberVO">
+		DELETE FROM employee_emergencynumber
+		WHERE seq = #{seq}
+	</update>
+	
+	<select id="selectEmergencynumberListTotCnt"
+		parameterType="com.bjworld.groupware.emergencynumber.service.impl.EmergencynumberVO"
+		resultType="Integer">
+		SELECT COUNT(*)
+		FROM employee_emergencynumber
+		WHERE 1 = 1
+	</select>
+	</mapper>
+>>>>>>> ecd81c27b24daa352cf3f91cb7db620416389618

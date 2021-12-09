@@ -53,6 +53,12 @@ public class EmployeeServiceImpl extends EgovAbstractServiceImpl implements Empl
 	    public Integer selectEmployeeListTotCnt(EmployeeVO paramVO) throws Exception {
 	        return employeeMapper.selectEmployeeListTotCnt(paramVO);
 	    }
+
+	@Override
+	public List<?> selectEmployeeList() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	 
 
 
