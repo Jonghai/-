@@ -7,6 +7,7 @@
 
 function initControl() {  
 	
+	$("#parentSeq").select2({minimumResultsForSearch: Infinity});
 	var table = $('#list').DataTable( {
 	serverSide:true
 	, processing:true
@@ -150,7 +151,7 @@ function initEvent() {
                     var inputValue = data.data[$(input).attr('name')];
         		    $(input).val(htmlDecode(inputValue));
                 });
-				 
+        	    $("#parentSeq").val(data.data.parentSeq).trigger("change.select2");
             });
         }
     });
@@ -163,7 +164,8 @@ function initEvent() {
     
 	//저장 이벤트
 	 $('#btnDataSave').click(function(){
-	                 
+		 if ($('#form').valid())
+	    	{
 	            var formData = $('#form').serializeObject();
 	            
 	            ajax(null, '/admin/mergeDepartmentAjax.do', formData, function(data, status){
@@ -177,7 +179,7 @@ function initEvent() {
 					    $('#modalSave').modal('hide');
 	                }
 	            });
-	 		
+	    	}
 	    });
 }
 
@@ -287,7 +289,7 @@ function initEvent() {
 						
 							<tr>
 								<th>부서명</th>
-								<td><label id='deptName'></label></td>
+								<td><label id='lbldeptName'></label></td>
 							</tr>
 							
 						</tbody>

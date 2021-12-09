@@ -21,7 +21,7 @@
    <select id="selectDepartmentList" resultType="com.bjworld.groupware.department.service.impl.DepartmentVO">
 
    	SELECT 
-  	 d.seq as seq
+  	 d.seq 
   	 , d.dept_name as deptName
   	 , d.parent_seq as parentSeq,
    	case
@@ -41,12 +41,12 @@
    
    <select id="selectDepartment" resultType="com.bjworld.groupware.department.service.impl.DepartmentVO">
    SELECT
-   seq as seq
+   d.seq as seq
    , parent_seq as parentSeq
    , dept_name as deptName
    , parent_dept_name as parentDeptName
    from department
-   WHERE seq = #{seq}
+   WHERE d.seq = #{seq}
    
    </select>
    
