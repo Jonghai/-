@@ -80,7 +80,7 @@
 						<div class="card-body">
 							<div class="text-center mb-3">
 								<!-- <i class="icon-reading icon-2x text-slate-300 border-slate-300 border-3 rounded-round p-3 mb-3 mt-1"></i> -->
-								<img class='mt-2 mb-2' src='' alt='LOGO'>
+								<img class='mt-2 mb-2' src='/css/egovframework/img/bj_logo.png' alt='LOGO'>
 								<span class="d-block text-muted">인가된 사용자만 접근할 수 있습니다.</span>
 							</div>
 

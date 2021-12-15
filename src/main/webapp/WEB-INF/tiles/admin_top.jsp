@@ -10,7 +10,7 @@
 	</div>
 	<div class="navbar-brand text-center text-lg-left">
 		<a href="/admin/board.do?code=data1" class="d-inline-block">
-			<img src="" alt='LOGO' class="d-none d-sm-block" style='width:260px;height:46px;' alt="">
+			<img src="/css/egovframework/img/bj_logo.png" alt='LOGO' class="d-none d-sm-block" style='width:220px;height:auto;' >
 			<!-- <img src="../../../../global_assets/images/logo_icon_light.png" class="d-sm-none" alt=""> -->
 		</a>
 	</div>
