@@ -18,7 +18,7 @@ function initControl() {
 	, order: [[ 0, 'desc' ]]
     , columns: [
     	{ 'data': 'seq',visible:false  },
-    	
+    	//무엇을 클릭해야 상세보기 창이 뜨는지 설정하는 코드
     	{ 'data': 'parentDeptName' ,createdCell:function (td, cellData, rowData, row, col){
 			
 			
@@ -243,7 +243,7 @@ function initEvent() {
 							상위 부서
 							</th>
 							<td>
-							<select name ="parentSeq">
+							<select id="parentSeq" name ="parentSeq" class="from-control">
 							<c:forEach var="dataList" items="${dataList}">
 							<option value="${dataList.seq }">${dataList.deptName }</option>
 							</c:forEach>
@@ -270,36 +270,3 @@ function initEvent() {
 	</div>
 </div>
 
-<!-- 상세보기 창 -->
-<div id='modalView' class='modal fade'>
-	<div class='modal-dialog modal-xl'>
-		<div class='modal-content'>
-			<div class='modal-header bg-primary text-white'>
-				<h5 class='modal-title'>부서목록 상세</h5>
-				<button type='button' class='close' data-dismiss='modal'>&times;</button>
-			</div>
-			<div class='modal-body'>
-				<div class='datatable-scroll'>
-					<table class='detailtable mb-3'>
-						<colgroup>
-							<col style='width: 20%' />
-							<col style='' />
-						</colgroup>
-						<tbody>
-						
-							<tr>
-								<th>부서명</th>
-								<td><label id='lbldeptName'></label></td>
-							</tr>
-							
-						</tbody>
-					</table>
-				</div>
-			</div>
-			<div class='modal-footer border-top'>
-				<button type='button' class='btn bg-primary text-white' data-dismiss='modal' id='btnDataEdit'>수정</button>
-                <button type='button' class='btn bg-primary text-white' data-dismiss='modal'>닫기</button>
-			</div>
-		</div>
-	</div>
-</div>
