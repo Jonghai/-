@@ -94,19 +94,17 @@ public class ServerController {
 
 		AjaxResult<ServerVO> result = new AjaxResult<>();
 		try {
-
 			// select 방식
 			// ServerService.selectServer(paramVO);
-			ServerVO viewVO =  serverService.selectServer(paramVO);
+			ServerVO serverVO =  serverService.selectServer(paramVO);
         	result.setIsSuccess(SystemConstant.AJAX_SUCCESS);
-        	result.setData(viewVO);
+        	result.setData(serverVO);
 
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			result.setIsSuccess(SystemConstant.AJAX_FAIL);
 			result.setMsg(String.format(SystemConstant.AJAX_ERROR_MESSAGE, "시스템관리자를 불러 중"));
 		}
-
 		return result;
 	}
 	
