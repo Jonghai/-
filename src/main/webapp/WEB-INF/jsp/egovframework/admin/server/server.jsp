@@ -55,7 +55,10 @@ function initControl() {
               			{
               				$('#lbl' + key).text(value);
               			}
-              		});	 
+              			
+              			
+              		});
+
 	              		//상세화면 seq 지정
    	         		$('#modalView').data('seq', rowData.seq);
    	         		$('#modalView').modal();
@@ -103,7 +106,7 @@ function initControl() {
 	            actionButtonHtml += "</div>";
 	            
 	            return actionButtonHtml; },
-            'defaultContent': '' },    	
+            'defaultContent': ''},    	
     ],     
     buttons: {
     	dom: {
@@ -191,17 +194,10 @@ function moveFocus(nextObjName)
   	}
 }
 
-// function ValidateEmail(inputText) {
-//     var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-//     if (mailformat.test(inputText)) {
-//         return true;
-//     } else {
-//         toastr.warning("입력하신 값은 이메일 형식이 아닙니다.");
-//         //focus 처리가 필요하면 이곳에! $("#email").focus();
-//         return false;
-//     }
-// }
-
+$(document).ready(function() {
+    $('#customerSeq').select2();
+});
+ 
 function ValidateIPaddress(inputText) {
     var ipformat = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
     if (!ipformat.test(inputText)) {
@@ -211,7 +207,7 @@ function ValidateIPaddress(inputText) {
     }
 }
 
-function initEvent() {	
+function initEvent() {
 	$("input.ip").keyup(function(){
 		var objSize = 3;
 	    var nextObjName = "";
@@ -300,21 +296,25 @@ function initEvent() {
     	{        	
             postAjax('/admin/selectServerAjax.do', {seq:$(this).data('seq')}, function(data, status){
             	
-            	console.log(data.data.serverIp);
-            	
-            	var ipArr = data.data.serverIp.split('.');
+            	console.log(data.data.serverIp);	
             	
                 var formInput = $('#form input[type!=radio],#form textarea');
         		
         	    $(formInput).each(function(i, input){
                     var inputValue = data.data[$(input).attr('name')];
         		    $(input).val(htmlDecode(inputValue));
-        		    
-        		    $('#serverIp1').val(ipArr[0]);
-        		    $('#serverIp2').val(ipArr[1]);
-        		    $('#serverIp3').val(ipArr[2]);
-        		    $('#serverIp4').val(ipArr[3]);        		    
                 });
+        	    
+              	$('#customerSeq').val(data.data.customerSeq).trigger("change");
+
+                var ipArr = data.data.serverIp.split('.');
+        	    if(data.data.serverIp != null || data.data.serverIp != ''){
+                    $('#serverIp1').val(ipArr[0]);
+                    $('#serverIp2').val(ipArr[1]);
+                    $('#serverIp3').val(ipArr[2]);
+                    $('#serverIp4').val(ipArr[3]);
+                }
+        	    
         	    $("#csSeq").val(data.data.csSeq).trigger("change.select2");
             });
         }
@@ -335,7 +335,6 @@ function initEvent() {
             
             ValidateIPaddress(serverIp);            
             formData.push({ "name": "serverIp", "value": serverIp });
-
 
             //콘솔에 표시
             console.log(formData);
@@ -374,14 +373,14 @@ function initEvent() {
 			</colgroup>
 			<thead>
 				<tr>
-					<th>seq</th>					
+					<th>seq</th>
 					<th>고객번호</th>
 					<th>서버주소</th>
-					<th>아이피  </th>									
-					<th>운영체제</th>															
+					<th>아이피  </th>
+					<th>운영체제</th>
 					<th>접속포트</th>
-                    <th>설치위치</th>
-					<th>계약 시작일~종료일</th>	
+					<th>설치위치</th>
+					<th>계약 시작일~종료일</th>
                     <th>기능</th>
 				</tr>
 			</thead>
@@ -389,7 +388,7 @@ function initEvent() {
 			</tbody>
 		</table>
 	</div>
-</div>	
+</div>
 
 <div id='modalSave' class='modal fade'>
 	<div class='modal-dialog modal-xl'>
@@ -483,7 +482,6 @@ function initEvent() {
             </div>
             <div class='modal-body'>
                 <div class='datatable-scroll'>
-
                     <!-- 메뉴부분 -->
                     <table class='detailtable mb-3'>
                         <colgroup>
