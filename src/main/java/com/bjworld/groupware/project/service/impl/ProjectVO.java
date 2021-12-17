@@ -1,5 +1,9 @@
 package com.bjworld.groupware.project.service.impl;
 
+import java.util.List;
+
+import com.bjworld.groupware.projectattach.service.impl.ProjectAttachVO;
+
 public class ProjectVO {
 	private String seq;
 	private String csSeq;
@@ -9,6 +13,30 @@ public class ProjectVO {
 	private String projectExp;
 	private String csName;
 	
+	private String [] attachSaveFileName;
+	private String [] attachOriFileName;
+	private String [] attachFileSize;
+	
+	private List<ProjectAttachVO> projectattachlist;
+	
+	public String[] getAttachSaveFileName() {
+		return attachSaveFileName;
+	}
+	public void setAttachSaveFileName(String[] attachSaveFileName) {
+		this.attachSaveFileName = attachSaveFileName;
+	}
+	public String[] getAttachOriFileName() {
+		return attachOriFileName;
+	}
+	public void setAttachOriFileName(String[] attachOriFileName) {
+		this.attachOriFileName = attachOriFileName;
+	}
+	public String[] getAttachFileSize() {
+		return attachFileSize;
+	}
+	public void setAttachFileSize(String[] attachFileSize) {
+		this.attachFileSize = attachFileSize;
+	}
 	public String getSeq() {
 		return seq;
 	}
@@ -50,5 +78,11 @@ public class ProjectVO {
 	}
 	public void setCsName(String csName) {
 		this.csName = csName;
+	}
+	public List<ProjectAttachVO> getProjectattachlist() {
+		return projectattachlist;
+	}
+	public void setProjectattachlist(List<ProjectAttachVO> projectattachlist) {
+		this.projectattachlist = projectattachlist;
 	}
 }

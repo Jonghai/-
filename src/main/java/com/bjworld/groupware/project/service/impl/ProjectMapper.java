@@ -17,7 +17,6 @@ public interface ProjectMapper {
 	List<ProjectVO> selectProjectList(ProjectVO paramVO) throws Exception;
 	
 	Integer selectProjectListTotCnt(ProjectVO paramVO) throws Exception;
-
 	
 	void deleteProject(ProjectVO paramVO) throws Exception;
 

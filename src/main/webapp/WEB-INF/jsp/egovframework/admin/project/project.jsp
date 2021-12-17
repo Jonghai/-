@@ -4,11 +4,15 @@
 
 <script type='text/javascript'>
 
+var totalsize = 0.0;
+var MAX_TOTAL_SIZE = 30;
+Dropzone.autoDiscover = false;
 
 function initControl() {
-	
 	$("#projectStart,#projectEnd").datepicker();
 	$("#csSeq").select2({minimumResultsForSearch: Infinity});
+	
+	$("#attachdiv").css({"display":"none"});
 	
 	var table = $('#list').DataTable( {
 	serverSide:true
@@ -35,13 +39,26 @@ function initControl() {
 	            	//클릭한 직원의 상세정보 불러 오기
 	              	postAjax('/admin/selectProjectAjax.do', {seq:rowData.seq}, function(data, status){
 	              		
+	              	
+	          
+	              		
 	              		//상세화면 항목에 데이터 삽입
    	            	$.each(data.data, function(key, value){	   	            		
               			if($('#lbl' + key).length > 0)
               			{
               				$('#lbl' + key).text(value);
               			}
-              		});	   	            	
+              		});	   	 
+	              		
+					var fileHtml = "";
+	              	
+	              	$.each(data.data.projectattachlist, function(key, value){
+	              		fileHtml += "<a href='/admin/downloadprojectfile.do?seq="+value.seq+"'>"+value.oriFilename+"</a>"
+	              	})
+	              	
+	              	$("#lblprojectattachlist").html(fileHtml)
+	              		
+	              	
 					
 	              		//상세화면 seq 지정
    	         		$('#modalView').data('seq', rowData.seq);
@@ -114,6 +131,53 @@ function initControl() {
         ],
     }
 } );
+	
+	if($("div#divAttachedFile").length > 0){
+		var myDropzone = new Dropzone('div.dropzone',{
+			url : "/admin/dragDropUploadAjax.do?type=project",
+			maxFiles : 10,
+			paramName : "upload",
+			maxFilesize : 3,
+			addRemoveLinks : true,
+			dictDefaultMessage : "파일을 선택해 주십시오.(최대 10개 파일, 각 3MB 최대 30MB 첨부 가능)",
+			acceptedFiles : '.xlsx,.xls,image/*,.doc, .docx,.ppt, .pptx,.txt,.pdf,.hwp',
+			createImageThumbnails : true,
+			success : function(file, response) {
+				$("#form").append("<input type='hidden' role='attachSaveFileName' name='attachSaveFileName' value='"+response.saveFileName+"' data-uuid='"+file.upload.uuid+"' />");
+				$("#form").append("<input type='hidden' role='attachOriFileName' name='attachOriFileName' value='"+response.fileName+"' data-uuid='"+file.upload.uuid+"' />");
+				$("#form").append("<input type='hidden' role='attachFileSize' name='attachFileSize' value='"+file.size+"' data-uuid='"+file.upload.uuid+"' />");
+			},
+			accept : function(file, done) {
+				if (totalsize >= MAX_TOTAL_SIZE) {
+					file.status = Dropzone.CANCELED;
+					this._errorProcessing([ file ],"최대 30MB 첨부 가능", null);
+				} else {
+					done();
+				}
+			},
+			init : function() {
+				this.on("addedfile",function(file) {
+					totalsize += parseFloat((file.size / (1024 * 1024)).toFixed(2));
+				});
+	
+				this.on('removedfile',function(file) {
+					$("input[role=attachSaveFileName][data-uuid='"+ file.upload.uuid+ "']").remove();
+					$("input[role=attachOriFileName][data-uuid='"+ file.upload.uuid+ "']").remove();
+					$("input[role=attachFileSize][data-uuid='"+ file.upload.uuid+ "']").remove();
+	
+					if (file.upload.progress != 0) {
+						totalsize -= parseFloat((file.size / (1024 * 1024)).toFixed(2));
+					}
+				});
+	
+				this.on("error",function(file) {
+					totalsize -= parseFloat((file.size / (1024 * 1024)).toFixed(2));
+				});
+			}
+		});
+	}
+	
+	
 	//필수 입력값 체크
 	//폼아이디 변경
 	//필수 입력값 name 지정
@@ -143,6 +207,20 @@ function initEvent() {
     	$('#modalSave').data('seq', $(this).data('seq'));
 		$('#modalSave').modal();
     });  
+	
+	$(document).on('click','button[role=deletefilebtn]',function(){
+		if(confirm("파일을 삭제하시겠습니까??")) {
+			var seq=$(this).data('seq');
+			var _this=$(this)
+			
+			postAjax('/admin/deleteProjectAttachAjax.do', {seq:seq}, function(data, status){
+				if(data.isSuccess === '1')
+				{
+					_this.parent().remove();
+				}
+			});
+		}
+	})
     
     $(document).on('click', 'a[role=dataRemove]', function(){
     	var seq = $(this).data('seq');
@@ -176,6 +254,8 @@ function initEvent() {
              }
          });
     });
+    
+    
 
     $('#btnDataEdit').click(function(){
     	$('#modalSave').data('seq', $('#modalView').data('seq'));
@@ -186,8 +266,8 @@ function initEvent() {
     $('#modalSave').on('show.bs.modal', function(e) {
         if ($('#modalSave').data('seq'))
     	{
+        	$("#attachdiv").css({"display":"table-row"});
             postAjax('/admin/selectProjectAjax.do', {seq:$(this).data('seq')}, function(data, status){
-            	console.log(data);
                 var formInput = $('#form input[type!=radio],#form textarea');
         		
         	    $(formInput).each(function(i, input){
@@ -195,6 +275,16 @@ function initEvent() {
         		    $(input).val(htmlDecode(inputValue));
                 });
         	    $("#csSeq").val(data.data.csSeq).trigger("change.select2");
+        	    
+        	    var FileHtml =""
+        	    $(data.data.projectattachlist).each(function(key, value){
+        	    	FileHtml += "<div>"
+        	    	FileHtml += "<a href='/admin/downloadprojectfile.do?seq="+value.seq+"'>"+value.oriFilename+"</a>"
+        	    	FileHtml += "<button type='button' role='deletefilebtn' data-seq='"+value.seq+"'>삭제</button>"		
+        	    	FileHtml += "</div>"
+        	    })
+        	    $("#attachdivlist").html(FileHtml);
+        	    
             });
         }
     });
@@ -202,6 +292,7 @@ function initEvent() {
     $('#modalSave').on('hidden.bs.modal', function(e) {    	
     	initForm('form');
         $('#modalSave').data('seq', "");
+        $("#attachdiv").css({"display":"none"});
         
     });
     
@@ -308,6 +399,14 @@ function initEvent() {
                                 <th>프로젝트 설명</th>
                                 <td><textarea style="height: 200px;" id='projectExp' name='projectExp' maxlength='200' class='form-control' placeholder='프로젝트 설명'></textarea></td>
                            </tr>
+                           <tr>
+                            <th>첨부파일</th>
+                            <td><div class='dropzone' id='divAttachedFile'></div></td>
+                           </tr>
+                           <tr  id="attachdiv">
+	                           	<th>첨부파일목록</th>
+	                           	<td id='attachdivlist'></td>
+                           </tr>
                            
                         </tbody>
                     </table>
@@ -355,7 +454,10 @@ function initEvent() {
 								<th>프로젝트 설명</th>
 								<td><label id='lblprojectExp'></label></td>
 							</tr>
-			
+							<tr id='trAttchedFile'>
+								<th>첨부파일</th>
+								<td id='lblprojectattachlist'></td>
+							</tr>
 						</tbody>
 					</table>
 				</div>

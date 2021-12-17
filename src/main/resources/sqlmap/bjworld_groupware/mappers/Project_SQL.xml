@@ -3,7 +3,7 @@
 
 <mapper
 	namespace="com.bjworld.groupware.project.service.impl.ProjectMapper">
-	<insert id= "mergeProject" parameterType="com.bjworld.groupware.project.service.impl.ProjectVO">
+	<insert id= "mergeProject" parameterType="com.bjworld.groupware.project.service.impl.ProjectVO" useGeneratedKeys="true" keyProperty="seq">
 	 INSERT INTO project
 	 (
 	  cs_seq,
