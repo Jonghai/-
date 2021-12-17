@@ -53,7 +53,12 @@ function initControl() {
 					var fileHtml = "";
 	              	
 	              	$.each(data.data.projectattachlist, function(key, value){
+	              		fileHtml += "<ul class='list list-unstyled mb-0'>"
+	              		fileHtml += "<li>"
+	              		fileHtml += "<i class='icon-download4 text-success mr-2'></i>"
 	              		fileHtml += "<a href='/admin/downloadprojectfile.do?seq="+value.seq+"'>"+value.oriFilename+"</a>"
+	              		fileHtml += "</li>"		
+	              		fileHtml += "</ul>"
 	              	})
 	              	
 	              	$("#lblprojectattachlist").html(fileHtml)
@@ -280,7 +285,7 @@ function initEvent() {
         	    $(data.data.projectattachlist).each(function(key, value){
         	    	FileHtml += "<div>"
         	    	FileHtml += "<a href='/admin/downloadprojectfile.do?seq="+value.seq+"'>"+value.oriFilename+"</a>"
-        	    	FileHtml += "<button type='button' role='deletefilebtn' data-seq='"+value.seq+"'>삭제</button>"		
+        	    	FileHtml += "<button type='button' class='btn btn-sm text-white bg-warning removeaddfile' role='deletefilebtn' data-seq='"+value.seq+"'>삭제</button>"		
         	    	FileHtml += "</div>"
         	    })
         	    $("#attachdivlist").html(FileHtml);
