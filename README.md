@@ -38,7 +38,7 @@
 파일을 첨부할 수 있는 기능을 구현하였습니다.
 <img src="image/파일첨부1.png"></img>
 <img src="image/파일첨부2.png"></img>
-<img src="image/상세_파일첨부.png"></img>
+<img src="image/상세_첨부파일.png"></img>
 
 5. 필수 입력값
 
